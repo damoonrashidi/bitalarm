@@ -11,14 +11,14 @@ PODS:
 
 DEPENDENCIES:
   - Flutter (from `/Users/damoonrashidi/tools/flutter/bin/cache/artifacts/engine/ios`)
-  - path_provider (from `/Users/damoonrashidi/.pub-cache/hosted/pub.dartlang.org/path_provider-0.3.0/ios`)
+  - path_provider (from `/Users/damoonrashidi/.pub-cache/hosted/pub.dartlang.org/path_provider-0.2.2/ios`)
   - sqflite (from `/Users/damoonrashidi/.pub-cache/hosted/pub.dartlang.org/sqflite-0.2.4/ios`)
 
 EXTERNAL SOURCES:
   Flutter:
     :path: /Users/damoonrashidi/tools/flutter/bin/cache/artifacts/engine/ios
   path_provider:
-    :path: /Users/damoonrashidi/.pub-cache/hosted/pub.dartlang.org/path_provider-0.3.0/ios
+    :path: /Users/damoonrashidi/.pub-cache/hosted/pub.dartlang.org/path_provider-0.2.2/ios
   sqflite:
     :path: /Users/damoonrashidi/.pub-cache/hosted/pub.dartlang.org/sqflite-0.2.4/ios
 
