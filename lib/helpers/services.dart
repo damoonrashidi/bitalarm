@@ -33,7 +33,7 @@ class Coin {
   String rank;
   String price_usd;
   String price_btc;
-  String 24h_volume_usd;
+  String day_volume_usd;
   String market_cap_usd;
   String available_supply;
   String total_supply;

@@ -2,8 +2,8 @@ name: bitalarm
 description: A new Flutter project.
 
 dependencies:
-  sqflite: any
-  path_provider: any
+  sqflite: 0.2.4
+  path_provider: 0.2.2
   flutter:
     sdk: flutter
   flutter_circular_chart:
