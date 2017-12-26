@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import './pages/all.dart';
 import './pages/home.dart';
 import './pages/portfolio.dart';
+import './styles.dart';
 
 
 void main() {
@@ -25,10 +26,8 @@ class BitAlarm extends StatelessWidget {
   Widget build(BuildContext context) {
     return new MaterialApp(
       title: 'BitAlarm',
-      theme: new ThemeData(
-        primarySwatch: Colors.deepPurple
-      ),
-      home: new MyHomePage(title: 'CoinWatch'),
+      theme: customTheme,
+      home: new MyHomePage(title: 'BitAlarm'),
       routes: <String, WidgetBuilder> {
         '/home'  : (BuildContext ctx) => new MyHomePage(),
         '/all'   : (BuildContext ctx) => new AllCurrenciesPage(),

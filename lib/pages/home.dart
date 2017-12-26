@@ -21,7 +21,9 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {});
   }
 
-  _MyHomePageState() {
+  @override
+  void initState() {
+    super.initState();
     _getList();
   }
 

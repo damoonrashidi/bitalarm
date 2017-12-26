@@ -132,7 +132,8 @@ class ArcClipper extends CustomClipper<Path> {
   bool shouldReclip(CustomClipper<Path> oldClipper) => false;
 }
 
-ClipPath headerArc (double _total, double _stake) {
+ClipPath headerArc (double total, double stake) {
+  String profitAsPercent = (total / stake * 100).toStringAsFixed(2);
   return new ClipPath(
     clipper: new ArcClipper(),
     child: new Container(
@@ -155,7 +156,7 @@ ClipPath headerArc (double _total, double _stake) {
           new Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              new Text(_total.toStringAsFixed(0), style: const TextStyle(fontSize: 45.0, fontWeight: FontWeight.w300, color: Colors.white,),),
+              new Text(total.toStringAsFixed(0), style: const TextStyle(fontSize: 45.0, fontWeight: FontWeight.w300, color: Colors.white,),),
               new Text('SEK', style: const TextStyle(fontSize: 14.0, color: Colors.white, fontWeight: FontWeight.w100),)
             ]
           ),
@@ -166,15 +167,15 @@ ClipPath headerArc (double _total, double _stake) {
               new Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  new Text('STAKE', style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w200, fontSize: 10.0),),
-                  new Text(_stake.toStringAsFixed(0) + " SEK", style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: 15.0)),
+                  new Text('Stake', style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w200, fontSize: 10.0),),
+                  new Text(stake.toStringAsFixed(0) + " SEK", style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: 15.0)),
                 ],
               ),
               new Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: <Widget>[
-                  new Text('Profit', style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w200, fontSize: 10.0),),
-                  new Text((_total - _stake).toStringAsFixed(0) + " SEK", style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: 15.0)),
+                  new Text('Profit $profitAsPercent%', style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w200, fontSize: 10.0),),
+                  new Text((total - stake).toStringAsFixed(0) + " SEK", style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: 15.0)),
                 ],
               ),
             ],
