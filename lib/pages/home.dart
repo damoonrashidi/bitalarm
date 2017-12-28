@@ -30,7 +30,6 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext ctx) {
     return new Scaffold(
-      drawer: sidebarDrawer(_prices),
       bottomNavigationBar: bottomNav(ctx, 0),
       body: new Container(
         padding: new EdgeInsets.fromLTRB(16.0, 10.0, 16.0, 0.0),

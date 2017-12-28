@@ -2,22 +2,7 @@ import 'package:flutter/material.dart';
 
 import './styles.dart';
 import './helpers/services.dart';
-
-Drawer sidebarDrawer (dynamic currencies) {
-  return new Drawer(
-    child: new Container(
-      padding: const EdgeInsets.fromLTRB(8.0, 24.0, 8.0, 0.0),
-      child: new Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          new Text('Sort By'),
-          new Text('Filter Currencies'),
-        ],
-      ),
-    ),
-  );
-}
+// import 'package:url_launcher/url_launcher.dart';
 
 BottomNavigationBar bottomNav (BuildContext ctx, int navIndex) {
   return new BottomNavigationBar(
@@ -49,59 +34,75 @@ BottomNavigationBar bottomNav (BuildContext ctx, int navIndex) {
 }
 
 
-Card currencyCard (String ticker, String name, double price, double change, [bool showWatchlistButton = false, List<String> watchlist = const ['ETH','DASH']]) {
+Dismissible currencyCard (String ticker, String name, double price, double change, [bool showWatchlistButton = false, List<String> watchlist = const []]) {
 
   WatchlistProvider wp = new WatchlistProvider();  
   bool trendUp = change > 0;
-  Icon _watchlistIcon = new Icon(watchlist.indexOf(ticker) >= 0 ? Icons.favorite : Icons.favorite_border, color: Colors.red,);
+  Icon _watchlistIcon;
+  if (watchlist.indexOf(ticker) >= 0) {
+    _watchlistIcon = new Icon(Icons.favorite, color: Colors.red);
+  } else {
+    _watchlistIcon = new Icon(Icons.favorite_border);
+  }
 
-  return new Card(
-    child: new Container(
-      padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 24.0),
-      child: new Column(
-        children: <Widget>[
-          new Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              new Text(name, style: headlineTextStyle, overflow: TextOverflow.ellipsis,),
-              new Text(price.toString() + " USD", style: headlineTextStyle)
-            ],
-          ),
-          new Container(
-            margin: const EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 0.0),
-            child: 
-              new Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  new Text(ticker, style: new TextStyle(color: trendUp ? Colors.grey : Colors.red, fontWeight: FontWeight.w800),),
-                  new Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      new Text(change.toString() + "%", style: percentChangeStyle),
-                      new Icon(
-                        trendUp ? Icons.arrow_upward : Icons.arrow_downward,
-                        color:  trendUp ? Colors.blue : Colors.red
-                      ),
-                    ],
-                  ),
-                ],
-              )
-          ),
-          !showWatchlistButton ?
-          new Row() :
-          new Row(
-            children: <Widget>[
-              new IconButton(icon: _watchlistIcon, onPressed: () async {
-                await wp.toggleWatchlist(ticker);
-              }),
-              new IconButton(icon: new Icon(Icons.details), onPressed: () {
-                showDialog(context: ctx, child: new Text('Toggled Favorite'), barrierDismissible: true);
-              },)
-            ],
-          ) 
-        ],
+  return new Dismissible(
+    direction: DismissDirection.startToEnd,
+    key: new Key(ticker),
+    onDismissed: (DismissDirection direction) {
+      WatchlistProvider wp = new WatchlistProvider();
+      wp.toggleWatchlist(ticker);
+    },
+    child: new Card(
+      child: new Container(
+        padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 24.0),
+        child: new Column(
+          children: <Widget>[
+            new Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                new Text(name, style: headlineTextStyle, overflow: TextOverflow.ellipsis,),
+                new Text(price.toString() + " USD", style: headlineTextStyle)
+              ],
+            ),
+            new Container(
+              margin: const EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 0.0),
+              child: 
+                new Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    new Text(ticker, style: new TextStyle(color: trendUp ? Colors.grey : Colors.red, fontWeight: FontWeight.w800),),
+                    new Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        new Text(change.toString() + "%", style: percentChangeStyle),
+                        new Icon(
+                          trendUp ? Icons.arrow_upward : Icons.arrow_downward,
+                          color:  trendUp ? Colors.blue : Colors.red
+                        ),
+                      ],
+                    ),
+                  ],
+                )
+            ),
+            !showWatchlistButton ?
+            new Row() :
+            new Row(
+              children: <Widget>[
+                new IconButton(icon: _watchlistIcon, onPressed: () async {
+                  await wp.toggleWatchlist(ticker);
+                }),
+                new IconButton(icon: new Icon(Icons.open_in_browser), onPressed: () async {
+                  String url = 'https://coinmarketcap.com/currencies/$name';
+                  // if (await canLaunch(url)) {
+                    // await launch(url);
+                  // }
+                },),
+              ],
+            ) 
+          ],
+        ),
       ),
-    ),
+    )
   );
 }
 

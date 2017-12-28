@@ -15,7 +15,7 @@ class PortfolioPage extends StatefulWidget {
 
 class _PortfolioPageState extends State<PortfolioPage> {
 
-  List<TableRow> _list = [];
+  List<DataRow> _list = [];
   double _total = 0.0;
   double _stake = 21000.0;
   Map<String, double> _pricesInSEK;
@@ -36,10 +36,11 @@ class _PortfolioPageState extends State<PortfolioPage> {
       List<CircularSegmentEntry> tmp = [];
       _portfolio.forEach((String ticker, double amount) {
         tmp.add(new CircularSegmentEntry(_pricesInSEK[ticker], getTickerColor(ticker), rankKey: ticker));
-        _list.add(new TableRow(
-          children: <Widget>[
-            new Text(ticker),
-            new Text(_pricesInSEK[ticker].toStringAsFixed(0) + " SEK", textAlign: TextAlign.right,),
+        _list.add(new DataRow(
+          // key: new Key(_pricesInSEK[ticker].toStringAsFixed(2)),
+          cells: <DataCell>[
+            new DataCell(new Text(ticker)),
+            new DataCell(new Text(_pricesInSEK[ticker].toStringAsFixed(0) + " SEK")),
           ],
         ));
       });
@@ -61,23 +62,32 @@ class _PortfolioPageState extends State<PortfolioPage> {
     _getValues();
   }
 
+
   @override
   Widget build(BuildContext ctx) {
     return new Scaffold(
       body: new Column(
         children: <Widget>[
           headerArc(_total, _stake),
-          new Container(
-            height: 505.0,
-            width: 900.0,
-            margin: const EdgeInsets.only(left: 24.0, right: 24.0),
+          new Expanded(
             child: new PageView(
               controller: new PageController(initialPage: 0, keepPage: false, viewportFraction: 1.0),
-              scrollDirection: Axis.vertical,
+              scrollDirection: Axis.horizontal,
+              onPageChanged: (int index) {
+                if (index == 0) {
+                  debugPrint('first page, redraw the canvas');
+                }
+              },
               pageSnapping: true,
               children: <Widget>[
                 _radialChart,
-                new Center(child: new Table(children: _list,)),
+                new DataTable(
+                  columns: <DataColumn>[
+                    new DataColumn(label: new Text('Currency')),
+                    new DataColumn(label: new Text('Value'), numeric: true)
+                  ],
+                  rows: _list,
+                )
               ],
             )
           ),
