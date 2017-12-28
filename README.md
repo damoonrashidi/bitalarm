@@ -1,7 +1,7 @@
 # bitalarm
 A cryptocurrency tracker and portfolio app, built with Flutter and Dart
 
-![bitalarm](https://user-images.githubusercontent.com/207421/34399252-fb83f0c6-eb85-11e7-9b37-05ba15510eb3.gif)
+![bitalarm](https://user-images.githubusercontent.com/207421/34409892-fbfc2770-ebcc-11e7-993c-eb4a8c52aac7.gif)
 
 
 ## Getting Started
