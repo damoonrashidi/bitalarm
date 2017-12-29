@@ -14,6 +14,12 @@ const tickerNameStyle = const TextStyle(
   fontWeight: FontWeight.w700,
 );
 
+const headerColumnLabel = const TextStyle(
+  color: Colors.white,
+  fontWeight: FontWeight.w200,
+  fontSize: 10.0
+);
+
 Color getTickerColor(String ticker) {
   Map<String, Color> colors = {
     'ETH' : Colors.orangeAccent[500],

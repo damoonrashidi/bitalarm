@@ -8,8 +8,6 @@ import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-import '../components.dart';
-
 class Token {
   String address;
   int decimals;
@@ -98,13 +96,12 @@ class WalletProvider {
 
   Map<String, double> hardcodedList () {
     return {
-      'ETH' : 2.0919878336598 + 0.80533853,
+      'ETH' : 2.091987833659823383 + 0.91188038,
       'EOS' : 23.052502212272,
-      'REQ' : 500.00,
+      'REQ' : 500.0,
       'REP' : 2.2025932637997,
       'SALT': 10.62236917,
       'OMG' : 5.41910301,
-      'XVG' : 600.80,
       'RDN' : 0.96800000,
       'XMR' : 0.17282700,
       'ADA' : 164.834,
@@ -162,7 +159,6 @@ class WatchlistProvider {
       await db.execute('''
         CREATE TABLE IF NOT EXISTS watchlist (id INTEGER PRIMARY KEY, symbol TEXT UNIQUE);
         CREATE TABLE IF NOT EXISTS wallet (id INTEGER PRIMARY KEY, symbol TEXT, address TEXT UNIQUE);
-        INSERT INTO watchlist (symbol) VALUES ('ETH'), ('BCH'), ('DASH'), ('LTC'), ('ADA'), ('EOS');
         INSERT INTO wallet (symbol, address) VALUES ('ETH', '0x3CcD96131c233ceC261f9Be610020939FDC7863E'), ('ETH', '0x42E1F7d6b18b0e51e9B4Ae214BEcCb99eCC24b82');
       ''');
     });
@@ -196,17 +192,21 @@ class WatchlistProvider {
     return res;
   }
 
-  Future<List<Card>> getWatchlistCards () async {
+  Future<int> addToWatchlist (String ticker) async {
     await this.open();
-    List<String> watchlist = await this.getWatchlist();
-    List<Object> coins = await API.getPrices(filter: watchlist);
+    int res = await this.db.insert('watchlist', {'symbol': ticker});
     this.db.close();
-    return coins.map((Object coin) => currencyCard(
-      coin['symbol'],
-      coin['name'],
-      double.parse(coin['price_usd']),
-      double.parse(coin['percent_change_24h']),
-    )).toList();
+    return res;
+  }
+
+  Future<int> removeFromWatchlist (String ticker) async {
+    if (!(await this.inWatchlist(ticker))) {
+      return 0;
+    }
+    await this.open();
+    int res = await this.db.delete('watchlist', where: 'symbol = ?', whereArgs: [ticker]);
+    this.db.close();
+    return res;
   }
 
   Future close() async => db.close();

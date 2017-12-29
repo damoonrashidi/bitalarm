@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../components/bottom_nav.dart';
 import '../components.dart';
 import '../styles.dart';
 import '../helpers/services.dart';
@@ -22,6 +23,7 @@ class _PortfolioPageState extends State<PortfolioPage> {
   WalletProvider _wp = new WalletProvider();
   List<CircularStackEntry> _data = [];
   AnimatedCircularChart _radialChart;
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey = new GlobalKey<RefreshIndicatorState>();
   final GlobalKey<AnimatedCircularChartState> _chartKey = new GlobalKey<AnimatedCircularChartState>();
 
   _getValues () async {
@@ -40,6 +42,7 @@ class _PortfolioPageState extends State<PortfolioPage> {
           // key: new Key(_pricesInSEK[ticker].toStringAsFixed(2)),
           cells: <DataCell>[
             new DataCell(new Text(ticker)),
+            new DataCell(new Text(_portfolio[ticker].toStringAsFixed(3))),
             new DataCell(new Text(_pricesInSEK[ticker].toStringAsFixed(0) + " SEK")),
           ],
         ));
@@ -70,27 +73,21 @@ class _PortfolioPageState extends State<PortfolioPage> {
         children: <Widget>[
           headerArc(_total, _stake),
           new Expanded(
-            child: new PageView(
-              controller: new PageController(initialPage: 0, keepPage: false, viewportFraction: 1.0),
-              scrollDirection: Axis.horizontal,
-              onPageChanged: (int index) {
-                if (index == 0) {
-                  debugPrint('first page, redraw the canvas');
-                }
-              },
-              pageSnapping: true,
+            child: new ListView(
+              physics: const AlwaysScrollableScrollPhysics(),
               children: <Widget>[
                 _radialChart,
                 new DataTable(
                   columns: <DataColumn>[
                     new DataColumn(label: new Text('Currency')),
+                    new DataColumn(label: new Text('Amount'), numeric: true),
                     new DataColumn(label: new Text('Value'), numeric: true)
                   ],
                   rows: _list,
                 )
               ],
             )
-          ),
+          )
         ],
       ),
       bottomNavigationBar: bottomNav(ctx, 2),
