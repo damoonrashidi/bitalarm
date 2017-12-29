@@ -52,12 +52,16 @@ class _MyHomePageState extends State<MyHomePage> {
     });
     return new Scaffold(
       bottomNavigationBar: bottomNav(ctx, 0),
-      body: new RefreshIndicator(
-        onRefresh: _getList,
-        child: new ListView(
-          children: _list,
-        ),
-      ),
+      body: _list.length == 0 ? 
+        new Center(child: new Text(
+          'Add coins to your watchlist from the All tab',
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+            fontSize: 22.0,
+            color: const Color(0xffaaaaaa),
+          ),
+        )) :
+        new RefreshIndicator(onRefresh: _getList, child: new ListView(children: _list)),
     );
   }
 }

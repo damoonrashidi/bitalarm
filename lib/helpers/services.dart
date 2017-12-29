@@ -182,10 +182,8 @@ class WatchlistProvider {
     await this.open();
     int res = 0;
     if (watched) {
-      debugPrint('removing from watchlist');
       res = await this.db.delete('watchlist', where: 'symbol = ?', whereArgs: [ticker]);
     } else {
-      debugPrint('adding to watchlist');
       res = await this.db.insert('watchlist', {'symbol': ticker});
     }
     this.db.close();

@@ -16,17 +16,23 @@ Drawer allDrawer (Function callback) {
           new ListTile(
             leading: new Icon(Icons.public),
             title: new Text('Market cap'),
-            onTap: () => debugPrint('Sort by cap'),
+            onTap: () {
+              Function.apply(callback, [SortOrder.marketCap]);
+            },
           ),
           new ListTile(
             leading: new Icon(Icons.whatshot),
             title: new Text('Hot'),
-            // onTap: Function.apply(callback, [SortOrder.trending]), 
+            onTap: () {
+              Function.apply(callback, [SortOrder.trending]);
+            }
           ),
           new ListTile(
             leading: new Icon(Icons.trending_down),
             title: new Text('Losing'),
-            // onTap: Function.apply(callback, [SortOrder.losing]), 
+            onTap: () {
+              Function.apply(callback, [SortOrder.losing]);
+            }
           ),
         ],
       ),

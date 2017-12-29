@@ -27,11 +27,17 @@ class _AllCurrenciesState extends State<AllCurrenciesPage> with SingleTickerProv
 
   void sortList(SortOrder order) {
     setState((){
-      if (order == SortOrder.losing || order == SortOrder.trending) {
+      if (order == SortOrder.trending) {
         _coins.sort((Object a, Object b) {
           double aChange = double.parse(a['percent_change_24h']);
           double bChange = double.parse(b['percent_change_24h']);
           return aChange < bChange ? 1 : -1;
+        });
+      } else if (order == SortOrder.losing) {
+        _coins.sort((Object a, Object b) {
+          double aChange = double.parse(a['percent_change_24h']);
+          double bChange = double.parse(b['percent_change_24h']);
+          return aChange < bChange ? -1 : 1;
         });
       } else if (order == SortOrder.marketCap) {
         _coins.sort((Object a, Object b) {
@@ -52,7 +58,6 @@ class _AllCurrenciesState extends State<AllCurrenciesPage> with SingleTickerProv
         wp.addToWatchlist(ticker);
         setState(() {
           _watchlist.add(ticker);
-          debugPrint("Adding: " + _watchlist.toString());
         });
       }
     );
@@ -65,7 +70,6 @@ class _AllCurrenciesState extends State<AllCurrenciesPage> with SingleTickerProv
         wp.removeFromWatchlist(ticker);
         setState(() {
           _watchlist.remove(ticker);
-          debugPrint("Removing: " + _watchlist.toString());
         });
       }
     );
@@ -112,9 +116,7 @@ class _AllCurrenciesState extends State<AllCurrenciesPage> with SingleTickerProv
     });
     return new Scaffold(
       bottomNavigationBar: bottomNav(ctx, 1),
-      drawer: allDrawer((SortOrder order) {
-        debugPrint(order.toString());
-      }),
+      drawer: allDrawer(sortList),
       body: new RefreshIndicator(
         onRefresh: getList,
         child: new ListView(
