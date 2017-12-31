@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../components/currency_card.dart';
 import '../components/bottom_nav.dart';
-import '../helpers/services.dart';
+import '../services/api.dart';
+import '../services/watchlist.service.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -12,7 +13,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  List<Card> _list = [];
+  List<Container> _list = [];
   List<String> _watchlist = [];
   List<Object> _coins = [];
   WatchlistProvider _wp = new WatchlistProvider();
@@ -37,15 +38,18 @@ class _MyHomePageState extends State<MyHomePage> {
       double price = double.parse(coin['price_usd']);
       String ticker = coin['symbol'];
       String name = coin['name'];
-      return new Card(
-        child: new Container(
-          padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
-          margin: const EdgeInsets.only(top: 16.0, bottom: 16.0),
-          child: new Column(
-            children: [
-              currencyCardTitle(name, price),
-              currencyCardDetails(ticker, change),
-            ]
+      return new Container(
+        padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 0.0),
+        child: new Card(
+          child: new Container(
+            padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
+            margin: const EdgeInsets.only(top: 16.0, bottom: 16.0),
+            child: new Column(
+              children: [
+                currencyCardTitle(name, price),
+                currencyCardDetails(ticker, change),
+              ]
+            )
           )
         )
       );

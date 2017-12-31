@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../helpers/services.dart';
+import '../services/api.dart';
+import '../services/watchlist.service.dart';
 import '../components/bottom_nav.dart';
 import '../components/currency_card.dart';
 import '../components/all_drawer.dart';
@@ -16,7 +17,7 @@ class _AllCurrenciesState extends State<AllCurrenciesPage> with SingleTickerProv
 
   List<String> _watchlist = [];
   List<Object> _coins = [];
-  List<Card> _list = [];
+  List<Container> _list = [];
   WatchlistProvider wp = new WatchlistProvider();
   
   getList() async {
@@ -52,8 +53,8 @@ class _AllCurrenciesState extends State<AllCurrenciesPage> with SingleTickerProv
   bool inWatchlist(String ticker) => _watchlist.indexOf(ticker) >= 0;
   IconButton addToWatchlistButton (String ticker) {
     return new IconButton(
+      tooltip: 'Add to watchlist',
       icon: const Icon(Icons.favorite_border, color: Colors.grey),
-      padding: const EdgeInsets.all(0.0),
       onPressed: () async {
         wp.addToWatchlist(ticker);
         setState(() {
@@ -64,6 +65,7 @@ class _AllCurrenciesState extends State<AllCurrenciesPage> with SingleTickerProv
   }
   IconButton removeFromWatchlistButton(String ticker) {
     return new IconButton(
+      tooltip: 'Remove from watchlist',
       icon: const Icon(Icons.favorite, color: Colors.red),
       padding: const EdgeInsets.all(0.0),
       onPressed: () async {
@@ -89,30 +91,32 @@ class _AllCurrenciesState extends State<AllCurrenciesPage> with SingleTickerProv
       double price = double.parse(coin['price_usd']);
       String ticker = coin['symbol'];
       String name = coin['name'];
-      return new Card(
-        child: new Container(
-          padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
-          margin: const EdgeInsets.only(top: 16.0, bottom: 16.0),
-          child: new Column(children: <Widget>[
-            currencyCardTitle(name, price),
-            currencyCardDetails(ticker, change),
-            new Container(
-              margin: const EdgeInsets.only(top: 16.0),
-              child: new Row(children: [
-                inWatchlist(ticker) ?
-                  removeFromWatchlistButton(ticker) :
-                  addToWatchlistButton(ticker),
-                new IconButton(
-                  icon: const Icon(Icons.timeline),
-                  onPressed: () {
-                    debugPrint('Details for $ticker');
-                  }
-                )
-              ]),
-            )
-          ])
-        )
-      );
+      return new Container(
+        margin: new EdgeInsets.fromLTRB(8.0, 4.0, 8.0, 4.0),
+        child: new Card(
+          child: new Container(
+            padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
+            margin: const EdgeInsets.only(top: 16.0, bottom: 16.0),
+            child: new Column(children: <Widget>[
+              currencyCardTitle(name, price),
+              currencyCardDetails(ticker, change),
+              new Container(
+                margin: const EdgeInsets.only(top: 16.0),
+                child: new Row(children: [
+                  inWatchlist(ticker) ?
+                    removeFromWatchlistButton(ticker) :
+                    addToWatchlistButton(ticker),
+                  new IconButton(
+                    icon: const Icon(Icons.timeline),
+                    onPressed: () {
+                      Navigator.pushNamed(ctx, '/details/$ticker');
+                    }
+                  )
+                ]),
+              )
+            ])
+          )
+      ),);
     });
     return new Scaffold(
       bottomNavigationBar: bottomNav(ctx, 1),

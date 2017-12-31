@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_circular_chart/flutter_circular_chart.dart';
 import '../components/bottom_nav.dart';
 import '../components.dart';
 import '../styles.dart';
-import '../helpers/services.dart';
-import '../helpers/portfolio.helper.dart';
-import 'package:flutter_circular_chart/flutter_circular_chart.dart';
+import '../services/api.dart';
+import '../services/portfolio.service.dart';
+import '../services/wallet.service.dart';
 
 class PortfolioPage extends StatefulWidget {
   PortfolioPage({Key key, this.title}) : super(key: key);
