@@ -28,8 +28,8 @@ class DetailsState extends State<DetailsPage> {
   }
 
   @override build (BuildContext ctx) {
-    Orderbook orderbook = new Orderbook(ticker: ticker, size: 400.0,);
-    HistoryGraph graph = new HistoryGraph(ticker: ticker);
+    Orderbook orderbook = new Orderbook(ticker: ticker);
+    HistoryGraph graph = new HistoryGraph(ticker: ticker, height: 200.0);
     return new Scaffold(
       appBar: new AppBar(
         backgroundColor: const Color(0xff222222),
@@ -39,7 +39,7 @@ class DetailsState extends State<DetailsPage> {
       backgroundColor: const Color(0xff222222),
       body: new Column(children: [
         graph,
-        orderbook,
+        new Expanded(child: orderbook),
       ])
     );
   }

@@ -32,7 +32,7 @@ class API {
     Object response = JSON.decode((await http.get(endpoint)).body);
     List<List<dynamic>> data = response['result']['X'+ticker.toUpperCase()+'ZUSD'];
     List<Map<String, double>> close = data.map((point) => {
-      'time': new DateTime.fromMillisecondsSinceEpoch(point[0] * 1000).toString(), 'value': point[2]
+      'time': new DateTime.fromMillisecondsSinceEpoch(point[0] * 1000).toString(), 'value': double.parse(point[2])
     }).toList();
     return close;
   }

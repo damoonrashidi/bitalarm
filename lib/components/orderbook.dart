@@ -4,11 +4,10 @@ import '../services/api.dart';
 class Orderbook extends StatefulWidget {
   
   final String ticker;
-  final double size;
-  Orderbook({this.ticker, this.size});
+  Orderbook({this.ticker});
 
   @override
-  createState() => new OrderbookState(ticker: this.ticker, size: this.size);
+  createState() => new OrderbookState(ticker: this.ticker);
 }
 
 class OrderbookState extends State<Orderbook> {
@@ -16,11 +15,10 @@ class OrderbookState extends State<Orderbook> {
   List bids = [];
   List asks = [];
   final String ticker;
-  final double size;
   final TextStyle askStyle = const TextStyle(color: Colors.red, fontFamily: 'Roboto Mono');
   final TextStyle bidStyle = const TextStyle(color: Colors.green, fontFamily: 'Roboto Mono');
   
-  OrderbookState({this.ticker, this.size});
+  OrderbookState({this.ticker});
 
   @override
   initState() {
@@ -51,33 +49,29 @@ class OrderbookState extends State<Orderbook> {
       ])
     );
 
-    return new Container(
-      height: this.size,
-      color: const Color(0xff222222),
-      child: new Row(children: [
-        new Expanded(child: 
-          new ListView(children: <Widget>[
-            new DataTable(
-              columns: [
-                new DataColumn(label: new Text('Ask', style: const TextStyle(color: Colors.red, fontFamily: 'Roboto Mono', fontWeight: FontWeight.w700, fontSize: 14.0)), numeric: true),
-                new DataColumn(label: new Text(ticker, style: const TextStyle(color: Colors.red, fontFamily: 'Roboto Mono', fontWeight: FontWeight.w700, fontSize: 14.0))),
-              ],
-              rows: askRows
-            ),
-          ])
-        ),
-        new Expanded(child: 
-          new ListView(children: <Widget>[
-            new DataTable(
-              columns: [
-                new DataColumn(label: new Text('Bid', style: bidStyle), numeric: true),
-                new DataColumn(label: new Text(ticker, style: bidStyle)),
-              ],
-              rows: bidRows
-            ),
-          ])
-        )
-      ])
-    );
-  } 
+    return new Row(children: [
+      new Expanded(child: 
+        new ListView(children: <Widget>[
+          new DataTable(
+            columns: [
+              new DataColumn(label: new Text('Ask', style: const TextStyle(color: Colors.red, fontFamily: 'Roboto Mono', fontWeight: FontWeight.w700, fontSize: 14.0)), numeric: true),
+              new DataColumn(label: new Text(ticker, style: const TextStyle(color: Colors.red, fontFamily: 'Roboto Mono', fontWeight: FontWeight.w700, fontSize: 14.0))),
+            ],
+            rows: askRows
+          ),
+        ])
+      ),
+      new Expanded(child: 
+        new ListView(children: <Widget>[
+          new DataTable(
+            columns: [
+              new DataColumn(label: new Text('Bid', style: bidStyle), numeric: true),
+              new DataColumn(label: new Text(ticker, style: bidStyle)),
+            ],
+            rows: bidRows
+          ),
+        ])
+      )
+    ]);
+  }
 }
