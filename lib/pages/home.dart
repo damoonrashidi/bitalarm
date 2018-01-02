@@ -40,15 +40,18 @@ class _MyHomePageState extends State<MyHomePage> {
       String name = coin['name'];
       return new Container(
         padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 0.0),
-        child: new Card(
-          child: new Container(
-            padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
-            margin: const EdgeInsets.only(top: 16.0, bottom: 16.0),
-            child: new Column(
-              children: [
-                currencyCardTitle(name, price),
-                currencyCardDetails(ticker, change),
-              ]
+        child: new GestureDetector(
+          onTap: () => Navigator.of(ctx).pushNamed('/details/$ticker'),
+          child: new Card(
+            child: new Container(
+              padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
+              margin: const EdgeInsets.only(top: 16.0, bottom: 16.0),
+              child: new Column(
+                children: [
+                  new CurrencyCardTitle(name: name, price: price),
+                  new CurrencyCardDetails(ticker: ticker, change: change),
+                ]
+              )
             )
           )
         )

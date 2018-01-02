@@ -9,7 +9,6 @@ final router = new Router();
 
 void main() {
   runApp(new BitAlarm());
-
 }
 
 Route<Null> _getRoute(RouteSettings settings) {
@@ -21,9 +20,7 @@ Route<Null> _getRoute(RouteSettings settings) {
     return new MaterialPageRoute<Null>(
       builder: (BuildContext context) => new DetailsPage(ticker: ticker),
     );
-  }
-  else {
-    debugPrint(path.toString());
+  } else {
     return new MaterialPageRoute<Null>(
       builder: (BuildContext context) => new MyHomePage(),
     );
@@ -31,16 +28,15 @@ Route<Null> _getRoute(RouteSettings settings) {
 }
 
 class BitAlarm extends StatelessWidget {
-  
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
       title: 'BitAlarm',
       theme: customTheme,
       home: new MyHomePage(title: 'BitAlarm'),
-      routes: <String, WidgetBuilder> {
-        '/home'  : (BuildContext ctx) => new MyHomePage(),
-        '/all'   : (BuildContext ctx) => new AllCurrenciesPage(),
+      routes: <String, WidgetBuilder>{
+        '/home': (BuildContext ctx) => new MyHomePage(),
+        '/all': (BuildContext ctx) => new AllCurrenciesPage(),
         '/portfolio': (BuildContext ctx) => new PortfolioPage(),
         '/details': (BuildContext ctx) => new DetailsPage(),
       },
@@ -48,4 +44,3 @@ class BitAlarm extends StatelessWidget {
     );
   }
 }
-

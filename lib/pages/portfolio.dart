@@ -16,7 +16,6 @@ class PortfolioPage extends StatefulWidget {
 }
 
 class _PortfolioPageState extends State<PortfolioPage> {
-
   List<DataRow> _list = [];
   double _total = 0.0;
   double _stake = 21000.0;
@@ -24,31 +23,42 @@ class _PortfolioPageState extends State<PortfolioPage> {
   WalletProvider _wp = new WalletProvider();
   List<CircularStackEntry> _data = [];
   AnimatedCircularChart _radialChart;
-  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey = new GlobalKey<RefreshIndicatorState>();
-  final GlobalKey<AnimatedCircularChartState> _chartKey = new GlobalKey<AnimatedCircularChartState>();
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+    new GlobalKey<RefreshIndicatorState>();
+  final GlobalKey<AnimatedCircularChartState> _chartKey =
+    new GlobalKey<AnimatedCircularChartState>();
 
-  _getValues () async {
+  _getValues() async {
     Map<String, double> _portfolio = _wp.hardcodedList();
     List<Object> prices = await API.getPrices(currency: 'SEK');
     _list = [];
     setState(() {
       _pricesInSEK = convertPortfolioToSEK(_portfolio, prices);
-      _total = prices.where((Object coin) => _portfolio.containsKey(coin['symbol']))
-                    .map((Object coin) => double.parse(coin['price_sek']) * _portfolio[coin['symbol']])
-                    .reduce((double a, double b) => a + b);
+      _total = prices
+          .where((Object coin) => _portfolio.containsKey(coin['symbol']))
+          .map((Object coin) => double.parse(coin['price_sek']) * _portfolio[coin['symbol']])
+          .reduce((double a, double b) => a + b);
       List<CircularSegmentEntry> tmp = [];
       _portfolio.forEach((String ticker, double amount) {
-        tmp.add(new CircularSegmentEntry(_pricesInSEK[ticker], getTickerColor(ticker), rankKey: ticker));
+        tmp.add(new CircularSegmentEntry(
+          _pricesInSEK[ticker], getTickerColor(ticker),
+          rankKey: ticker));
         _list.add(new DataRow(
           // key: new Key(_pricesInSEK[ticker].toStringAsFixed(2)),
           cells: <DataCell>[
             new DataCell(new Text(ticker)),
             new DataCell(new Text(_portfolio[ticker].toStringAsFixed(3))),
-            new DataCell(new Text(_pricesInSEK[ticker].toStringAsFixed(0) + " SEK")),
+            new DataCell(
+              new Text(_pricesInSEK[ticker].toStringAsFixed(0) + " SEK")),
           ],
         ));
       });
-      _data = [new CircularStackEntry(tmp, rankKey: 'Data Bois',),];
+      _data = [
+        new CircularStackEntry(
+          tmp,
+          rankKey: 'Data Bois',
+        ),
+      ];
       _chartKey.currentState.updateData(_data);
     });
   }
@@ -65,7 +75,6 @@ class _PortfolioPageState extends State<PortfolioPage> {
     );
     _getValues();
   }
-
 
   @override
   Widget build(BuildContext ctx) {

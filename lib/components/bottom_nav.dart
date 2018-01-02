@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-BottomNavigationBar bottomNav (BuildContext ctx, int navIndex) {
+BottomNavigationBar bottomNav(BuildContext ctx, int navIndex) {
   return new BottomNavigationBar(
     onTap: (int value) {
       if (value == 0 && navIndex != 0) {

@@ -15,28 +15,25 @@ const tickerNameStyle = const TextStyle(
 );
 
 const headerColumnLabel = const TextStyle(
-  color: Colors.white,
-  fontWeight: FontWeight.w200,
-  fontSize: 10.0
-);
+    color: Colors.white, fontWeight: FontWeight.w200, fontSize: 10.0);
 
 Color getTickerColor(String ticker) {
   Map<String, Color> colors = {
-    'ETH' : Colors.orangeAccent[500],
-    'EOS' : Colors.grey[200],
-    'REQ' : Colors.blue[200],
-    'REP' : Colors.blueGrey[200],
+    'ETH': Colors.orangeAccent[500],
+    'EOS': Colors.grey[200],
+    'REQ': Colors.blue[200],
+    'REP': Colors.blueGrey[200],
     'SALT': Colors.brown[200],
-    'OMG' : Colors.cyan[200],
-    'VIU' : Colors.deepOrange[200],
-    'XVG' : Colors.deepPurple[200],
-    'RDN' : Colors.green[200],
-    'XMR' : Colors.indigo[200],
-    'ADA' : Colors.lightBlue[200],
-    'BCH' : Colors.lime[200],
-    'BTC' : Colors.orange[200],
+    'OMG': Colors.cyan[200],
+    'VIU': Colors.deepOrange[200],
+    'XVG': Colors.deepPurple[200],
+    'RDN': Colors.green[200],
+    'XMR': Colors.indigo[200],
+    'ADA': Colors.lightBlue[200],
+    'BCH': Colors.lime[200],
+    'BTC': Colors.orange[200],
     'DASH': Colors.purple[200],
-    'LTC' : Colors.red[200],
+    'LTC': Colors.red[200],
   };
   if (!colors.containsKey(ticker)) {
     return Colors.white;
@@ -46,10 +43,9 @@ Color getTickerColor(String ticker) {
 }
 
 ThemeData customTheme = new ThemeData(
-  brightness: Brightness.light,
-  primarySwatch: Colors.blue,
-  primaryColor: const Color(0xff1819AA),
-  primaryColorBrightness: Brightness.dark,
-  accentColor: Colors.deepPurpleAccent,
-  accentColorBrightness: Brightness.light
-);
+    brightness: Brightness.light,
+    primarySwatch: Colors.blue,
+    primaryColor: const Color(0xff1819AA),
+    primaryColorBrightness: Brightness.dark,
+    accentColor: Colors.deepPurpleAccent,
+    accentColorBrightness: Brightness.light);

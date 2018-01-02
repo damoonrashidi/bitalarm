@@ -9,18 +9,12 @@ class ArcClipper extends CustomClipper<Path> {
 
     var firstControlPoint = new Offset(size.width / 4, size.height);
     var firstPoint = new Offset(size.width / 2, size.height);
-    path.quadraticBezierTo(firstControlPoint.dx, firstControlPoint.dy,
-        firstPoint.dx, firstPoint.dy);
-
-    var secondControlPoint =
-        new Offset(size.width - (size.width / 4), size.height);
+    path.quadraticBezierTo(firstControlPoint.dx, firstControlPoint.dy, firstPoint.dx, firstPoint.dy);
+    var secondControlPoint =new Offset(size.width - (size.width / 4), size.height);
     var secondPoint = new Offset(size.width, size.height - 15);
-    path.quadraticBezierTo(secondControlPoint.dx, secondControlPoint.dy,
-        secondPoint.dx, secondPoint.dy);
-
+    path.quadraticBezierTo(secondControlPoint.dx, secondControlPoint.dy, secondPoint.dx, secondPoint.dy);
     path.lineTo(size.width, 0.0);
     path.close();
-
     return path;
   }
 
@@ -28,7 +22,7 @@ class ArcClipper extends CustomClipper<Path> {
   bool shouldReclip(CustomClipper<Path> oldClipper) => false;
 }
 
-ClipPath headerArc (double total, double stake) {
+ClipPath headerArc(double total, double stake) {
   String profitAsPercent = (total / stake * 100).toStringAsFixed(2);
   return new ClipPath(
     clipper: new ArcClipper(),
@@ -43,19 +37,32 @@ ClipPath headerArc (double total, double stake) {
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
         ),
-        border: new Border(bottom: new BorderSide(width: 0.5, color: Colors.grey),)
+        border: new Border(
+          bottom: new BorderSide(width: 0.5, color: Colors.grey),
+        )
       ),
       child: new Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          new Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              new Text(total.toStringAsFixed(0), style: const TextStyle(fontSize: 45.0, fontWeight: FontWeight.w300, color: Colors.white,),),
-              new Text('SEK', style: const TextStyle(fontSize: 14.0, color: Colors.white, fontWeight: FontWeight.w100),)
-            ]
-          ),
+          new Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
+            new Text(
+              total.toStringAsFixed(0),
+              style: const TextStyle(
+                fontSize: 45.0,
+                fontWeight: FontWeight.w300,
+                color: Colors.white,
+              ),
+            ),
+            new Text(
+              'SEK',
+              style: const TextStyle(
+                fontSize: 14.0,
+                color: Colors.white,
+                fontWeight: FontWeight.w100
+              ),
+            )
+          ]),
           new Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -64,14 +71,26 @@ ClipPath headerArc (double total, double stake) {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   new Text('Stake', style: headerColumnLabel),
-                  new Text(stake.toStringAsFixed(0) + " SEK", style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: 15.0)),
+                  new Text(stake.toStringAsFixed(0) + " SEK",
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 15.0
+                    )
+                  ),
                 ],
               ),
               new Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: <Widget>[
                   new Text('Profit $profitAsPercent%', style: headerColumnLabel),
-                  new Text((total - stake).toStringAsFixed(0) + " SEK", style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: 15.0)),
+                  new Text((total - stake).toStringAsFixed(0) + " SEK",
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 15.0
+                    )
+                  ),
                 ],
               ),
             ],
