@@ -28,7 +28,13 @@ class API {
 
   static Future<List<Map<String, dynamic>>> getHistorical(String ticker) async {
     String endpoint = 'https://api.cryptowat.ch/markets/bitfinex/' + ticker + 'usd/ohlc';
-    Object response = JSON.decode((await http.get(endpoint)).body);
+    Object response;
+    try {
+      response = JSON.decode((await http.get(endpoint)).body);
+    } catch (e) {
+      endpoint = 'https://api.cryptowat.ch/markets/poloniex/' + ticker + 'btc/ohlc';
+      response = JSON.decode((await http.get(endpoint)).body);
+    }
     List<List<double>> data = response['result']['1800'];
     List<Map<String, dynamic>> close = data
       .map((List<num> point) => {
