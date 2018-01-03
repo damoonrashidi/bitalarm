@@ -15,7 +15,6 @@ class WalletProvider {
       await db.execute('''
         CREATE TABLE IF NOT EXISTS watchlist (id INTEGER PRIMARY KEY, symbol TEXT UNIQUE);
         CREATE TABLE IF NOT EXISTS wallet (id INTEGER PRIMARY KEY, symbol TEXT, address TEXT UNIQUE);
-        INSERT INTO watchlist (symbol) VALUES ('ETH'), ('BCH'), ('DASH'), ('LTC'), ('ADA'), ('EOS');
         INSERT INTO wallet (symbol, address) VALUES ('ETH', '0x3CcD96131c233ceC261f9Be610020939FDC7863E'), ('ETH', '0x42E1F7d6b18b0e51e9B4Ae214BEcCb99eCC24b82');
       ''');
     });

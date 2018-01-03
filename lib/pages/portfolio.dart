@@ -23,8 +23,6 @@ class _PortfolioPageState extends State<PortfolioPage> {
   WalletProvider _wp = new WalletProvider();
   List<CircularStackEntry> _data = [];
   AnimatedCircularChart _radialChart;
-  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
-    new GlobalKey<RefreshIndicatorState>();
   final GlobalKey<AnimatedCircularChartState> _chartKey =
     new GlobalKey<AnimatedCircularChartState>();
 
@@ -48,8 +46,7 @@ class _PortfolioPageState extends State<PortfolioPage> {
           cells: <DataCell>[
             new DataCell(new Text(ticker)),
             new DataCell(new Text(_portfolio[ticker].toStringAsFixed(3))),
-            new DataCell(
-              new Text(_pricesInSEK[ticker].toStringAsFixed(0) + " SEK")),
+            new DataCell(new Text(_pricesInSEK[ticker].toStringAsFixed(0) + " SEK")),
           ],
         ));
       });
@@ -88,10 +85,12 @@ class _PortfolioPageState extends State<PortfolioPage> {
               children: <Widget>[
                 _radialChart,
                 new DataTable(
+                  sortColumnIndex: 2,
+                  sortAscending: false,
                   columns: <DataColumn>[
                     new DataColumn(label: new Text('Currency')),
                     new DataColumn(label: new Text('Amount'), numeric: true),
-                    new DataColumn(label: new Text('Value'), numeric: true)
+                    new DataColumn(label: new Text('Value'), numeric: true),
                   ],
                   rows: _list,
                 )
