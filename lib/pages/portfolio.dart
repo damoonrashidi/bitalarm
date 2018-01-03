@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_circular_chart/flutter_circular_chart.dart';
-import '../components/bottom_nav.dart';
-import '../components.dart';
-import '../styles.dart';
+
 import '../services/api.dart';
 import '../services/portfolio.service.dart';
 import '../services/wallet.service.dart';
+
+import '../components/bottom_nav.dart';
+import '../components.dart';
+import '../styles.dart';
 
 class PortfolioPage extends StatefulWidget {
   PortfolioPage({Key key, this.title}) : super(key: key);
@@ -31,6 +33,7 @@ class _PortfolioPageState extends State<PortfolioPage> {
   _getValues() async {
     Map<String, double> _portfolio = _wp.hardcodedList();
     List<Object> prices = await API.getPrices(currency: 'SEK');
+    _wp.getWalletValues();
     _list = [];
     setState(() {
       _pricesInSEK = convertPortfolioToSEK(_portfolio, prices);
@@ -44,7 +47,6 @@ class _PortfolioPageState extends State<PortfolioPage> {
           _pricesInSEK[ticker], getTickerColor(ticker),
           rankKey: ticker));
         _list.add(new DataRow(
-          // key: new Key(_pricesInSEK[ticker].toStringAsFixed(2)),
           cells: <DataCell>[
             new DataCell(new Text(ticker)),
             new DataCell(new Text(_portfolio[ticker].toStringAsFixed(3))),
