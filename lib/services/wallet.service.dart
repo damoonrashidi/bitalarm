@@ -13,11 +13,16 @@ class WalletProvider {
   Future open() async {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
     String path = join(documentsDirectory.path, "coinwatch.db");
-    this.db = await openDatabase(path, version: 10, onCreate: (Database db, int version) async {
-      await db.execute('''
-        CREATE TABLE IF NOT EXISTS watchlist (id INTEGER PRIMARY KEY AUTOINCREMENT, symbol TEXT UNIQUE);
+    this.db = await openDatabase(path, version: 1, onOpen: (Database db) async {
+      dynamic wallet = await db.execute('''
         CREATE TABLE IF NOT EXISTS wallet (id INTEGER PRIMARY KEY, symbol TEXT, address TEXT UNIQUE);
       ''');
+      dynamic watchlist = await db.execute('''
+        CREATE TABLE IF NOT EXISTS watchlist (id INTEGER PRIMARY KEY AUTOINCREMENT, symbol TEXT UNIQUE);
+      ''');
+      debugPrint(wallet.toString());
+      debugPrint(watchlist.toString());
+      debugPrint(join(documentsDirectory.path, "coinwatch.db"));
     });
   }
 
@@ -46,9 +51,9 @@ class WalletProvider {
     List<Map<String, String>> wallets = await this.getWallets();
     List<String> addresses = wallets.map((wallet) => wallet['address']).toList();
     Map<String, double> tokens = {};
-    addresses.forEach((address) async {
+    await Future.forEach(addresses, (address) async {
       Map<String, double> values = await API.getETHWalletValue(address);
-      values.forEach((String symbol, double value){
+      values.forEach((String symbol, double value) {
         if(tokens.containsKey(symbol)) {
           tokens[symbol] += value;
         } else {
@@ -56,13 +61,12 @@ class WalletProvider {
         }
       });
     });
-    debugPrint(tokens.toString());
     return tokens;
   }
 
   Future<int> addWallet(String symbol, String address) async {
     await this.open();
-    int val = await this.db.insert('wallet', {symbol: symbol, address: address});
+    int val = await this.db.rawInsert("INSERT INTO wallet (symbol, address) VALUES ('$symbol', '$address')");
     this.close();
     return val;
   }

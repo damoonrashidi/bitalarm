@@ -4,7 +4,6 @@ import '../components/currency_card.dart';
 import '../components/bottom_nav.dart';
 import '../services/api.dart';
 import '../services/watchlist.service.dart';
-import '../services/wallet.service.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -18,11 +17,8 @@ class _MyHomePageState extends State<MyHomePage> {
   List<String> _watchlist = [];
   List<Object> _coins = [];
   WatchlistProvider _wp = new WatchlistProvider();
-  WalletProvider _walletProvider = new WalletProvider();
 
   _getList () async {
-    Map<String, double> wallets = await _walletProvider.getWalletValues();
-    debugPrint(wallets.toString());
     _watchlist = await this._wp.getWatchlist();
     _coins = await API.getPrices(filter: _watchlist);
     setState(() {});
