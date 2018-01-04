@@ -1,34 +1,34 @@
 import 'dart:async';
 import 'dart:io';
 
+import '../services/api.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:flutter/material.dart';
 
 class WalletProvider {
   Database db;
+  
   Future open() async {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
     String path = join(documentsDirectory.path, "coinwatch.db");
-    this.db = await openDatabase(path, version: 1,
-        onCreate: (Database db, int version) async {
-      await db.execute('''
-        CREATE TABLE IF NOT EXISTS watchlist (id INTEGER PRIMARY KEY, symbol TEXT UNIQUE);
+    this.db = await openDatabase(path, version: 1, onOpen: (Database db) async {
+      dynamic wallet = await db.execute('''
         CREATE TABLE IF NOT EXISTS wallet (id INTEGER PRIMARY KEY, symbol TEXT, address TEXT UNIQUE);
-        INSERT INTO wallet (symbol, address) VALUES ('ETH', '0x3CcD96131c233ceC261f9Be610020939FDC7863E'), ('ETH', '0x42E1F7d6b18b0e51e9B4Ae214BEcCb99eCC24b82');
       ''');
+      dynamic watchlist = await db.execute('''
+        CREATE TABLE IF NOT EXISTS watchlist (id INTEGER PRIMARY KEY AUTOINCREMENT, symbol TEXT UNIQUE);
+      ''');
+      debugPrint(wallet.toString());
+      debugPrint(watchlist.toString());
+      debugPrint(join(documentsDirectory.path, "coinwatch.db"));
     });
   }
 
   Map<String, double> hardcodedList() {
     return {
-      'ETH': 2.091987833659823383 + 0.91188038,
-      'EOS': 23.052502212272,
-      'REQ': 500.0,
-      'REP': 2.2025932637997,
-      'SALT': 10.62236917,
-      'OMG': 5.41910301,
-      'RDN': 0.96800000,
+      'ETH': 0.91188038,
       'XMR': 0.17282700,
       'ADA': 164.834,
       'BCH': 0.23066664,
@@ -47,20 +47,26 @@ class WalletProvider {
     return wallets;
   }
 
-  Future<double> getWalletValues() async {
+  Future<Map<String, double>> getWalletValues() async {
     List<Map<String, String>> wallets = await this.getWallets();
     List<String> addresses = wallets.map((wallet) => wallet['address']).toList();
-    double eth = 0.0;
-    addresses.forEach((address) async {
-      double balance = (await API.getETHWalletValue(address))['ETH']['balance'];
-      eth += balance;
+    Map<String, double> tokens = {};
+    await Future.forEach(addresses, (address) async {
+      Map<String, double> values = await API.getETHWalletValue(address);
+      values.forEach((String symbol, double value) {
+        if(tokens.containsKey(symbol)) {
+          tokens[symbol] += value;
+        } else {
+          tokens[symbol] = value;
+        }
+      });
     });
-    return eth;
+    return tokens;
   }
 
   Future<int> addWallet(String symbol, String address) async {
     await this.open();
-    int val = await this.db.insert('wallet', {symbol: symbol, address: address});
+    int val = await this.db.rawInsert("INSERT INTO wallet (symbol, address) VALUES ('$symbol', '$address')");
     this.close();
     return val;
   }

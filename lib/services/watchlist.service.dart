@@ -11,19 +11,19 @@ class WatchlistProvider {
   Future open() async {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
     String path = join(documentsDirectory.path, "coinwatch.db");
-    this.db = await openDatabase(path, version: 1, onCreate: (Database db, int version) async {
+    this.db = await openDatabase(path, version: 1, onOpen: (Database db) async {
       await db.execute('''
-        CREATE TABLE IF NOT EXISTS watchlist (id INTEGER PRIMARY KEY, symbol TEXT UNIQUE);
         CREATE TABLE IF NOT EXISTS wallet (id INTEGER PRIMARY KEY, symbol TEXT, address TEXT UNIQUE);
-        INSERT INTO wallet (symbol, address) VALUES ('ETH', '0x3CcD96131c233ceC261f9Be610020939FDC7863E'), ('ETH', '0x42E1F7d6b18b0e51e9B4Ae214BEcCb99eCC24b82');
+      ''');
+      await db.execute('''
+        CREATE TABLE IF NOT EXISTS watchlist (id INTEGER PRIMARY KEY AUTOINCREMENT, symbol TEXT UNIQUE);
       ''');
     });
   }
 
   Future<List<String>> getWatchlist() async {
     await this.open();
-    List<Map<String, String>> watchlist =
-        await this.db.query('watchlist', distinct: true);
+    List<Map<String, String>> watchlist = await this.db.query('watchlist', distinct: true);
     return watchlist.map((Map<String, String> item) => item['symbol']).toList();
   }
 

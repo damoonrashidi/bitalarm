@@ -1,17 +1,20 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'dart:math';
 
 class API {
-  static Future<Map> getETHWalletValue(String address) async {
-    String ethplorer = 'https://api.ethplorer.io/getAddressInfo/$address?apiKey=freekey';
-    try {
-      return await JSON.decode((await http.get(ethplorer)).body);
-    } catch (e) {
-      return {
-        'ETH': {'balance': 0.0}
-      };
-    }
+  static Future<Map<String, double>> getETHWalletValue(String address) async {
+    String endpoint = 'https://api.ethplorer.io/getAddressInfo/$address?apiKey=freekey';
+    Map<String, double> values = {};
+    Map<String, dynamic> data =  await JSON.decode((await http.get(endpoint)).body);
+    values['ETH'] = data['ETH']['balance'];
+    List<Object> tokens = data['tokens'];
+    tokens.forEach((Object token) {
+      int decimals = token['tokenInfo']['decimals'] is num ? token['tokenInfo']['decimals'] : int.parse(token['tokenInfo']['decimals'], radix: 10);
+      values[token['tokenInfo']['symbol']] = (token['balance'] / pow(10, decimals));
+    });
+    return values;
   }
 
   static Future<List<Object>> getPrices({List<String> filter = const [], String currency = 'USD'}) async {
