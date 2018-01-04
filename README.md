@@ -17,4 +17,6 @@ A cryptocurrency tracker and portfolio app, built with Flutter and Dart
 - [x] Graph out historical data for a currency
 - [ ] Make sure that the graph is actually correct. God knows what it's displaying now.
 - [ ] Error messages when timeline/order data for a currency couldn't be found.
-- [ ] Dynamic portfolio based on address
+- [x] Scan QR-code to add wallet to wallet list
+- [ ] Remove wallet from list
+- [x] Dynamic portfolio based on address (ETH and ERC20-tokens only for now)

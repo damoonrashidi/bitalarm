@@ -13,11 +13,17 @@ class WatchlistProvider {
     String path = join(documentsDirectory.path, "coinwatch.db");
     this.db = await openDatabase(path, version: 1, onOpen: (Database db) async {
       await db.execute('''
-        CREATE TABLE IF NOT EXISTS wallet (id INTEGER PRIMARY KEY, symbol TEXT, address TEXT UNIQUE);
-      ''');
+        CREATE TABLE IF NOT EXISTS wallet (
+          id INTEGER PRIMARY KEY,
+          symbol TEXT,
+          label TEXT,
+          address TEXT UNIQUE
+        );''');
       await db.execute('''
-        CREATE TABLE IF NOT EXISTS watchlist (id INTEGER PRIMARY KEY AUTOINCREMENT, symbol TEXT UNIQUE);
-      ''');
+        CREATE TABLE IF NOT EXISTS watchlist (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          symbol TEXT UNIQUE
+        );''');
     });
   }
 

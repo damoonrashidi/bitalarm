@@ -13,16 +13,19 @@ class WalletProvider {
   Future open() async {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
     String path = join(documentsDirectory.path, "coinwatch.db");
-    this.db = await openDatabase(path, version: 1, onOpen: (Database db) async {
-      dynamic wallet = await db.execute('''
-        CREATE TABLE IF NOT EXISTS wallet (id INTEGER PRIMARY KEY, symbol TEXT, address TEXT UNIQUE);
-      ''');
-      dynamic watchlist = await db.execute('''
-        CREATE TABLE IF NOT EXISTS watchlist (id INTEGER PRIMARY KEY AUTOINCREMENT, symbol TEXT UNIQUE);
-      ''');
-      debugPrint(wallet.toString());
-      debugPrint(watchlist.toString());
-      debugPrint(join(documentsDirectory.path, "coinwatch.db"));
+    this.db = await openDatabase(path, version: 2, onOpen: (Database db) async {
+      await db.execute('''
+        CREATE TABLE IF NOT EXISTS wallet (
+          id INTEGER PRIMARY KEY,
+          symbol TEXT,
+          label TEXT,
+          address TEXT UNIQUE
+        );''');
+      await db.execute('''
+        CREATE TABLE IF NOT EXISTS watchlist (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          symbol TEXT UNIQUE
+        );''');
     });
   }
 
@@ -40,15 +43,20 @@ class WalletProvider {
 
   Future close() async => this.db.close();
 
-  Future<List<Map<String, String>>> getWallets() async {
+  Future<List<Map<String, String>>> getWallets({String symbol = ''}) async {
     await this.open();
-    List<Map<String, String>> wallets = await db.query('wallet', distinct: true);
+    List<Map<String, String>> wallets;
+    if (symbol == '') {
+      wallets = await db.query('wallet', distinct: true);
+    } else {
+      wallets = await db.query('wallet', where: 'symbol = ?', whereArgs: ['ETH'], distinct: true);
+    }
     this.close();
     return wallets;
   }
 
   Future<Map<String, double>> getWalletValues() async {
-    List<Map<String, String>> wallets = await this.getWallets();
+    List<Map<String, String>> wallets = await this.getWallets(symbol: 'ETH');
     List<String> addresses = wallets.map((wallet) => wallet['address']).toList();
     Map<String, double> tokens = {};
     await Future.forEach(addresses, (address) async {
@@ -64,9 +72,13 @@ class WalletProvider {
     return tokens;
   }
 
-  Future<int> addWallet(String symbol, String address) async {
+  Future<int> addWallet(String symbol, String label, String address) async {
     await this.open();
-    int val = await this.db.rawInsert("INSERT INTO wallet (symbol, address) VALUES ('$symbol', '$address')");
+    if(address.contains(':')) {
+      address = address.split(':')[1];
+    }
+    debugPrint('adding $symbol wallet ($label) for address $address');
+    int val = await this.db.rawInsert("INSERT INTO wallet (symbol, label, address) VALUES ('$symbol', '$label', '$address')");
     this.close();
     return val;
   }

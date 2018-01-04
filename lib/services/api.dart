@@ -2,14 +2,20 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'dart:math';
+import 'package:flutter/material.dart';
 
 class API {
   static Future<Map<String, double>> getETHWalletValue(String address) async {
     String endpoint = 'https://api.ethplorer.io/getAddressInfo/$address?apiKey=freekey';
     Map<String, double> values = {};
     Map<String, dynamic> data =  await JSON.decode((await http.get(endpoint)).body);
-    values['ETH'] = data['ETH']['balance'];
+    if (data['ETH'].containsKey('balance')) {
+      values['ETH'] = data['ETH']['balance'];
+    }
     List<Object> tokens = data['tokens'];
+    if (tokens == null) {
+      return {};
+    }
     tokens.forEach((Object token) {
       int decimals = token['tokenInfo']['decimals'] is num ? token['tokenInfo']['decimals'] : int.parse(token['tokenInfo']['decimals'], radix: 10);
       values[token['tokenInfo']['symbol']] = (token['balance'] / pow(10, decimals));
