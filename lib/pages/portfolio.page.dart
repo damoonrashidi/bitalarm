@@ -3,7 +3,6 @@ import '../components/bottom_nav.dart';
 import '../components/portfolio/wallet_list.dart';
 import '../components/portfolio/portfolio_list.dart';
 import '../components/portfolio/portfolio_header.dart';
-import '../components/loader.dart';
 import '../components/pill_button.dart';
 
 import '../services/wallet.service.dart';
@@ -20,17 +19,17 @@ class _PortfolioPageState extends State<PortfolioPage> {
 
   List<Object> _wallets = [];
   List<Object> _coins = [];
-  double _stake = 21000.0;
-  double _total = 0.0;
+  double _total = 21000.0;
   WalletProvider _wp = new WalletProvider();
 
   initStateAsync() async {
     _coins = await _wp.getWalletValues();
+    setState((){});
     _coins = await _wp.coinsToPrice(coins: _coins, currency: 'sek');
-    _total = _coins.map((coin) => coin['value']).reduce((double a, double b) => a + b);
-    setState(() {});
     _wallets = await _wp.getWallets();
-    setState(() {});
+    setState(() {
+      _total = _coins.map((coin) => coin['value']).reduce((double a, double b) => a + b);
+    });
   }
 
   @override
@@ -51,7 +50,7 @@ class _PortfolioPageState extends State<PortfolioPage> {
             margin: const EdgeInsets.only(bottom: 50.0, top: 50.0),
             child: new PillButton(
               child: new Text('Add a wallet'),
-              onPressed: () => Navigator.of(ctx).pushNamed('/wallets')
+              onPressed: () => Navigator.of(ctx).pushReplacementNamed('/wallets')
             )
           )
         ])
@@ -59,8 +58,8 @@ class _PortfolioPageState extends State<PortfolioPage> {
       body: new Column(
         children: [
           new Container(
-            height: 250.0,
-            child: new PortfolioHeader(stake: _stake, total: _total),
+            height: 230.0,
+            child: new PortfolioHeader(total: _total),
           ),
           new Expanded(
             child: new ListView(children: [new PortfolioList(coins: _coins)])

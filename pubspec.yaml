@@ -7,6 +7,7 @@ dependencies:
   flutter_charts: 0.1.7
   barcode_scan: 0.0.2
   intl: 0.15.2
+  shared_preferences: 0.3.0
   flutter:
     sdk: flutter
   flutter_circular_chart:
@@ -21,8 +22,8 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-  assets:
-   - assets/bitalarm.obj
+  # assets:
+  #  - assets/bitalarm.obj
   #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

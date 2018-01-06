@@ -1,19 +1,51 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../styles.dart';
 
-class PortfolioHeader extends StatelessWidget {
+class PortfolioHeader extends StatefulWidget {
 
   final double total;
-  final double stake;
+  PortfolioHeader({this.total}) {
+    debugPrint(this.total.toString());
+  }
+
+  @override
+  createState() => new PortfolioHeaderState(total: total);
+
+}
+
+class PortfolioHeaderState extends State<PortfolioHeader> {
+
+  final double total;
+  double _stake = 0.0;
+  SharedPreferences prefs;
   final TextStyle detailNumberStyle = new TextStyle(color: Colors.white, fontSize: 18.0, fontWeight: FontWeight.w200);
   final TextStyle detailExp = new TextStyle(color: Colors.white, fontSize: 12.0, fontWeight: FontWeight.w900);
+  final TextEditingController _stakeCtrl = new TextEditingController();
 
-  PortfolioHeader({this.total, this.stake});
+  PortfolioHeaderState({this.total});
+
+  initStateAsync() async {
+    try {
+      prefs = await SharedPreferences.getInstance();
+      _stake = prefs.getDouble('stake');
+      _stakeCtrl.text = _stake.toString();
+    } catch (e) {
+      prefs.setDouble('stake', 0.0);
+      _stake = 0.0;
+    }
+  }
+
+  @override
+  initState() {
+    super.initState();
+    initStateAsync();
+  }
 
   @override
   Widget build(BuildContext ctx) {
-    double profit = total - stake;
+    double profit = total - _stake;
     NumberFormat nf = new NumberFormat("###,###,###");
     // NumberFormat nf = new NumberFormat.currency(locale: 'sv_SE', decimalDigits: 0, symbol: '', name: 'SEK');
     return new ClipPath(
@@ -32,7 +64,23 @@ class PortfolioHeader extends StatelessWidget {
               children: <Widget>[
                 new Column(crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[
                   new Text('STAKE', style: detailExp),
-                  new Text(nf.format(stake), style: detailNumberStyle),
+                  new Container(
+                    width: 100.0,
+                    child: new TextField(
+                      style: new TextStyle(
+                        color: Colors.white,
+                        fontSize: 18.0,
+                      ),
+                      controller: _stakeCtrl,
+                      onChanged: (String state) {
+                      if (state != null && state.length != 0) {
+                        _stake = double.parse(state);
+                        prefs.setDouble('stake', _stake);
+                      }
+                      
+                    }) 
+                  ),
+                  // new Text(nf.format(_stake), style: detailNumberStyle),
                 ]),
                 new Column(crossAxisAlignment: CrossAxisAlignment.end, children: <Widget>[
                   new Text('PROFIT', style: detailExp),

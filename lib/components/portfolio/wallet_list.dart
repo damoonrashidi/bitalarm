@@ -22,8 +22,9 @@ class WalletList extends StatelessWidget {
       return new ListTile(
         dense: true,
         trailing: new PopupMenuButton(
-          onSelected: (int value) {
-            _wp.removeWallet(wallets[i]['address']);
+          onSelected: (int value) async {
+            await _wp.removeWallet(wallets[i]['address']);
+            Navigator.of(ctx).pop();
           },
           itemBuilder: (ctx) => [
             new PopupMenuItem(child: new Text('Stop tracking'), value: i,)

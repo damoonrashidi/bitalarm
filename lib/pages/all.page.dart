@@ -117,7 +117,7 @@ class _AllCurrenciesState extends State<AllCurrenciesPage>
     });
     return new Scaffold(
       bottomNavigationBar: new AppBotNav(currentIndex: 1),
-      drawer: allDrawer(sortList),
+      drawer: allDrawer(ctx, sortList),
       body: new RefreshIndicator(
         onRefresh: getList,
         child: new ListView(

@@ -6,7 +6,7 @@ enum SortOrder {
   losing,
 }
 
-Drawer allDrawer(Function callback) {
+Drawer allDrawer(BuildContext ctx, Function callback) {
   return new Drawer(
     child: new Container(
       margin: const EdgeInsets.only(top: 48.0, bottom: 20.0),
@@ -21,6 +21,7 @@ Drawer allDrawer(Function callback) {
             title: new Text('Market cap'),
             onTap: () {
               Function.apply(callback, [SortOrder.marketCap]);
+              Navigator.of(ctx).pop();
             },
           ),
           new ListTile(
@@ -28,12 +29,14 @@ Drawer allDrawer(Function callback) {
             title: new Text('Hot'),
             onTap: () {
               Function.apply(callback, [SortOrder.trending]);
+              Navigator.of(ctx).pop();
             }),
           new ListTile(
             leading: new Icon(Icons.trending_down),
             title: new Text('Losing'),
             onTap: () {
               Function.apply(callback, [SortOrder.losing]);
+              Navigator.of(ctx).pop();
             }),
         ],
       ),

@@ -19,8 +19,8 @@ class WalletPageState extends State<WalletPage> {
     _address.text = await BarcodeScanner.scan();
   }
   saveWallet(BuildContext ctx) async {
-    await _wp.addWallet(_symbol.text.toUpperCase(), _label.text, _address.text);
-    Navigator.of(ctx).pop();
+    await _wp.addWallet(_symbol.text.toUpperCase().trim(), _label.text, _address.text);
+    Navigator.of(ctx).pushReplacementNamed('/portfolio');
   }
 
   @override
