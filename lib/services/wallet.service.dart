@@ -5,7 +5,6 @@ import '../services/api.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:flutter/material.dart';
 
 class WalletProvider {
   Database db;
@@ -49,16 +48,17 @@ class WalletProvider {
     if (symbol == '') {
       wallets = await db.query('wallet', distinct: true);
     } else {
-      wallets = await db.query('wallet', where: 'symbol = ?', whereArgs: ['ETH'], distinct: true);
+      wallets = await db.query('wallet', where: 'symbol = ?', whereArgs: [symbol], distinct: true);
     }
     this.close();
     return wallets;
   }
 
-  Future<Map<String, double>> getWalletValues() async {
+  Future<List<Object>> getWalletValues() async {
     List<Map<String, String>> wallets = await this.getWallets(symbol: 'ETH');
     List<String> addresses = wallets.map((wallet) => wallet['address']).toList();
     Map<String, double> tokens = {};
+    List<Object> list = [];
     await Future.forEach(addresses, (address) async {
       Map<String, double> values = await API.getETHWalletValue(address);
       values.forEach((String symbol, double value) {
@@ -69,7 +69,29 @@ class WalletProvider {
         }
       });
     });
-    return tokens;
+    tokens.forEach((String symbol, double amount) {
+      list.add({
+        'symbol': symbol,
+        'amount': amount,
+        'value': 0.0,
+      });
+    });
+    return list;
+  }
+
+  Future<List<Map>> coinsToPrice({List<Object> coins: const [], String currency: 'USD'}) async {
+    currency = currency.toLowerCase();
+    List<Object> prices = await API.getPrices(currency: currency);
+    List<Object> list = [];
+    coins.forEach((Object coin) {
+      Map price = prices.firstWhere((test) => test['symbol'] == coin['symbol'], orElse: () => {'price_$currency': "0.0"});
+      list.add({
+        'symbol': coin['symbol'],
+        'amount': coin['amount'],
+        'value' : double.parse(price['price_$currency']) * coin['amount'].toDouble(),
+      });
+    });
+    return list;
   }
 
   Future<int> addWallet(String symbol, String label, String address) async {
@@ -77,7 +99,6 @@ class WalletProvider {
     if(address.contains(':')) {
       address = address.split(':')[1];
     }
-    debugPrint('adding $symbol wallet ($label) for address $address');
     int val = await this.db.rawInsert("INSERT INTO wallet (symbol, label, address) VALUES ('$symbol', '$label', '$address')");
     this.close();
     return val;

@@ -5,14 +5,14 @@ import '../components/bottom_nav.dart';
 import '../services/api.dart';
 import '../services/watchlist.service.dart';
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+class WatchlistPage extends StatefulWidget {
+  WatchlistPage({Key key, this.title}) : super(key: key);
   final String title;
   @override
-  _MyHomePageState createState() => new _MyHomePageState();
+  _WatchlistPageState createState() => new _WatchlistPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _WatchlistPageState extends State<WatchlistPage> {
   List<Container> _list = [];
   List<String> _watchlist = [];
   List<Object> _coins = [];
@@ -58,7 +58,7 @@ class _MyHomePageState extends State<MyHomePage> {
       );
     });
     return new Scaffold(
-      bottomNavigationBar: bottomNav(ctx, 0),
+      bottomNavigationBar: new AppBotNav(currentIndex: 0),
       body: _list.length == 0 ? 
         new Center(child: new Text(
           'Add coins to your watchlist from the All tab',
