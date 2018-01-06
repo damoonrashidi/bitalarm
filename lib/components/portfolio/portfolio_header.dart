@@ -1,47 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../../styles.dart';
 
-class PortfolioHeader extends StatefulWidget {
+class PortfolioHeader extends StatelessWidget {
 
   final double total;
-  PortfolioHeader({this.total}) {
-    debugPrint(this.total.toString());
-  }
+  PortfolioHeader({this.total});
 
-  @override
-  createState() => new PortfolioHeaderState(total: total);
-
-}
-
-class PortfolioHeaderState extends State<PortfolioHeader> {
-
-  final double total;
-  double _stake = 0.0;
-  SharedPreferences prefs;
+  final double _stake = 21000.0;
   final TextStyle detailNumberStyle = new TextStyle(color: Colors.white, fontSize: 18.0, fontWeight: FontWeight.w200);
   final TextStyle detailExp = new TextStyle(color: Colors.white, fontSize: 12.0, fontWeight: FontWeight.w900);
-  final TextEditingController _stakeCtrl = new TextEditingController();
-
-  PortfolioHeaderState({this.total});
-
-  initStateAsync() async {
-    try {
-      prefs = await SharedPreferences.getInstance();
-      _stake = prefs.getDouble('stake');
-      _stakeCtrl.text = _stake.toString();
-    } catch (e) {
-      prefs.setDouble('stake', 0.0);
-      _stake = 0.0;
-    }
-  }
-
-  @override
-  initState() {
-    super.initState();
-    initStateAsync();
-  }
 
   @override
   Widget build(BuildContext ctx) {
@@ -64,23 +32,7 @@ class PortfolioHeaderState extends State<PortfolioHeader> {
               children: <Widget>[
                 new Column(crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[
                   new Text('STAKE', style: detailExp),
-                  new Container(
-                    width: 100.0,
-                    child: new TextField(
-                      style: new TextStyle(
-                        color: Colors.white,
-                        fontSize: 18.0,
-                      ),
-                      controller: _stakeCtrl,
-                      onChanged: (String state) {
-                      if (state != null && state.length != 0) {
-                        _stake = double.parse(state);
-                        prefs.setDouble('stake', _stake);
-                      }
-                      
-                    }) 
-                  ),
-                  // new Text(nf.format(_stake), style: detailNumberStyle),
+                  new Text(nf.format(_stake), style: detailNumberStyle),
                 ]),
                 new Column(crossAxisAlignment: CrossAxisAlignment.end, children: <Widget>[
                   new Text('PROFIT', style: detailExp),

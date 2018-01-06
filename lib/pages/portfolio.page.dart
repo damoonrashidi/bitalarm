@@ -19,7 +19,7 @@ class _PortfolioPageState extends State<PortfolioPage> {
 
   List<Object> _wallets = [];
   List<Object> _coins = [];
-  double _total = 21000.0;
+  double _total = 0.0;
   WalletProvider _wp = new WalletProvider();
 
   initStateAsync() async {
@@ -27,9 +27,9 @@ class _PortfolioPageState extends State<PortfolioPage> {
     setState((){});
     _coins = await _wp.coinsToPrice(coins: _coins, currency: 'sek');
     _wallets = await _wp.getWallets();
-    setState(() {
-      _total = _coins.map((coin) => coin['value']).reduce((double a, double b) => a + b);
-    });
+    setState((){});
+    _total = _coins.map((coin) => coin['value']).reduce((double a, double b) => a + b);
+    setState((){});
   }
 
   @override

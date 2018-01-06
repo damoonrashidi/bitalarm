@@ -28,18 +28,6 @@ class WalletProvider {
     });
   }
 
-  Map<String, double> hardcodedList() {
-    return {
-      'ETH': 0.91188038,
-      'XMR': 0.17282700,
-      'ADA': 164.834,
-      'BCH': 0.23066664,
-      'BTC': 0.0248,
-      'DASH': 0.39607621,
-      'LTC': 1.7670664,
-    };
-  }
-
   Future close() async => this.db.close();
 
   Future<List<Map<String, String>>> getWallets({String symbol = ''}) async {
@@ -55,19 +43,32 @@ class WalletProvider {
   }
 
   Future<List<Object>> getWalletValues() async {
-    List<Map<String, String>> wallets = await this.getWallets(symbol: 'ETH');
-    List<String> addresses = wallets.map((wallet) => wallet['address']).toList();
+    List<Map<String, String>> wallets = await this.getWallets();
     Map<String, double> tokens = {};
     List<Object> list = [];
-    await Future.forEach(addresses, (address) async {
-      Map<String, double> values = await API.getETHWalletValue(address);
-      values.forEach((String symbol, double value) {
-        if(tokens.containsKey(symbol)) {
-          tokens[symbol] += value;
-        } else {
-          tokens[symbol] = value;
-        }
-      });
+    await Future.forEach(wallets, (wallet) async {
+      switch (wallet['symbol']) {
+        case 'ETH':  
+          Map<String, double> values = await API.getETHWalletValue(wallet['address']);
+          values.forEach((String symbol, double value) {
+            if(tokens.containsKey(symbol)) {
+              tokens[symbol] += value;
+            } else {
+              tokens[symbol] = value;
+            }
+          });
+          break;
+        case 'LTC':
+        case 'DASH':
+        case 'BTC':
+          double value = await API.getGenericWalletValue(wallet['address']);
+          if(tokens.containsKey(wallet['symbol'])) {
+            tokens[wallet['symbol']] += value;
+          } else {
+            tokens[wallet['symbol']] = value;
+          }
+          break;
+      }
     });
     tokens.forEach((String symbol, double amount) {
       list.add({

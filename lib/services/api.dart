@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'dart:math';
-import 'package:flutter/material.dart';
 
 class API {
   static Future<Map<String, double>> getETHWalletValue(String address) async {
@@ -21,6 +20,12 @@ class API {
       values[token['tokenInfo']['symbol']] = (token['balance'] / pow(10, decimals));
     });
     return values;
+  }
+
+  static Future<double> getGenericWalletValue(String address) async {
+    String endpoint = "https://api.blockcypher.com/v1/btc/main/addrs/$address/balance";
+    Map<String, dynamic> data = await JSON.decode((await http.get(endpoint)).body);
+    return data['balance'] / pow(10, 8);
   }
 
   static Future<List<Object>> getPrices({List<String> filter = const [], String currency = 'USD'}) async {
