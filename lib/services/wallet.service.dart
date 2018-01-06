@@ -58,10 +58,10 @@ class WalletProvider {
             }
           });
           break;
-        case 'LTC':
         case 'DASH':
+        case 'LTC':
         case 'BTC':
-          double value = await API.getGenericWalletValue(wallet['address']);
+          double value = await API.getGenericWalletValue(wallet['symbol'], wallet['address']);
           if(tokens.containsKey(wallet['symbol'])) {
             tokens[wallet['symbol']] += value;
           } else {

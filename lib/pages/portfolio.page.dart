@@ -25,9 +25,9 @@ class _PortfolioPageState extends State<PortfolioPage> {
   initStateAsync() async {
     _coins = await _wp.getWalletValues();
     setState((){});
-    _coins = await _wp.coinsToPrice(coins: _coins, currency: 'sek');
     _wallets = await _wp.getWallets();
     setState((){});
+    _coins = await _wp.coinsToPrice(coins: _coins, currency: 'sek');
     _total = _coins.map((coin) => coin['value']).reduce((double a, double b) => a + b);
     setState((){});
   }
