@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'dart:math';
-import 'package:flutter/material.dart';
 
 class API {
   static Future<Map<String, double>> getETHWalletValue(String address) async {
@@ -14,7 +13,7 @@ class API {
     }
     List<Object> tokens = data['tokens'];
     if (tokens == null) {
-      return {};
+      return values;
     }
     tokens.forEach((Object token) {
       int decimals = token['tokenInfo']['decimals'] is num ? token['tokenInfo']['decimals'] : int.parse(token['tokenInfo']['decimals'], radix: 10);
@@ -25,8 +24,21 @@ class API {
 
   static Future<double> getGenericWalletValue(String symbol, String address) async {
     String endpoint = "https://api.blockcypher.com/v1/${symbol.toLowerCase()}/main/addrs/$address/balance";
+    if (symbol == 'BCH') {
+      endpoint = 'https://blockdozer.com/insight-api/addr/$address/balance';
+      String res = (await http.get(endpoint)).body;
+      return double.parse(res) / pow(10, 8);
+    } else {
+      Map<String, dynamic> data = await JSON.decode((await http.get(endpoint)).body);
+      return data['balance'] / pow(10, 8);
+    }
+  }
+
+  static Future<double> getADAWalletValue(String address) async {
+    String endpoint = 'https://cardanoexplorer.com/api/addresses/summary/$address';
     Map<String, dynamic> data = await JSON.decode((await http.get(endpoint)).body);
-    return data['balance'] / pow(10, 8);
+    double amount = double.parse(data['Right']['caBalance']['getCoin']);
+    return amount / pow(10, 6);
   }
 
   static Future<List<Object>> getPrices({List<String> filter = const [], String currency = 'USD'}) async {

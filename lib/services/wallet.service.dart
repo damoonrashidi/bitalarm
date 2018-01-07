@@ -12,18 +12,13 @@ class WalletProvider {
   Future open() async {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
     String path = join(documentsDirectory.path, "coinwatch.db");
-    this.db = await openDatabase(path, version: 2, onOpen: (Database db) async {
+    this.db = await openDatabase(path, version: 1, onOpen: (Database db) async {
       await db.execute('''
         CREATE TABLE IF NOT EXISTS wallet (
           id INTEGER PRIMARY KEY,
           symbol TEXT,
           label TEXT,
           address TEXT UNIQUE
-        );''');
-      await db.execute('''
-        CREATE TABLE IF NOT EXISTS watchlist (
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
-          symbol TEXT UNIQUE
         );''');
     });
   }
@@ -60,8 +55,17 @@ class WalletProvider {
           break;
         case 'DASH':
         case 'LTC':
+        case 'BCH':
         case 'BTC':
           double value = await API.getGenericWalletValue(wallet['symbol'], wallet['address']);
+          if(tokens.containsKey(wallet['symbol'])) {
+            tokens[wallet['symbol']] += value;
+          } else {
+            tokens[wallet['symbol']] = value;
+          }
+          break;
+        case 'ADA':
+          double value = await API.getADAWalletValue(wallet['address']);
           if(tokens.containsKey(wallet['symbol'])) {
             tokens[wallet['symbol']] += value;
           } else {

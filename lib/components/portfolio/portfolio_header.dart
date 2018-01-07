@@ -5,17 +5,17 @@ import '../../styles.dart';
 class PortfolioHeader extends StatelessWidget {
 
   final double total;
-  PortfolioHeader({this.total});
+  final double stake;
+  PortfolioHeader({this.total, this.stake});
 
-  final double _stake = 21000.0;
   final TextStyle detailNumberStyle = new TextStyle(color: Colors.white, fontSize: 18.0, fontWeight: FontWeight.w200);
   final TextStyle detailExp = new TextStyle(color: Colors.white, fontSize: 12.0, fontWeight: FontWeight.w900);
 
   @override
   Widget build(BuildContext ctx) {
-    double profit = total - _stake;
+    double profit = total - stake;
     NumberFormat nf = new NumberFormat("###,###,###");
-    // NumberFormat nf = new NumberFormat.currency(locale: 'sv_SE', decimalDigits: 0, symbol: '', name: 'SEK');
+    double percent = total / stake * 100;
     return new ClipPath(
       clipper: new ArcClipper(),
       child: new Container(
@@ -32,10 +32,10 @@ class PortfolioHeader extends StatelessWidget {
               children: <Widget>[
                 new Column(crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[
                   new Text('STAKE', style: detailExp),
-                  new Text(nf.format(_stake), style: detailNumberStyle),
+                  new Text(nf.format(stake), style: detailNumberStyle),
                 ]),
                 new Column(crossAxisAlignment: CrossAxisAlignment.end, children: <Widget>[
-                  new Text('PROFIT', style: detailExp),
+                  new Text('PROFIT (${percent.toStringAsFixed(0)}%)', style: detailExp),
                   new Text(nf.format(profit), style: detailNumberStyle),
                 ]),
               ],

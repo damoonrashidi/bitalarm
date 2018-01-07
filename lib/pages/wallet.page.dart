@@ -26,6 +26,12 @@ class WalletPageState extends State<WalletPage> {
   @override
   Widget build(BuildContext ctx) {
     return new Scaffold(
+      appBar: new AppBar(
+        title: new Text('Add a wallet', style: new TextStyle(color: Colors.black)),
+        backgroundColor: Colors.transparent,
+        leading: new IconButton(icon: new Icon(Icons.arrow_back), onPressed: () => Navigator.of(ctx).pushReplacementNamed('/portfolio'), color: Colors.black),
+        elevation: 0.0,
+      ),
       body: new Form(
         child: new Padding(
           padding: new EdgeInsets.all(20.0),
