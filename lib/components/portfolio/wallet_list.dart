@@ -34,7 +34,6 @@ class WalletList extends StatelessWidget {
                 await _wp.removeWallet(event['data']);
                 Scaffold.of(ctx).showSnackBar(new SnackBar(content: new Text('Stopped tracking ' + truncateMiddle(event['data']))));
               } else if (event['action'] == 'copy') {
-                debugPrint('Copying: ' + event['data']);
                 Clipboard.setData(new ClipboardData(text: event['data']));
                 Scaffold.of(ctx).showSnackBar(new SnackBar(content: new Text('Copied to clipboard!')));
               }

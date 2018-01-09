@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_circular_chart/flutter_circular_chart.dart';
 import '../services/settings.service.dart';
 import '../services/fiat.service.dart';
 
@@ -19,6 +20,7 @@ class _SettingsState extends State<SettingsPage> {
   initStateAsync() async {
     _selectedFiat = await _settings.getFiatCurrency();
     _stake = await _settings.getStake() ?? 0.0;
+    _stakeCtrl.text = _stake.toString();
   }
 
   @override
@@ -38,7 +40,10 @@ class _SettingsState extends State<SettingsPage> {
     });
 
     return new Scaffold(
-      appBar: new AppBar(title: new Text('Settings')),
+      appBar: new AppBar(
+        leading: new IconButton(icon: const Icon(Icons.arrow_back), onPressed: () => Navigator.pop(ctx)),
+        title: new Text('Settings')
+      ),
       body: new Form(child: new Padding(
         padding: new EdgeInsets.all(16.0),
         child: new Column(children: [

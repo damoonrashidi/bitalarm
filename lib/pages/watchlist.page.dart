@@ -13,7 +13,7 @@ class WatchlistPage extends StatefulWidget {
 }
 
 class _WatchlistPageState extends State<WatchlistPage> {
-  List<Container> _list = [];
+  List<GestureDetector> _list = [];
   List<String> _watchlist = [];
   List<Object> _coins = [];
   WatchlistProvider _wp = new WatchlistProvider();
@@ -38,26 +38,33 @@ class _WatchlistPageState extends State<WatchlistPage> {
       double price = double.parse(coin['price_usd']);
       String ticker = coin['symbol'];
       String name = coin['name'];
-      return new Container(
-        padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 0.0),
-        child: new GestureDetector(
-          onTap: () => Navigator.of(ctx).pushNamed('/details/$ticker'),
-          child: new Card(
-            child: new Container(
-              padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
-              margin: const EdgeInsets.only(top: 16.0, bottom: 16.0),
-              child: new Column(
-                children: [
-                  new CurrencyCardTitle(name: name, price: price),
-                  new CurrencyCardDetails(ticker: ticker, change: change),
-                ]
+      return new GestureDetector(
+        onTap: () => Navigator.of(ctx).pushNamed('/details/$ticker'),
+        child: new Dismissible(
+          key: new Key(coin['symbol']),
+          child: new Container(
+            decoration: new BoxDecoration(
+              color: Colors.white,
+              border: new Border(
+                bottom: new BorderSide(
+                  color: const Color(0xffeeeeee),
+                  width: 0.5,
+                )
               )
+            ),
+            padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
+            child: new Column(
+              children: [
+                new CurrencyCardTitle(name: name, price: price),
+                new CurrencyCardDetails(ticker: ticker, change: change),
+              ]
             )
           )
         )
       );
     });
     return new Scaffold(
+      backgroundColor: const Color(0xffeeeeee),
       bottomNavigationBar: new AppBotNav(currentIndex: 0),
       body: _list.length == 0 ? 
         new Center(child: new Text(

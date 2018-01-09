@@ -19,7 +19,7 @@ DEPENDENCIES:
   - barcode_scan (from `/Users/damoonrashidi/.pub-cache/hosted/pub.dartlang.org/barcode_scan-0.0.2/ios`)
   - Flutter (from `/Users/damoonrashidi/tools/flutter/bin/cache/artifacts/engine/ios`)
   - path_provider (from `/Users/damoonrashidi/.pub-cache/hosted/pub.dartlang.org/path_provider-0.2.2/ios`)
-  - shared_preferences (from `/Users/damoonrashidi/.pub-cache/hosted/pub.dartlang.org/shared_preferences-0.3.0/ios`)
+  - shared_preferences (from `/Users/damoonrashidi/.pub-cache/hosted/pub.dartlang.org/shared_preferences-0.2.0/ios`)
   - sqflite (from `/Users/damoonrashidi/.pub-cache/hosted/pub.dartlang.org/sqflite-0.2.4/ios`)
 
 EXTERNAL SOURCES:
@@ -30,7 +30,7 @@ EXTERNAL SOURCES:
   path_provider:
     :path: /Users/damoonrashidi/.pub-cache/hosted/pub.dartlang.org/path_provider-0.2.2/ios
   shared_preferences:
-    :path: /Users/damoonrashidi/.pub-cache/hosted/pub.dartlang.org/shared_preferences-0.3.0/ios
+    :path: /Users/damoonrashidi/.pub-cache/hosted/pub.dartlang.org/shared_preferences-0.2.0/ios
   sqflite:
     :path: /Users/damoonrashidi/.pub-cache/hosted/pub.dartlang.org/sqflite-0.2.4/ios
 
@@ -40,7 +40,7 @@ SPEC CHECKSUMS:
   FMDB: 6198a90e7b6900cfc046e6bc0ef6ebb7be9236aa
   MTBBarcodeScanner: 3ce0f1b0085ef00c726ded663c490a63b29c9aa5
   path_provider: f96fff6166a8867510d2c25fdcc346327cc4b259
-  shared_preferences: 1feebfa37bb57264736e16865e7ffae7fc99b523
+  shared_preferences: d114ce44d97d21b83918e945ac7afa466fa5834c
   sqflite: 8e2d9fe1e7cdc95d4d537fc7eb2d23c8dc428e3c
 
 PODFILE CHECKSUM: 351e02e34b831289961ec3558a535cbd2c4965d2

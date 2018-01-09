@@ -7,7 +7,7 @@ dependencies:
   flutter_charts: 0.1.7
   barcode_scan: 0.0.2
   intl: 0.15.2
-  shared_preferences: 0.3.0
+  shared_preferences: 0.2.0
   flutter:
     sdk: flutter
   flutter_circular_chart:

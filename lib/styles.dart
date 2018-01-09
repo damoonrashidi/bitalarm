@@ -24,9 +24,9 @@ const primaryGradient = const LinearGradient(
   end: Alignment.bottomCenter,
 );
 
-Color getTickerColor(String ticker) {
+Color getSymbolColor(String symbol) {
   Map<String, Color> colors = {
-    'ETH': Colors.orangeAccent[500],
+    'ETH': Colors.orange,
     'EOS': Colors.grey[200],
     'REQ': Colors.blue[200],
     'REP': Colors.blueGrey[200],
@@ -42,10 +42,10 @@ Color getTickerColor(String ticker) {
     'DASH': Colors.purple[200],
     'LTC': Colors.red[200],
   };
-  if (!colors.containsKey(ticker)) {
+  if (!colors.containsKey(symbol)) {
     return Colors.white;
   } else {
-    return colors[ticker];
+    return colors[symbol];
   }
 }
 
