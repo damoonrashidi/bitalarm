@@ -1,7 +1,6 @@
 # bitalarm
 A cryptocurrency tracker and portfolio app, built with Flutter and Dart
-
-![bitalarm](https://user-images.githubusercontent.com/207421/34477878-9de557ae-ef9d-11e7-81a5-b9451e903128.gif)
+[Screenshots can be found here](https://imgur.com/a/3N5mb)
 
 
 ## Getting Started
@@ -13,10 +12,10 @@ A cryptocurrency tracker and portfolio app, built with Flutter and Dart
 ## Todo
 
 - [ ] Maybe currency icons?
-- [ ] Loading indicator.
+- [x] Loading indicator.
 - [x] Graph out historical data for a currency
 - [ ] Make sure that the graph is actually correct. God knows what it's displaying now.
 - [ ] Error messages when timeline/order data for a currency couldn't be found.
 - [x] Scan QR-code to add wallet to wallet list
-- [ ] Remove wallet from list
+- [x] Remove wallet from list
 - [x] Dynamic portfolio based on address (ETH and ERC20-tokens only for now)
