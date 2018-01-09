@@ -18,4 +18,6 @@ A cryptocurrency tracker and portfolio app, built with Flutter and Dart
 - [ ] Error messages when timeline/order data for a currency couldn't be found.
 - [x] Scan QR-code to add wallet to wallet list
 - [x] Remove wallet from list
-- [x] Dynamic portfolio based on address (ETH and ERC20-tokens only for now)
+- [x] Dynamic portfolio based on address (ETH + ERC20-tokens, LTC, BTC, BCH, DASH and ADA for now)
+- [ ] Add more information in the details view (Circulating supply, ATH, 24h hi/low)
+- [ ] Dark mode
