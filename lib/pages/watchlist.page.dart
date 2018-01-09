@@ -41,6 +41,17 @@ class _WatchlistPageState extends State<WatchlistPage> {
       return new GestureDetector(
         onTap: () => Navigator.of(ctx).pushNamed('/details/$ticker'),
         child: new Dismissible(
+          background: new Container(
+            alignment: Alignment.centerLeft,
+            color: Colors.red,
+            child: new Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+              child: const Icon(Icons.favorite_border, color: Colors.white),
+            ),
+          ),
+          onDismissed: (DismissDirection direction) {
+            _wp.removeFromWatchlist(ticker);
+          },
           key: new Key(coin['symbol']),
           child: new Container(
             decoration: new BoxDecoration(

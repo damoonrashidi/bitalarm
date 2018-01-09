@@ -16,10 +16,12 @@ class _SettingsState extends State<SettingsPage> {
   TextEditingController _stakeCtrl = new TextEditingController();
   String _selectedFiat = 'USD';
   double _stake = 0.0;
+  bool _darkTheme = false;
 
   initStateAsync() async {
     _selectedFiat = await _settings.getFiatCurrency();
     _stake = await _settings.getStake() ?? 0.0;
+    _darkTheme = await _settings.getTheme();
     _stakeCtrl.text = _stake.toString();
   }
 
@@ -63,6 +65,16 @@ class _SettingsState extends State<SettingsPage> {
               labelText: 'Stake',
             ),
           ),
+          new Row(children: <Widget>[
+            new Text('Dark theme'),
+            new Switch(
+              value: _darkTheme, 
+              onChanged: (bool toggled) {
+                _darkTheme = toggled;
+                _settings.setTheme(dark: toggled);
+              },
+            ),
+          ],)
         ])
       ))
     );

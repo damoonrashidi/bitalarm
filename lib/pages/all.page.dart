@@ -13,8 +13,7 @@ class AllCurrenciesPage extends StatefulWidget {
   _AllCurrenciesState createState() => new _AllCurrenciesState();
 }
 
-class _AllCurrenciesState extends State<AllCurrenciesPage>
-    with SingleTickerProviderStateMixin {
+class _AllCurrenciesState extends State<AllCurrenciesPage> {
   List<String> _watchlist = [];
   List<Object> _coins = [];
   List<Container> _list = [];
@@ -117,7 +116,7 @@ class _AllCurrenciesState extends State<AllCurrenciesPage>
     });
     return new Scaffold(
       bottomNavigationBar: new AppBotNav(currentIndex: 1),
-      drawer: allDrawer(ctx, sortList),
+      drawer: new AllDrawer(callback: sortList),
       body: new RefreshIndicator(
         onRefresh: getList,
         child: new ListView(

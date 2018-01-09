@@ -4,7 +4,6 @@ import '../components/portfolio/wallet_list.dart';
 import '../components/portfolio/portfolio_list.dart';
 import '../components/portfolio/portfolio_header.dart';
 import '../components/portfolio/portfolio_chart.dart';
-import '../components/pill_button.dart';
 
 import '../services/wallet.service.dart';
 import '../services/settings.service.dart';
@@ -29,6 +28,7 @@ class _PortfolioPageState extends State<PortfolioPage> {
   initStateAsync() async {
     _stake = await _ss.getStake();
     _wallets = await _wp.getWallets();
+    setState((){});
     _coins = await _wp.getWalletValues();
     setState((){});
     _coins = await _wp.coinsToPrice(coins: _coins, currency: 'sek');

@@ -21,4 +21,13 @@ class SettingsService {
     SharedPreferences.getInstance().then((sp) => sp.setDouble('stake', stake));
   }
 
+  void setTheme({bool dark = false}) {
+    SharedPreferences.getInstance().then((sp) => sp.setBool('darkTheme', dark));
+  }
+
+  Future<bool> getTheme() async {
+    SharedPreferences sp = await SharedPreferences.getInstance();
+    return sp.getBool('darkTheme');
+  }
+
 }
