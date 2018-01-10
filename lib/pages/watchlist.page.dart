@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../components/currency_card.dart';
+import '../components/watchlist/watchlist_item.dart';
 import '../components/bottom_nav.dart';
 import '../services/api.dart';
 import '../services/watchlist.service.dart';
@@ -13,10 +13,10 @@ class WatchlistPage extends StatefulWidget {
 }
 
 class _WatchlistPageState extends State<WatchlistPage> {
-  List<GestureDetector> _list = [];
+  List<WatchlistItem> _list = [];
   List<String> _watchlist = [];
   List<Object> _coins = [];
-  WatchlistProvider _wp = new WatchlistProvider();
+  WatchlistService _wp = new WatchlistService();
 
   _getList () async {
     _watchlist = await this._wp.getWatchlist();
@@ -36,43 +36,9 @@ class _WatchlistPageState extends State<WatchlistPage> {
       Object coin = _coins.firstWhere((Object needle) => needle['symbol'] == _watchlist[index]);
       double change = double.parse(coin['percent_change_24h']);
       double price = double.parse(coin['price_usd']);
-      String ticker = coin['symbol'];
+      String symbol = coin['symbol'];
       String name = coin['name'];
-      return new GestureDetector(
-        onTap: () => Navigator.of(ctx).pushNamed('/details/$ticker'),
-        child: new Dismissible(
-          background: new Container(
-            alignment: Alignment.centerLeft,
-            color: Colors.red,
-            child: new Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-              child: const Icon(Icons.favorite_border, color: Colors.white),
-            ),
-          ),
-          onDismissed: (DismissDirection direction) {
-            _wp.removeFromWatchlist(ticker);
-          },
-          key: new Key(coin['symbol']),
-          child: new Container(
-            decoration: new BoxDecoration(
-              color: Colors.white,
-              border: new Border(
-                bottom: new BorderSide(
-                  color: const Color(0xffeeeeee),
-                  width: 0.5,
-                )
-              )
-            ),
-            padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
-            child: new Column(
-              children: [
-                new CurrencyCardTitle(name: name, price: price),
-                new CurrencyCardDetails(ticker: ticker, change: change),
-              ]
-            )
-          )
-        )
-      );
+      return new WatchlistItem(price: price, name: name, symbol: symbol, percentChange: change);
     });
     return new Scaffold(
       backgroundColor: const Color(0xffeeeeee),

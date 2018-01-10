@@ -5,7 +5,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-class WatchlistProvider {
+class WatchlistService {
   Database db;
 
   Future open() async {

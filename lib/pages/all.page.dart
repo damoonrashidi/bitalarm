@@ -17,7 +17,7 @@ class _AllCurrenciesState extends State<AllCurrenciesPage> {
   List<String> _watchlist = [];
   List<Object> _coins = [];
   List<Container> _list = [];
-  WatchlistProvider wp = new WatchlistProvider();
+  WatchlistService wp = new WatchlistService();
 
   getList() async {
     _watchlist = await wp.getWatchlist();
@@ -98,8 +98,7 @@ class _AllCurrenciesState extends State<AllCurrenciesPage> {
             padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
             margin: const EdgeInsets.only(top: 16.0, bottom: 16.0),
             child: new Column(children: <Widget>[
-              new CurrencyCardTitle(name: name, price: price),
-              new CurrencyCardDetails(ticker: ticker, change: change),
+              new CurrencyCardDetails(symbol: ticker, percentChange: change, name: name, price: price),
               new Row(children: [
                 inWatchlist(ticker)
                   ? removeFromWatchlistButton(ticker)
