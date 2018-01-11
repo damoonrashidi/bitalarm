@@ -65,16 +65,6 @@ class _SettingsState extends State<SettingsPage> {
               labelText: 'Stake',
             ),
           ),
-          new Row(children: <Widget>[
-            new Text('Dark theme'),
-            new Switch(
-              value: _darkTheme, 
-              onChanged: (bool toggled) {
-                _darkTheme = toggled;
-                _settings.setTheme(dark: toggled);
-              },
-            ),
-          ],)
         ])
       ))
     );

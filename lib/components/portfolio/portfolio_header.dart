@@ -6,10 +6,11 @@ class PortfolioHeader extends StatelessWidget {
 
   final double total;
   final double stake;
-  PortfolioHeader({this.total, this.stake});
+  final String fiat;
+  PortfolioHeader({this.total, this.stake, this.fiat});
 
-  final TextStyle detailNumberStyle = new TextStyle(color: Colors.white, fontSize: 18.0, fontWeight: FontWeight.w200);
-  final TextStyle detailExp = new TextStyle(color: Colors.white, fontSize: 12.0, fontWeight: FontWeight.w900);
+  final TextStyle detailNumberStyle = new TextStyle(color: Colors.white, fontSize: 18.0, fontWeight: FontWeight.w500);
+  final TextStyle detailExp = new TextStyle(color: Colors.white, fontSize: 12.0, fontWeight: FontWeight.w200);
 
   @override
   Widget build(BuildContext ctx) {
@@ -26,17 +27,23 @@ class PortfolioHeader extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            new Text(nf.format(total), style: new TextStyle(color: Colors.white, fontSize: 32.0, fontWeight: FontWeight.w100)),
+            new Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                new Text(nf.format(total), style: new TextStyle(color: Colors.white, fontSize: 38.0, fontWeight: FontWeight.w400)),
+                new Text("TOTAL $fiat", style: new TextStyle(color: Colors.white, fontWeight: FontWeight.w800, fontSize: 13.0))
+              ]
+            ),
             new Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
                 new Column(crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[
                   new Text('STAKE', style: detailExp),
-                  new Text(nf.format(stake), style: detailNumberStyle),
+                  new Text(nf.format(stake) + ' $fiat', style: detailNumberStyle),
                 ]),
                 new Column(crossAxisAlignment: CrossAxisAlignment.end, children: <Widget>[
                   new Text('PROFIT (${percent.toStringAsFixed(0)}%)', style: detailExp),
-                  new Text(nf.format(profit), style: detailNumberStyle),
+                  new Text(nf.format(profit) + ' $fiat', style: detailNumberStyle),
                 ]),
               ],
             )

@@ -22,18 +22,30 @@ class _PortfolioPageState extends State<PortfolioPage> {
   List<Object> _coins = [];
   double _total = 0.0;
   double _stake = 0.0;
+  String _fiat = 'usd';
   WalletProvider _wp = new WalletProvider();
   SettingsService _ss = new SettingsService();
 
   initStateAsync() async {
     _stake = await _ss.getStake();
     _wallets = await _wp.getWallets();
+    _fiat = await _ss.getFiatCurrency();
     setState((){});
     await for (Object coin in _wp.getWalletValues()) {
-      _coins.add(coin);
-      setState((){});
+      bool found = false;
+      for(int i = 0; i < _coins.length; i++) {
+        if (_coins[i]['symbol'] == coin['symbol']) {
+          _coins[i]['amount'] += coin['amount'];
+          setState((){});
+          found = true;
+        }
+      }
+      if (!found) {
+        _coins.add(coin);
+        setState((){});
+      }
     }
-    _coins = await _wp.coinsToPrice(coins: _coins, currency: 'sek');
+    _coins = await _wp.coinsToPrice(coins: _coins, currency: _fiat);
     _total = _coins.map((coin) => coin['value']).reduce((double a, double b) => a + b);
     setState((){});
   }
@@ -79,7 +91,7 @@ class _PortfolioPageState extends State<PortfolioPage> {
           new Stack(children: <Widget>[
             new Container(
               height: 230.0,
-              child: new PortfolioHeader(total: _total, stake: _stake),
+              child: new PortfolioHeader(total: _total, stake: _stake, fiat: _fiat),
             ),
             new RowWithMenu(),
           ]),
@@ -92,7 +104,7 @@ class _PortfolioPageState extends State<PortfolioPage> {
                   : new PortfolioChart(data: _coins),
               _coins.length == 0
                 ? new Center(child: new Text('Add a wallet to start tracking your assets'))
-                : new PortfolioList(coins: _coins)
+                : new PortfolioList(coins: _coins, fiat: _fiat,)
             ])
           ),
         ],

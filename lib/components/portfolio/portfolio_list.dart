@@ -4,13 +4,14 @@ import 'package:intl/intl.dart';
 class PortfolioList extends StatelessWidget {
 
   final List<Object> coins;
-  final NumberFormat currencyFormat = new NumberFormat.currency(locale: 'sv_SE', decimalDigits: 2, name: 'sek', symbol: ' kr');
+  final String fiat;
 
   @override
-  PortfolioList({this.coins});
+  PortfolioList({this.coins, this.fiat});
 
   @override
   Widget build(BuildContext ctx) {
+    NumberFormat currencyFormat = new NumberFormat.currency(decimalDigits: 2, name: 'fiat', symbol: ' $fiat ');
     List<DataRow> rows = new List.generate(coins.length, (int i) {
       Object coin = coins[i];
       return new DataRow(cells: [
