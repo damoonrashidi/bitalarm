@@ -1,6 +1,11 @@
 # bitalarm
+
+![promo](https://user-images.githubusercontent.com/207421/34814286-5e093d64-f6ad-11e7-978b-1cd1ab929c67.png)
+
 A cryptocurrency tracker and portfolio app, built with Flutter and Dart
-[Screenshots can be found here](https://imgur.com/a/3N5mb)
+
+![screens](https://user-images.githubusercontent.com/207421/34814215-2096852c-f6ad-11e7-8e5d-40979e5f5a6f.png)
+
 
 
 ## Getting Started
