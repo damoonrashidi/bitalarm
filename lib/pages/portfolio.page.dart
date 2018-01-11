@@ -29,8 +29,10 @@ class _PortfolioPageState extends State<PortfolioPage> {
     _stake = await _ss.getStake();
     _wallets = await _wp.getWallets();
     setState((){});
-    _coins = await _wp.getWalletValues();
-    setState((){});
+    await for (Object coin in _wp.getWalletValues()) {
+      _coins.add(coin);
+      setState((){});
+    }
     _coins = await _wp.coinsToPrice(coins: _coins, currency: 'sek');
     _total = _coins.map((coin) => coin['value']).reduce((double a, double b) => a + b);
     setState((){});
@@ -83,11 +85,13 @@ class _PortfolioPageState extends State<PortfolioPage> {
           ]),
           new Expanded(
             child: new ListView(children: [
+              _coins.length > 0 && _total == 0
+                ? new Center(child: new Padding(padding: const EdgeInsets.symmetric(vertical: 10.0), child: new Text('Converting portfolio to FIAT...')))
+                : _coins.length == 0
+                  ? new Center(child: new CircularProgressIndicator(backgroundColor: Theme.of(ctx).primaryColor))
+                  : new PortfolioChart(data: _coins),
               _coins.length == 0
                 ? new Center(child: new Text('Add a wallet to start tracking your assets'))
-                : new PortfolioChart(data: _coins),
-              _total == 0.0 && _coins.length > 0
-                ? new Center(child: new CircularProgressIndicator(backgroundColor: Theme.of(ctx).primaryColor))
                 : new PortfolioList(coins: _coins)
             ])
           ),
