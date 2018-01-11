@@ -43,7 +43,7 @@ Color getSymbolColor(String symbol) {
     'LTC': Colors.red[200],
   };
   if (!colors.containsKey(symbol)) {
-    return Colors.white;
+    return Colors.black;
   } else {
     return colors[symbol];
   }

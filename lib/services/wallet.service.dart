@@ -37,51 +37,33 @@ class WalletProvider {
     return wallets;
   }
 
-  Future<List<Object>> getWalletValues() async {
+  Stream<Object> getWalletValues() async* {
     List<Map<String, String>> wallets = await this.getWallets();
-    Map<String, double> tokens = {};
-    List<Object> list = [];
-    await Future.forEach(wallets, (wallet) async {
-      switch (wallet['symbol']) {
-        case 'ETH':  
-          Map<String, double> values = await API.getETHWalletValue(wallet['address']);
-          values.forEach((String symbol, double value) {
-            if(tokens.containsKey(symbol)) {
-              tokens[symbol] += value;
-            } else {
-              tokens[symbol] = value;
-            }
-          });
-          break;
+    for (int i = 0; i < wallets.length; i++) {
+      String symbol = wallets[i]['symbol'];
+      String address = wallets[i]['address'];
+      switch (symbol) {
         case 'DASH':
-        case 'LTC' :
-        case 'BCH' :
-        case 'BTC' :
-          double value = await API.getGenericWalletValue(wallet['symbol'], wallet['address']);
-          if(tokens.containsKey(wallet['symbol'])) {
-            tokens[wallet['symbol']] += value;
-          } else {
-            tokens[wallet['symbol']] = value;
-          }
+        case 'LTC':
+        case 'BCH':
+        case 'BTC':
+          double value = await API.getGenericWalletValue(symbol, address);
+          yield {'symbol': symbol, 'amount': value, 'value': 0.0};
           break;
         case 'ADA':
-          double value = await API.getADAWalletValue(wallet['address']);
-          if(tokens.containsKey(wallet['symbol'])) {
-            tokens[wallet['symbol']] += value;
-          } else {
-            tokens[wallet['symbol']] = value;
+          double value = await API.getADAWalletValue(address);
+          yield {'symbol': symbol, 'amount': value, 'value': 0.0};
+          break;
+        case 'ETH':
+          Map<String, double> values = await API.getETHWalletValue(address);
+          for(int j = 0; j < values.keys.length; j++) {
+            String token = values.keys.toList()[j];
+            double amount = values[token];
+            yield {'symbol': token, 'amount': amount, 'value': 0.0};
           }
           break;
       }
-    });
-    tokens.forEach((String symbol, double amount) {
-      list.add({
-        'symbol': symbol,
-        'amount': amount,
-        'value': 0.0,
-      });
-    });
-    return list;
+    }
   }
 
   Future<List<Map>> coinsToPrice({List<Object> coins: const [], String currency: 'USD'}) async {
