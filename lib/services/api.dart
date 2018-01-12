@@ -7,19 +7,23 @@ class API {
   static Future<Map<String, double>> getETHWalletValue(String address) async {
     String endpoint = 'https://api.ethplorer.io/getAddressInfo/$address?apiKey=freekey';
     Map<String, double> values = {};
-    Map<String, dynamic> data =  await JSON.decode((await http.get(endpoint)).body);
-    if (data['ETH'].containsKey('balance')) {
-      values['ETH'] = data['ETH']['balance'];
-    }
-    List<Object> tokens = data['tokens'];
-    if (tokens == null) {
+    try {
+      Map<String, dynamic> data =  await JSON.decode((await http.get(endpoint)).body);
+      if (data['ETH'] && data['ETH'].containsKey('balance')) {
+        values['ETH'] = data['ETH']['balance'];
+      }
+      List<Object> tokens = data['tokens'];
+      if (tokens == null) {
+        return values;
+      }
+      tokens.forEach((Object token) {
+        int decimals = token['tokenInfo']['decimals'] is num ? token['tokenInfo']['decimals'] : int.parse(token['tokenInfo']['decimals'], radix: 10);
+        values[token['tokenInfo']['symbol']] = (token['balance'] / pow(10, decimals));
+      });
       return values;
+    } catch (e) {
+      return {'ETH': 0.0};
     }
-    tokens.forEach((Object token) {
-      int decimals = token['tokenInfo']['decimals'] is num ? token['tokenInfo']['decimals'] : int.parse(token['tokenInfo']['decimals'], radix: 10);
-      values[token['tokenInfo']['symbol']] = (token['balance'] / pow(10, decimals));
-    });
-    return values;
   }
 
   static Future<double> getGenericWalletValue(String symbol, String address) async {

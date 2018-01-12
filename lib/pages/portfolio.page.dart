@@ -7,6 +7,7 @@ import '../components/portfolio/portfolio_chart.dart';
 
 import '../services/wallet.service.dart';
 import '../services/settings.service.dart';
+import '../services/api.dart';
 
 class PortfolioPage extends StatefulWidget {
   PortfolioPage({Key key, this.title}) : super(key: key);
@@ -27,25 +28,18 @@ class _PortfolioPageState extends State<PortfolioPage> {
   SettingsService _ss = new SettingsService();
 
   initStateAsync() async {
-    _stake = await _ss.getStake();
     _wallets = await _wp.getWallets();
+    setState((){});
+    _coins = await _wp.coinsToPrice(coins: _coins, currency: _fiat);
+    _stake = await _ss.getStake();
     _fiat = await _ss.getFiatCurrency();
     setState((){});
+    List<Object> prices = await API.getPrices(currency: _fiat);
+    setState((){});
     await for (Object coin in _wp.getWalletValues()) {
-      bool found = false;
-      for(int i = 0; i < _coins.length; i++) {
-        if (_coins[i]['symbol'] == coin['symbol']) {
-          _coins[i]['amount'] += coin['amount'];
-          setState((){});
-          found = true;
-        }
-      }
-      if (!found) {
-        _coins.add(coin);
-        setState((){});
-      }
+      accumelateCoin(coin: coin, prices: prices);
+      setState((){});
     }
-    _coins = await _wp.coinsToPrice(coins: _coins, currency: _fiat);
     _total = _coins.map((coin) => coin['value']).reduce((double a, double b) => a + b);
     setState((){});
   }
@@ -54,6 +48,20 @@ class _PortfolioPageState extends State<PortfolioPage> {
   void initState() {
     super.initState();
     initStateAsync();
+  }
+
+  /*
+   * Add a coin to the coin list as a side effect..
+   */
+  void accumelateCoin({Object coin, List<Object> prices}) {
+    double price = prices.firstWhere((needle) => needle['symbole'] == coin['symbol'])['price_usd'] ?? 0.0;
+    // already exists in list?
+    for (int i = 0; i < _coins.length; i++) {
+      if (_coins[i]['symbol'] == coin['symbol']) {
+        _coins[i]['value'] = _coins[i]['value'] + _coins[i]['amount'] * price;
+      }
+    }
+    //else add it to the list and set the price??
   }
 
   @override

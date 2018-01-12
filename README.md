@@ -6,9 +6,13 @@ A cryptocurrency tracker and portfolio app, built with Flutter and Dart
 
 ## Getting Started
 
-1. Install Flutter
+1. Install [Flutter](https://flutter.io)
 2. Clone the repo
-3. Run `flutter run` (make sure to have an emulator running.
+3. Run `flutter run` (make sure to have an emulator running).
+
+## Recent changes
+- Way faster load times in portfolio. Can be done even faster if the coin values are fetched (or even prefetched) and graph is continuously built after the wallet stream emits a coin object.
+- Portfolio update look and feel
 
 ## Todo
 
@@ -20,5 +24,6 @@ A cryptocurrency tracker and portfolio app, built with Flutter and Dart
 - [x] Scan QR-code to add wallet to wallet list
 - [x] Remove wallet from list
 - [x] Dynamic portfolio based on address (ETH + ERC20-tokens, LTC, BTC, BCH, DASH and ADA for now)
+- [ ] Ability to add individual assets in addition to wallets
 - [ ] Add more information in the details view (Circulating supply, ATH, 24h hi/low)
 - [ ] Dark mode
