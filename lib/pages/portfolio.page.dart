@@ -23,24 +23,22 @@ class _PortfolioPageState extends State<PortfolioPage> {
   List<Object> _coins = [];
   double _total = 0.0;
   double _stake = 0.0;
-  String _fiat = 'usd';
+  String _fiat = 'USD';
   WalletProvider _wp = new WalletProvider();
   SettingsService _ss = new SettingsService();
 
   initStateAsync() async {
+    _fiat = await _ss.getFiatCurrency();
+    _stake = await _ss.getStake();
+    List<Object> prices = await API.getPrices(currency: _fiat);
     _wallets = await _wp.getWallets();
     setState((){});
-    _coins = await _wp.coinsToPrice(coins: _coins, currency: _fiat);
-    _stake = await _ss.getStake();
-    _fiat = await _ss.getFiatCurrency();
-    setState((){});
-    List<Object> prices = await API.getPrices(currency: _fiat);
     setState((){});
     await for (Object coin in _wp.getWalletValues()) {
       accumelateCoin(coin: coin, prices: prices);
+      _total = _coins.map((coin) => coin['value']).reduce((double a, double b) => a + b);
       setState((){});
     }
-    _total = _coins.map((coin) => coin['value']).reduce((double a, double b) => a + b);
     setState((){});
   }
 
@@ -54,14 +52,29 @@ class _PortfolioPageState extends State<PortfolioPage> {
    * Add a coin to the coin list as a side effect..
    */
   void accumelateCoin({Object coin, List<Object> prices}) {
-    double price = prices.firstWhere((needle) => needle['symbole'] == coin['symbol'])['price_usd'] ?? 0.0;
-    // already exists in list?
+    dynamic price = prices.firstWhere(
+      (needle) => needle['symbol'] == coin['symbol'],
+      orElse: () => {'price_${_fiat.toLowerCase()}': 0.0}
+    )['price_${_fiat.toLowerCase()}'];
+
+    if (price is String) {
+      price = double.parse(price);
+    }
+    
+    bool found = false;
     for (int i = 0; i < _coins.length; i++) {
       if (_coins[i]['symbol'] == coin['symbol']) {
         _coins[i]['value'] = _coins[i]['value'] + _coins[i]['amount'] * price;
+        found = true;
       }
     }
-    //else add it to the list and set the price??
+    if (!found) {
+      _coins.add({
+        'symbol': coin['symbol'],
+        'amount': coin['amount'],
+        'value':  coin['amount'] * price,
+      });
+    }
   }
 
   @override
@@ -105,13 +118,11 @@ class _PortfolioPageState extends State<PortfolioPage> {
           ]),
           new Expanded(
             child: new ListView(children: [
-              _coins.length > 0 && _total == 0
-                ? new Center(child: new Padding(padding: const EdgeInsets.symmetric(vertical: 10.0), child: new Text('Converting portfolio to FIAT...')))
-                : _coins.length == 0
-                  ? new Center(child: new CircularProgressIndicator(backgroundColor: Theme.of(ctx).primaryColor))
-                  : new PortfolioChart(data: _coins),
+              _coins.length == 0 //&& _total == 0
+                ? new Center(child: new CircularProgressIndicator(backgroundColor: Theme.of(ctx).primaryColor))
+                : new PortfolioChart(data: _coins),
               _coins.length == 0
-                ? new Center(child: new Text('Add a wallet to start tracking your assets'))
+                ? new Center(child: new Text('Add a wallet or asset to start your portfolio'))
                 : new PortfolioList(coins: _coins, fiat: _fiat,)
             ])
           ),
