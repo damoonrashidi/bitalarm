@@ -64,7 +64,8 @@ class _PortfolioPageState extends State<PortfolioPage> {
     bool found = false;
     for (int i = 0; i < _coins.length; i++) {
       if (_coins[i]['symbol'] == coin['symbol']) {
-        _coins[i]['value'] = _coins[i]['value'] + _coins[i]['amount'] * price;
+        _coins[i]['amount'] = _coins[i]['amount'] + coin['amount'];
+        _coins[i]['value'] = _coins[i]['amount'] * price;
         found = true;
       }
     }
@@ -83,9 +84,7 @@ class _PortfolioPageState extends State<PortfolioPage> {
       floatingActionButton: new FloatingActionButton(
         tooltip: 'Add a wallet',
         child: new Icon(Icons.add, color: Colors.white,),
-        onPressed: () {
-          Navigator.pushNamed(ctx, '/wallets');
-        },
+        onPressed: () => Navigator.pushNamed(ctx, '/wallets'),
       ),
       drawer: new Drawer(
         child: new Column(children: [
@@ -121,7 +120,7 @@ class _PortfolioPageState extends State<PortfolioPage> {
               _coins.length == 0 //&& _total == 0
                 ? new Center(child: new CircularProgressIndicator(backgroundColor: Theme.of(ctx).primaryColor))
                 : new PortfolioChart(data: _coins),
-              _coins.length == 0
+              _wallets.length == 0
                 ? new Center(child: new Text('Add a wallet or asset to start your portfolio'))
                 : new PortfolioList(coins: _coins, fiat: _fiat,)
             ])

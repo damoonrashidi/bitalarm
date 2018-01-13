@@ -53,7 +53,8 @@ class WatchlistItemState extends State<WatchlistItem> {
   Widget build(BuildContext ctx) {
     return new GestureDetector(
       onTap: () => Navigator.of(ctx).pushNamed('/details/$symbol'),
-      child: new Dismissible(        
+      child: new Dismissible(
+        direction: DismissDirection.startToEnd,
         background: new Container(
           alignment: Alignment.centerLeft,
           color: Colors.red,
