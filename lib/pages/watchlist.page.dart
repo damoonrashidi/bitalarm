@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../components/watchlist/watchlist_item.dart';
+import '../components/watchlist/watchlist_summary.dart';
 import '../components/bottom_nav.dart';
 import '../services/api.dart';
 import '../services/watchlist.service.dart';
@@ -17,10 +18,17 @@ class _WatchlistPageState extends State<WatchlistPage> {
   List<String> _watchlist = [];
   List<Object> _coins = [];
   WatchlistService _wp = new WatchlistService();
+  int _winners = 0;
+  int _losers = 0;
+  double _avgChange = 0.0;
 
   _getList () async {
     _watchlist = await this._wp.getWatchlist();
     _coins = await API.getPrices(filter: _watchlist);
+    _winners = _coins.where((Object coin) => double.parse(coin['percent_change_24h']) > 0.0).length;
+    setState(() {});
+    _losers = _coins.length - _winners;
+    _avgChange = _coins.fold(0.0, (double acc, Object coin) => acc + double.parse(coin['percent_change_24h'])) / _coins.length;
     setState(() {});
   }
 
@@ -65,7 +73,12 @@ class _WatchlistPageState extends State<WatchlistPage> {
             color: const Color(0xffaaaaaa),
           ),
         )) :
-        new RefreshIndicator(onRefresh: _getList, child: new ListView(children: _list)),
+        new RefreshIndicator(onRefresh: _getList, child: new Column(
+          children: [
+            new WatchlistSummary(average: _avgChange, winners: _winners, losers: _losers),
+            new Expanded(child: new ListView(children: _list))
+          ]
+        )),
     );
   }
 }

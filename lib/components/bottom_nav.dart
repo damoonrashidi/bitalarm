@@ -10,11 +10,11 @@ class AppBotNav extends StatelessWidget {
     return new BottomNavigationBar(
       onTap: (int value) {
         if (value == 0 && currentIndex != 0) {
-          Navigator.of(ctx).pushReplacementNamed('/home');
+          Navigator.of(ctx).pushNamed('/home');
         } else if (value == 1 && currentIndex != 1) {
-          Navigator.of(ctx).pushReplacementNamed('/all');
-        } else if (currentIndex != 2){
-          Navigator.of(ctx).pushReplacementNamed('/portfolio');
+          Navigator.of(ctx).pushNamed('/all');
+        } else if (value == 2 && currentIndex != 2){
+          Navigator.of(ctx).pushNamed('/portfolio');
         }
       },
       currentIndex: this.currentIndex,
