@@ -41,8 +41,21 @@ class _WatchlistPageState extends State<WatchlistPage> {
       return new WatchlistItem(price: price, name: name, symbol: symbol, percentChange: change);
     });
     return new Scaffold(
-      backgroundColor: const Color(0xffeeeeee),
       bottomNavigationBar: new AppBotNav(currentIndex: 0),
+      drawer: new Drawer(child: new Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [new Container(
+          height: 80.0,
+          child: new Padding(
+            padding: const EdgeInsets.only(bottom: 30.0),
+            child: new ListTile(
+              onTap: () => Navigator.pushNamed(ctx, '/settings'),
+              leading: const Icon(Icons.settings),
+              title: new Text('Settings'),
+            )
+          )
+        )],
+      )),
       body: _list.length == 0 ? 
         new Center(child: new Text(
           'Add coins to your watchlist from the All tab',

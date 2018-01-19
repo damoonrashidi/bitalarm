@@ -93,24 +93,30 @@ class _AllCurrenciesState extends State<AllCurrenciesPage> {
       String name = coin['name'];
       return new Container(
         margin: new EdgeInsets.fromLTRB(8.0, 4.0, 8.0, 4.0),
-        child: new Card(
-          child: new Container(
-            padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
-            margin: const EdgeInsets.only(top: 16.0, bottom: 16.0),
-            child: new Column(children: <Widget>[
-              new CurrencyCardDetails(symbol: ticker, percentChange: change, name: name, price: price),
-              new Row(children: [
-                inWatchlist(ticker)
-                  ? removeFromWatchlistButton(ticker)
-                  : addToWatchlistButton(ticker),
-                new IconButton(
-                  icon: const Icon(Icons.timeline),
-                  onPressed: () => Navigator.pushNamed(ctx, '/details/$ticker')
-                )
-              ]),
-            ])
+        decoration: new BoxDecoration(
+          border: new Border(
+            bottom: new BorderSide(
+              color: const Color(0xffdddddd),
+              width: 0.5,
+            )
           )
         ),
+        child: new Container(
+          padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
+          margin: const EdgeInsets.only(top: 16.0, bottom: 16.0),
+          child: new Column(children: [
+            new CurrencyCardDetails(symbol: ticker, percentChange: change, name: name, price: price),
+            new Row(children: [
+              inWatchlist(ticker)
+                ? removeFromWatchlistButton(ticker)
+                : addToWatchlistButton(ticker),
+              new IconButton(
+                icon: const Icon(Icons.timeline),
+                onPressed: () => Navigator.pushNamed(ctx, '/details/$ticker')
+              )
+            ]),
+          ])
+        )
       );
     });
     return new Scaffold(

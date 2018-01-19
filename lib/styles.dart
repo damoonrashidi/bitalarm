@@ -50,9 +50,11 @@ Color getSymbolColor(String symbol) {
 }
 
 ThemeData customTheme = new ThemeData(
-    brightness: Brightness.light,
-    primarySwatch: Colors.blue,
-    primaryColor: const Color(0xff1819AA),
-    primaryColorBrightness: Brightness.dark,
-    accentColor: Colors.deepPurpleAccent,
-    accentColorBrightness: Brightness.light);
+  brightness: Brightness.light,
+  primarySwatch: Colors.blue,
+  primaryColor: const Color(0xff1819AA),
+  primaryColorBrightness: Brightness.dark,
+  accentColor: Colors.deepPurpleAccent,
+  backgroundColor: Colors.white,
+  accentColorBrightness: Brightness.light,
+);

@@ -72,7 +72,7 @@ class WatchlistItemState extends State<WatchlistItem> {
         key: new Key(this.symbol),
         child: new Container(
           decoration: new BoxDecoration(
-            color: Colors.white,
+            color: Theme.of(ctx).backgroundColor,
             border: new Border(
               bottom: new BorderSide(
                 color: const Color(0xffeeeeee),

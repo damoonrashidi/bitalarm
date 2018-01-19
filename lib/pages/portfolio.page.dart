@@ -30,9 +30,9 @@ class _PortfolioPageState extends State<PortfolioPage> {
   initStateAsync() async {
     _fiat = await _ss.getFiatCurrency();
     _stake = await _ss.getStake();
-    List<Object> prices = await API.getPrices(currency: _fiat);
     _wallets = await _wp.getWallets();
     setState((){});
+    List<Object> prices = await API.getPrices(currency: _fiat);
     setState((){});
     await for (Object coin in _wp.getWalletValues()) {
       accumelateCoin(coin: coin, prices: prices);

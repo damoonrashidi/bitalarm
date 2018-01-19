@@ -26,39 +26,39 @@ class WatchlistService {
     return watchlist.map((Map<String, String> item) => item['symbol']).toList();
   }
 
-  Future<bool> inWatchlist(String ticker) async {
+  Future<bool> inWatchlist(String symbol) async {
     await this.open();
-    List<Map<String, String>> exists = await this.db.query('watchlist', where: 'symbol = ?', whereArgs: [ticker], distinct: true);
+    List<Map<String, String>> exists = await this.db.query('watchlist', where: 'symbol = ?', whereArgs: [symbol], distinct: true);
     await this.db.close();
     return exists.length > 0;
   }
 
-  Future<int> toggleWatchlist(String ticker) async {
-    bool watched = await this.inWatchlist(ticker);
+  Future<int> toggleWatchlist(String symbol) async {
+    bool watched = await this.inWatchlist(symbol);
     await this.open();
     int res = 0;
     if (watched) {
-      res = await this.db.delete('watchlist', where: 'symbol = ?', whereArgs: [ticker]);
+      res = await this.db.delete('watchlist', where: 'symbol = ?', whereArgs: [symbol]);
     } else {
-      res = await this.db.insert('watchlist', {'symbol': ticker});
+      res = await this.db.insert('watchlist', {'symbol': symbol});
     }
     this.db.close();
     return res;
   }
 
-  Future<int> addToWatchlist(String ticker) async {
+  Future<int> addToWatchlist(String symbol) async {
     await this.open();
-    int res = await this.db.insert('watchlist', {'symbol': ticker});
+    int res = await this.db.insert('watchlist', {'symbol': symbol});
     this.db.close();
     return res;
   }
 
-  Future<int> removeFromWatchlist(String ticker) async {
-    if (!(await this.inWatchlist(ticker))) {
+  Future<int> removeFromWatchlist(String symbol) async {
+    if (!(await this.inWatchlist(symbol))) {
       return 0;
     }
     await this.open();
-    int res = await this.db.delete('watchlist', where: 'symbol = ?', whereArgs: [ticker]);
+    int res = await this.db.delete('watchlist', where: 'symbol = ?', whereArgs: [symbol]);
     this.db.close();
     return res;
   }
