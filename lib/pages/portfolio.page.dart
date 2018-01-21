@@ -30,16 +30,23 @@ class _PortfolioPageState extends State<PortfolioPage> {
   initStateAsync() async {
     _fiat = await _ss.getFiatCurrency();
     _stake = await _ss.getStake();
+    setState((){});
+    _coins = [];
     _wallets = await _ws.getWallets();
     setState((){});
     List<Object> prices = await API.getPrices(currency: _fiat);
-    setState((){});
+    List<Object> assets = await _ws.getAssets();
+    for (Object coin in assets) {
+      setState((){
+        accumelateCoin(coin: coin, prices: prices);
+        _total = _coins.map((coin) => coin['value']).reduce((double a, double b) => a + b);
+      });
+    }
     await for (Object coin in _ws.getWalletValues()) {
       accumelateCoin(coin: coin, prices: prices);
       _total = _coins.map((coin) => coin['value']).reduce((double a, double b) => a + b);
       setState((){});
     }
-    setState((){});
   }
 
   @override

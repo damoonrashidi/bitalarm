@@ -101,14 +101,27 @@ class WalletService {
 
   Future<int> addAsset(String symbol, double amount) async {
     await this.open();
-    int val = await this.db.rawInsert("INSERT INTO assets (symbol, amount) VALUES ('$symbol', '$amount')");
+    int val = await this.db.rawInsert("INSERT INTO asset (symbol, amount) VALUES ('${symbol.toUpperCase()}', '$amount')");
     this.close();
     return val;
   }
 
-  Future<List<Map<String, double>>> getAssets() async {
+  Future<int> removeAsset(int id) async {
     await this.open();
-    List<Map<String, double>> assets = await this.db.query('asset');
+    int val = await this.db.delete('asset', where: 'id = ?', whereArgs: [id]);
+    this.close();
+    return val;
+  }
+
+  Future<List<Object>> getAssets() async {
+    await this.open();
+    List<Map<String, double>> res = await this.db.query('asset');
+    List<Map<String, dynamic>> assets = res.map((Map<String, dynamic> r) => {
+      'symbol': r['symbol'],
+      'amount': r['amount'],
+      'id':     r['id'],
+      'value':  0.0,
+    }).toList();
     this.close();
     return assets;
   }
