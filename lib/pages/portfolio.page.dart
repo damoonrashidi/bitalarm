@@ -24,17 +24,17 @@ class _PortfolioPageState extends State<PortfolioPage> {
   double _total = 0.0;
   double _stake = 0.0;
   String _fiat = 'USD';
-  WalletProvider _wp = new WalletProvider();
+  WalletService _ws = new WalletService();
   SettingsService _ss = new SettingsService();
 
   initStateAsync() async {
     _fiat = await _ss.getFiatCurrency();
     _stake = await _ss.getStake();
-    _wallets = await _wp.getWallets();
+    _wallets = await _ws.getWallets();
     setState((){});
     List<Object> prices = await API.getPrices(currency: _fiat);
     setState((){});
-    await for (Object coin in _wp.getWalletValues()) {
+    await for (Object coin in _ws.getWalletValues()) {
       accumelateCoin(coin: coin, prices: prices);
       _total = _coins.map((coin) => coin['value']).reduce((double a, double b) => a + b);
       setState((){});
@@ -90,10 +90,15 @@ class _PortfolioPageState extends State<PortfolioPage> {
         child: new Column(children: [
           new Expanded(child: new WalletList(wallets: _wallets)),
           new Container(
-            height: 150.0,
+            height: 200.0,
             child: new Column(children: <Widget>[
               new ListTile(
-                leading: new Icon(Icons.add),
+                leading: new Icon(Icons.attach_money),
+                title: new Text('Add an asset'),
+                onTap: () => Navigator.of(ctx).pushNamed('/assets')
+              ),
+              new ListTile(
+                leading: new Icon(Icons.account_balance_wallet),
                 title: new Text('Add a wallet'),
                 onTap: () => Navigator.of(ctx).pushNamed('/wallets')
               ),
@@ -117,7 +122,7 @@ class _PortfolioPageState extends State<PortfolioPage> {
           ]),
           new Expanded(
             child: new ListView(children: [
-              _coins.length == 0 //&& _total == 0
+              _coins.length == 0 && _wallets.length != 0
                 ? new Center(child: new CircularProgressIndicator(backgroundColor: Theme.of(ctx).primaryColor))
                 : new PortfolioChart(data: _coins),
               _wallets.length == 0

@@ -26,7 +26,6 @@ class _WatchlistPageState extends State<WatchlistPage> {
     _watchlist = await this._wp.getWatchlist();
     _coins = await API.getPrices(filter: _watchlist);
     _winners = _coins.where((Object coin) => double.parse(coin['percent_change_24h']) > 0.0).length;
-    setState(() {});
     _losers = _coins.length - _winners;
     _avgChange = _coins.fold(0.0, (double acc, Object coin) => acc + double.parse(coin['percent_change_24h'])) / _coins.length;
     setState(() {});
@@ -73,12 +72,27 @@ class _WatchlistPageState extends State<WatchlistPage> {
             color: const Color(0xffaaaaaa),
           ),
         )) :
-        new RefreshIndicator(onRefresh: _getList, child: new Column(
-          children: [
-            new WatchlistSummary(average: _avgChange, winners: _winners, losers: _losers),
-            new Expanded(child: new ListView(children: _list))
-          ]
-        )),
+        new RefreshIndicator(onRefresh: _getList, child: new CustomScrollView(
+          slivers: <Widget>[
+            new SliverAppBar(
+              pinned: true,
+              
+              expandedHeight: 180.0,
+              flexibleSpace: new FlexibleSpaceBar(
+                background: new Image(
+                  image: new NetworkImage('https://ak8.picdn.net/shutterstock/videos/16525018/thumb/9.jpg'),
+                  fit: BoxFit.cover,
+                ),
+                centerTitle: false,
+              ),
+            ),
+            new SliverFixedExtentList(
+              itemExtent: 81.5,
+              delegate: new SliverChildListDelegate(_list),
+            )
+          ],
+        )
+      ),
     );
   }
 }

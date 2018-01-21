@@ -5,7 +5,7 @@ import '../../services/wallet.service.dart';
 class WalletList extends StatelessWidget {
 
   final List<Object> wallets;
-  final _wp = new WalletProvider();
+  final _ws = new WalletService();
   WalletList({this.wallets});
 
   String truncateMiddle (String address) {
@@ -31,7 +31,7 @@ class WalletList extends StatelessWidget {
           trailing: new PopupMenuButton(
             onSelected: (Object event) async {
               if (event['action'] == 'remove') {
-                await _wp.removeWallet(event['data']);
+                await _ws.removeWallet(event['data']);
                 Scaffold.of(ctx).showSnackBar(new SnackBar(content: new Text('Stopped tracking ' + truncateMiddle(event['data']))));
               } else if (event['action'] == 'copy') {
                 Clipboard.setData(new ClipboardData(text: event['data']));

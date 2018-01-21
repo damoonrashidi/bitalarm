@@ -13,13 +13,13 @@ class WalletPageState extends State<WalletPage> {
   TextEditingController _symbol  = new TextEditingController();
   TextEditingController _label   = new TextEditingController();
   TextEditingController _address = new TextEditingController();
-  WalletProvider _wp = new WalletProvider();
+  WalletService _ws = new WalletService();
 
   scan() async {
     _address.text = await BarcodeScanner.scan();
   }
   saveWallet(BuildContext ctx) async {
-    await _wp.addWallet(_symbol.text.toUpperCase().trim(), _label.text, _address.text);
+    await _ws.addWallet(_symbol.text.toUpperCase().trim(), _label.text, _address.text);
     Navigator.of(ctx).pushReplacementNamed('/portfolio');
   }
 

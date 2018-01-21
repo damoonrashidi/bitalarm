@@ -24,10 +24,12 @@ class WatchlistSummary extends StatelessWidget {
   @override
   Widget build(BuildContext ctx) {
     return new Container(
-      height: 200.0,
       padding: new EdgeInsets.only(top: 40.0),
-      decoration: const BoxDecoration(
-        gradient: primaryGradient,
+      decoration: new BoxDecoration(
+        image: new DecorationImage(
+          image: new NetworkImage('https://ak9.picdn.net/shutterstock/videos/14513749/thumb/1.jpg'),
+          fit: BoxFit.cover,
+        ),
         border: const Border(
           bottom: const BorderSide(
             color: const Color(0xffdddddd)

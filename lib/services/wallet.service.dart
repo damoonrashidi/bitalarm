@@ -6,7 +6,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-class WalletProvider {
+class WalletService {
   Database db;
   
   Future open() async {
@@ -20,6 +20,14 @@ class WalletProvider {
           label TEXT,
           address TEXT UNIQUE
         );''');
+
+      await db.execute('''
+        CREATE TABLE IF NOT EXISTS asset (
+          id INTEGER PRIMARY KEY,
+          symbol TEXT,
+          amount REAL
+        );
+      ''');
     });
   }
 
@@ -89,6 +97,20 @@ class WalletProvider {
     int val = await this.db.rawInsert("INSERT INTO wallet (symbol, label, address) VALUES ('$symbol', '$label', '$address')");
     this.close();
     return val;
+  }
+
+  Future<int> addAsset(String symbol, double amount) async {
+    await this.open();
+    int val = await this.db.rawInsert("INSERT INTO assets (symbol, amount) VALUES ('$symbol', '$amount')");
+    this.close();
+    return val;
+  }
+
+  Future<List<Map<String, double>>> getAssets() async {
+    await this.open();
+    List<Map<String, double>> assets = await this.db.query('asset');
+    this.close();
+    return assets;
   }
 
   Future<int> removeWallet(String address) async {

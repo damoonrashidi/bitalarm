@@ -5,6 +5,7 @@ import './pages/portfolio.page.dart';
 import './pages/details.page.dart';
 import './pages/wallet.page.dart';
 import './pages/settings.page.dart';
+import './pages/assets.page.dart';
 import './styles.dart';
 
 void main() {
@@ -41,6 +42,7 @@ class BitAlarm extends StatelessWidget {
         '/details': (BuildContext ctx) => new DetailsPage(),
         '/wallets': (BuildContext ctx) => new WalletPage(),
         '/settings': (BuildContext ctx) => new SettingsPage(),
+        '/assets': (BuildContext ctx) => new AssetsPage(),
       },
       onGenerateRoute: _getRoute,
     );
