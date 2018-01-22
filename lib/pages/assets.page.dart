@@ -16,12 +16,7 @@ class _AssetsPageState extends State<AssetsPage> {
   TextEditingController _amount = new TextEditingController();
   WalletService _ws = new WalletService();
   List<Object> _assets = [];
-
-  addAsset () async {
-    double amount = double.parse(_amount.text);
-    _ws.addAsset(_symbol.text, amount);
-  }
-
+  
   initAsyncState() async {
     _assets = await _ws.getAssets();
   }
@@ -67,15 +62,7 @@ class _AssetsPageState extends State<AssetsPage> {
               labelText: 'Amount'
             ),
           ),
-          new Padding(
-            padding: new EdgeInsets.only(top: 18.0),
-            child: new PillButton(
-              onPressed: addAsset,
-              child: new Text('Add asset'),
-              minWidth: 300.0,
-              color: Colors.grey[300],
-            )
-          ),
+          new AddButton(symbol: _symbol.text, amount: _amount),
           new Expanded(
             child: new ListView(children: _assetList),
           ),
@@ -84,3 +71,37 @@ class _AssetsPageState extends State<AssetsPage> {
     );
   }
 }
+
+class AddButton extends StatelessWidget {
+
+  final TextEditingController amount;
+  final String symbol;
+  final WalletService _ws = new WalletService();
+
+  AddButton({this.amount, this.symbol});
+  
+  addAsset() async {
+    _ws.addAsset(symbol, double.parse(amount.text));
+  }
+
+  
+  @override
+  Widget build(BuildContext ctx) {
+    return new Padding(
+      padding: new EdgeInsets.only(top: 18.0),
+      child: new PillButton(
+        onPressed: () {
+          addAsset();
+          Scaffold.of(ctx).showSnackBar(new SnackBar(
+            content: new Text('Added ${amount.text} $symbol!'),
+          ));
+          // Navigator.pushNamed(ctx, '/assets');
+        },
+        child: new Text('Add asset'),
+        minWidth: 300.0,
+        color: Colors.grey[300],
+      )
+    );
+  }
+}
+
