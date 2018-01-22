@@ -85,49 +85,45 @@ class _AllCurrenciesState extends State<AllCurrenciesPage> {
 
   @override
   Widget build(BuildContext ctx) {
-    try {
-      _list = new List.generate(_coins.length, (int index) {
-        Object coin = _coins[index];
-        double change = double.parse(coin['percent_change_24h']);
-        double price = double.parse(coin['price_usd']);
-        String ticker = coin['symbol'];
-        String name = coin['name'];
-        return new Container(
-          margin: new EdgeInsets.fromLTRB(8.0, 4.0, 8.0, 4.0),
-          decoration: new BoxDecoration(
-            border: new Border(
-              bottom: new BorderSide(
-                color: const Color(0xffdddddd),
-                width: 0.5,
-              )
+    _list = new List.generate(_coins.length, (int index) {
+      Object coin = _coins[index];
+      double change = 0.0;
+      try {
+        change = double.parse(coin['percent_change_24h']);
+      } catch (_) {
+        change = 0.0;
+      }
+      double price = double.parse(coin['price_usd']);
+      String ticker = coin['symbol'];
+      String name = coin['name'];
+      return new Container(
+        margin: new EdgeInsets.fromLTRB(8.0, 4.0, 8.0, 4.0),
+        decoration: new BoxDecoration(
+          border: new Border(
+            bottom: new BorderSide(
+              color: const Color(0xffdddddd),
+              width: 0.5,
             )
-          ),
-          child: new Container(
-            padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
-            margin: const EdgeInsets.only(top: 16.0, bottom: 16.0),
-            child: new Column(children: [
-              new CurrencyCardDetails(symbol: ticker, percentChange: change, name: name, price: price),
-              new Row(children: [
-                inWatchlist(ticker)
-                  ? removeFromWatchlistButton(ticker)
-                  : addToWatchlistButton(ticker),
-                new IconButton(
-                  icon: const Icon(Icons.timeline),
-                  onPressed: () => Navigator.pushNamed(ctx, '/details/$ticker')
-                )
-              ]),
-            ])
           )
-        );
-      });
-    } catch (_) {
-      debugPrint('IN CATCH');
-      _list = [new Container(
-        height: 200.0,
-        padding: new EdgeInsets.all(20.0),
-        child: new Text('Error getting price data :(.. I\'m working on fixing this!', style: new TextStyle(color: Colors.black))
-      )];
-    }
+        ),
+        child: new Container(
+          padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
+          margin: const EdgeInsets.only(top: 16.0, bottom: 16.0),
+          child: new Column(children: [
+            new CurrencyCardDetails(symbol: ticker, percentChange: change, name: name, price: price),
+            new Row(children: [
+              inWatchlist(ticker)
+                ? removeFromWatchlistButton(ticker)
+                : addToWatchlistButton(ticker),
+              new IconButton(
+                icon: const Icon(Icons.timeline),
+                onPressed: () => Navigator.pushNamed(ctx, '/details/$ticker')
+              )
+            ]),
+          ])
+        )
+      );
+    });
     return new Scaffold(
       bottomNavigationBar: new AppBotNav(currentIndex: 1),
       drawer: new AllDrawer(callback: sortList),
