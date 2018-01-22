@@ -48,12 +48,24 @@ class AllDrawer extends StatelessWidget {
               )
             ),
             new Container(
-              height: 50.0,
-              child: new ListTile(
-                leading: new Icon(Icons.settings),
-                title: new Text('Settings'),
-                onTap: () => Navigator.of(ctx).pushNamed('/settings')
-              )
+              height: 200.0,
+              child: new Column(children: <Widget>[
+                new ListTile(
+                  leading: new Icon(Icons.attach_money),
+                  title: new Text('Add an asset'),
+                  onTap: () => Navigator.of(ctx).pushNamed('/assets')
+                ),
+                new ListTile(
+                  leading: new Icon(Icons.account_balance_wallet),
+                  title: new Text('Add a wallet'),
+                  onTap: () => Navigator.of(ctx).pushNamed('/wallets')
+                ),
+                new ListTile(
+                  leading: new Icon(Icons.settings),
+                  title: new Text('Settings'),
+                  onTap: () => Navigator.of(ctx).pushNamed('/settings')
+                )
+              ],)
             )
           ], 
         ),

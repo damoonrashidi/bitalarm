@@ -52,15 +52,24 @@ class _WatchlistPageState extends State<WatchlistPage> {
       drawer: new Drawer(child: new Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [new Container(
-          height: 80.0,
-          child: new Padding(
-            padding: const EdgeInsets.only(bottom: 30.0),
-            child: new ListTile(
-              onTap: () => Navigator.pushNamed(ctx, '/settings'),
-              leading: const Icon(Icons.settings),
+          height: 200.0,
+          child: new Column(children: <Widget>[
+            new ListTile(
+              leading: new Icon(Icons.attach_money),
+              title: new Text('Add an asset'),
+              onTap: () => Navigator.of(ctx).pushNamed('/assets')
+            ),
+            new ListTile(
+              leading: new Icon(Icons.account_balance_wallet),
+              title: new Text('Add a wallet'),
+              onTap: () => Navigator.of(ctx).pushNamed('/wallets')
+            ),
+            new ListTile(
+              leading: new Icon(Icons.settings),
               title: new Text('Settings'),
+              onTap: () => Navigator.of(ctx).pushNamed('/settings')
             )
-          )
+          ],)
         )],
       )),
       body: _list.length == 0 ? 
