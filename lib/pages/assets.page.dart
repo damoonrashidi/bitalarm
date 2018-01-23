@@ -30,13 +30,15 @@ class _AssetsPageState extends State<AssetsPage> {
   @override
   Widget build(BuildContext ctx) {
     List<ListTile> _assetList = new List.generate(_assets.length, (int i) {
+      Object asset = _assets[i];
       return new ListTile(
-        title: new Text(_assets[i]['symbol'].toString()),
-        subtitle: new Text(_assets[i]['amount'].toString()),
+        title: new Text(asset['symbol'].toString()),
+        subtitle: new Text(asset['amount'].toString()),
         onTap: () {
+          debugPrint(asset.toString());
           setState((){
-            _assets.removeWhere((asset) => asset['id'] == _assets[i]['id']);
-            _ws.removeAsset(_assets[i]['id']);
+            _ws.removeAsset(asset['id']);
+            _assets.removeWhere((needle) => needle['id'] == asset['id']);
           });
         },
       );
