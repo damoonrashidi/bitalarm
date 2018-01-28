@@ -24,16 +24,14 @@ class HistoryGraphState extends State<HistoryGraph> {
   @override
   initState() {
     API.getHistorical(ticker).then((List<Map<String, dynamic>> response) {
-      _max = response.fold(0.0,
-        (prev, cursor) => cursor['value'] > prev ? cursor['value'] : prev);
-      _min = response.fold(_max,
-        (prev, cursor) => cursor['value'] < prev ? cursor['value'] : prev);
-      _data = new List.generate(
-        response.length,
+      _max = response.fold(0.0, (prev, cursor) => cursor['value'] > prev ? cursor['value'] : prev);
+      _min = response.fold(_max, (prev, cursor) => cursor['value'] < prev ? cursor['value'] : prev);
+      _data = new List.generate(response.length,
         (int i) => {
           'x': i / response.length * WIDTH,
           'y': this.height - (response[i]['value'] / _max * this.height),
-        });
+        }
+      );
       setState(() {});
     });
     super.initState();

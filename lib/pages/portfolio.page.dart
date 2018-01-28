@@ -132,7 +132,7 @@ class _PortfolioPageState extends State<PortfolioPage> {
               _coins.length == 0 && _wallets.length != 0
                 ? new Center(child: new CircularProgressIndicator(backgroundColor: Theme.of(ctx).primaryColor))
                 : new PortfolioChart(data: _coins),
-              _wallets.length == 0
+              _wallets.length == 0 && _coins.length == 0
                 ? new Center(child: new Text('Add a wallet or asset to start your portfolio'))
                 : new PortfolioList(coins: _coins, fiat: _fiat,)
             ])

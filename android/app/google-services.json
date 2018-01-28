@@ -1,0 +1,36 @@
+{
+  "project_info": {
+    "project_number": "919243236162",
+    "firebase_url": "https://api-6551045388586377850-738936.firebaseio.com",
+    "project_id": "api-6551045388586377850-738936",
+    "storage_bucket": "api-6551045388586377850-738936.appspot.com"
+  },
+  "client": [{
+    "client_info": {
+      "mobilesdk_app_id": "1:919243236162:android:029cade8907705f8",
+      "android_client_info": {
+        "package_name": "com.yourcompany.bitalarm"
+      }
+    },
+    "oauth_client": [{
+      "client_id": "919243236162-li5ort9ac7v3gm06afmq0nuofjkkd6an.apps.googleusercontent.com",
+      "client_type": 3
+    }],
+    "api_key": [{
+      "current_key": "AIzaSyBjK0fnAjsa26QOGCfltbHZH729g2gjL3Y"
+    }],
+    "services": {
+      "analytics_service": {
+        "status": 1
+      },
+      "appinvite_service": {
+        "status": 1,
+        "other_platform_oauth_client": []
+      },
+      "ads_service": {
+        "status": 2
+      }
+    }
+  }],
+  "configuration_version": "1"
+}

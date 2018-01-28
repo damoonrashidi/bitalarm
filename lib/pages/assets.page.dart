@@ -34,13 +34,15 @@ class _AssetsPageState extends State<AssetsPage> {
       return new ListTile(
         title: new Text(asset['symbol'].toString()),
         subtitle: new Text(asset['amount'].toString()),
-        onTap: () {
-          debugPrint(asset.toString());
-          setState((){
-            _ws.removeAsset(asset['id']);
-            _assets.removeWhere((needle) => needle['id'] == asset['id']);
-          });
-        },
+        trailing: new IconButton(
+          icon: new Icon(Icons.remove),
+          onPressed: () {
+            setState((){
+              _ws.removeAsset(asset['id']);
+              _assets.removeWhere((needle) => needle['id'] == asset['id']);
+            });
+          },
+        ),
       );
     });
     return new Scaffold(
