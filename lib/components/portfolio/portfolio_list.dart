@@ -11,6 +11,7 @@ class PortfolioList extends StatelessWidget {
 
   @override
   Widget build(BuildContext ctx) {
+    coins.sort((a, b) => a['value'] > b['value'] ? -1 : 1);
     NumberFormat currencyFormat = new NumberFormat.currency(decimalDigits: 2, name: 'fiat', symbol: ' $fiat ');
     List<DataRow> rows = new List.generate(coins.length, (int i) {
       Object coin = coins[i];
