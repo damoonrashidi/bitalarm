@@ -24,6 +24,6 @@ A cryptocurrency tracker and portfolio app, built with Flutter and Dart
 - [x] Scan QR-code to add wallet to wallet list
 - [x] Remove wallet from list
 - [x] Dynamic portfolio based on address (ETH + ERC20-tokens, LTC, BTC, BCH, DASH and ADA for now)
-- [ ] Ability to add individual assets in addition to wallets
+- [x] Ability to add individual assets in addition to wallets
 - [ ] Add more information in the details view (Circulating supply, ATH, 24h hi/low)
 - [ ] Dark mode
