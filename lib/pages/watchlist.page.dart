@@ -85,7 +85,7 @@ class _WatchlistPageState extends State<WatchlistPage> {
           slivers: <Widget>[
             new SliverAppBar(
               pinned: true,
-              
+
               expandedHeight: 180.0,
               flexibleSpace: new FlexibleSpaceBar(
                 background: new Image(
