@@ -29,6 +29,13 @@ class BitalarmBottomNavBar extends StatelessWidget {
         currentIndex: ['favorites', 'toplist', 'wallets']
             .indexWhere((element) => element == active),
         onTap: (int i) {
+          int currentIndex = ['favorites', 'toplist', 'wallets']
+              .indexWhere((element) => element == active);
+
+          if (currentIndex == i) {
+            return;
+          }
+
           Widget screen =
               [FavoritesScreen(), TopListScreen(), WalletsScreen()][i];
           routePush(screen, RouterType.material);

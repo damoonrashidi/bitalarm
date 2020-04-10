@@ -17,6 +17,7 @@ The code for the v1 can be found in the `legacy/v1` branch, whats currently avai
 - [ ] Single coin view
 - [ ] Single coin graph
 - [ ] wallet view
+- [ ] Cool but pointless animations
 
 # Version 1
 
