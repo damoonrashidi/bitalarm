@@ -1,8 +1,6 @@
 # Version 2 on the way!
 
-I'm currently rewriting the application from scratch to remove a lot of the ugly code try to
-conform better to modern flutter best practices with regards to State Management, Routing splitting up
-widgets before they become monsters.
+I'm currently rewriting the application from scratch to remove a lot of the ugly code, conform better to modern flutter best practices with regards to State Management and Routing and splitting up widgets before they become monsters.
 
 The code for the v1 can be found in the `legacy/v1` branch, whats currently available in `master` is pretty bare bones functionality wise, but should serve pretty well for a starter for other apps.
 
@@ -19,6 +17,8 @@ The code for the v1 can be found in the `legacy/v1` branch, whats currently avai
 - [ ] Single coin view
 
 # Version 1
+
+can be found in the branch `legacy/v1` for posterity.
 
 ## bitalarm
 
