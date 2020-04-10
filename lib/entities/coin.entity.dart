@@ -5,6 +5,8 @@ class Coin {
   double volume;
   double change24h;
 
+  Coin({this.symbol, this.name, this.price, this.volume, this.change24h});
+
   Coin.fromJSON(dynamic json) {
     symbol = json['symbol'];
     name = json['name'];

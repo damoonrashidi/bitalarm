@@ -9,12 +9,14 @@ The code for the v1 can be found in the `legacy/v1` branch, whats currently avai
 - [x] Get prices
 - [x] Display all prices
 - [x] Sort all prices based on price, 24h gain/loss
-- [ ] Add coin to favorites
-- [ ] list favorites
+- [x] Add coin to favorites
+- [x] list favorites
 - [ ] Add wallets (both via pasting address or scanning QR code)
 - [ ] Remove wallet
 - [ ] Get wallet value
 - [ ] Single coin view
+- [ ] Single coin graph
+- [ ] wallet view
 
 # Version 1
 

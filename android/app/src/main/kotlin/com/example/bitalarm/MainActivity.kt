@@ -1,4 +1,4 @@
-package com.example.bitalarm
+package com.damoonrashidi.bitalarm
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity
