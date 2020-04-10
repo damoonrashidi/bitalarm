@@ -1,0 +1,33 @@
+name: Bitalarm
+description: Cryptocurrency tracker and portfolio
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.1.0 <3.0.0"
+
+dependencies:
+  nav_router:
+  dio:
+  hive:
+  hive_flutter:
+  provider:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  hive_generator:
+  build_runner:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/
+  fonts:
+    - family: Oswald
+      fonts:
+        - asset: assets/fonts/Oswald-Bold.ttf
+        - asset: assets/fonts/Oswald-Regular.ttf
+        - asset: assets/fonts/Oswald-Light.ttf
