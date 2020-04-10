@@ -21,6 +21,7 @@ class TopListState extends State<TopListScreen> {
   List<Coin> _coins = [];
   CoinService _coinService = new CoinService();
   SortProperty sortProperty = SortProperty.PRICE;
+  ScrollController listController = ScrollController();
 
   @override
   void initState() {
@@ -39,6 +40,8 @@ class TopListState extends State<TopListScreen> {
       _coins.sort((a, b) => b.price.compareTo(a.price));
       sortProperty = SortProperty.PRICE;
     });
+    listController.animateTo(0,
+        duration: Duration(milliseconds: 200), curve: Curves.easeInOut);
   }
 
   void _sortOnGain(bool ascending) {
@@ -53,6 +56,8 @@ class TopListState extends State<TopListScreen> {
         sortProperty = SortProperty.LOSS;
       });
     }
+    listController.animateTo(0,
+        duration: Duration(milliseconds: 200), curve: Curves.easeInOut);
   }
 
   void toggleFavorite(Coin coin) {
@@ -98,7 +103,7 @@ class TopListState extends State<TopListScreen> {
                 ),
                 Container(
                     height: MediaQuery.of(context).size.height - 200,
-                    child: CoinList(coins: _coins)),
+                    child: CoinList(coins: _coins, controller: listController)),
               ])),
     );
   }

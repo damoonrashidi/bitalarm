@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 
 class CoinList extends StatelessWidget {
   final List<Coin> coins;
+  final ScrollController controller;
 
-  CoinList({this.coins});
+  CoinList({this.coins, this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -16,6 +17,7 @@ class CoinList extends StatelessWidget {
         .toList();
 
     return ListView(
+      controller: controller,
       children: coinList,
       padding: EdgeInsets.all(0),
     );
