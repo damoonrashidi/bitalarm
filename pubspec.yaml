@@ -12,6 +12,7 @@ dependencies:
   hive:
   hive_flutter:
   provider:
+  dio_http_cache:
   flutter:
     sdk: flutter
 

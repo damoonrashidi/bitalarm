@@ -14,7 +14,7 @@ class FavoritesScreen extends StatefulWidget {
 
 class FavoritesScreenState extends State<FavoritesScreen> {
   CoinService coinService = CoinService();
-  List<Coin> _favs = [];
+  List<Coin> _favorites = [];
 
   @override
   void initState() {
@@ -27,7 +27,7 @@ class FavoritesScreenState extends State<FavoritesScreen> {
     var favoriteSymbols = store.map((coin) => coin.symbol).toList();
     var favs = await coinService.getPriceForSymbols(favoriteSymbols);
     setState(() {
-      _favs = favs;
+      _favorites = favs;
     });
   }
 
@@ -42,7 +42,7 @@ class FavoritesScreenState extends State<FavoritesScreen> {
               ScreenHeadline("FAVORITES"),
               Container(
                   height: MediaQuery.of(context).size.height - 200,
-                  child: CoinList(coins: _favs)),
+                  child: CoinList(coins: _favorites)),
             ]));
   }
 }

@@ -30,9 +30,8 @@ class TopListState extends State<TopListScreen> {
 
   void _getCoins() async {
     var coins = await _coinService.getAllPrices();
-    setState(() {
-      _coins = coins;
-    });
+    _coins = coins;
+    _sortOnPrice();
   }
 
   void _sortOnPrice() {
@@ -67,7 +66,7 @@ class TopListState extends State<TopListScreen> {
     return ScreenScaffold(
       activeNavBar: "toplist",
       child: Padding(
-          padding: EdgeInsets.fromLTRB(40, 80, 40, 0),
+          padding: EdgeInsets.fromLTRB(20, 80, 40, 0),
           child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
