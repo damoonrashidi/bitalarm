@@ -69,42 +69,46 @@ class TopListState extends State<TopListScreen> {
   @override
   Widget build(BuildContext context) {
     return ScreenScaffold(
+      title: "toplist",
       activeNavBar: "toplist",
-      child: Padding(
-          padding: EdgeInsets.fromLTRB(20, 80, 40, 0),
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                ScreenHeadline("TOPLIST"),
-                ButtonBar(
-                  alignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    SortButton(
-                      "Price",
-                      onPressed: _sortOnPrice,
-                      active: sortProperty == SortProperty.PRICE,
-                    ),
-                    SortButton(
-                      "Gain",
-                      onPressed: () {
-                        _sortOnGain(true);
-                      },
-                      active: sortProperty == SortProperty.GAIN,
-                    ),
-                    SortButton(
-                      "Loss",
-                      onPressed: () {
-                        _sortOnGain(false);
-                      },
-                      active: sortProperty == SortProperty.LOSS,
-                    )
-                  ],
-                ),
-                Container(
-                    height: MediaQuery.of(context).size.height - 200,
-                    child: CoinList(coins: _coins, controller: listController)),
-              ])),
+      children: [
+        Padding(
+            padding: EdgeInsets.fromLTRB(20, 80, 40, 0),
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ScreenHeadline("TOPLIST"),
+                  ButtonBar(
+                    alignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      SortButton(
+                        "Price",
+                        onPressed: _sortOnPrice,
+                        active: sortProperty == SortProperty.PRICE,
+                      ),
+                      SortButton(
+                        "Gain",
+                        onPressed: () {
+                          _sortOnGain(true);
+                        },
+                        active: sortProperty == SortProperty.GAIN,
+                      ),
+                      SortButton(
+                        "Loss",
+                        onPressed: () {
+                          _sortOnGain(false);
+                        },
+                        active: sortProperty == SortProperty.LOSS,
+                      )
+                    ],
+                  ),
+                  Container(
+                      height: MediaQuery.of(context).size.height - 200,
+                      child:
+                          CoinList(coins: _coins, controller: listController)),
+                ]))
+      ],
     );
   }
 }

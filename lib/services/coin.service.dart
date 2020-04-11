@@ -1,4 +1,5 @@
 import 'package:Bitalarm/entities/coin.entity.dart';
+import 'package:Bitalarm/entities/orderbook.entity.dart';
 import 'package:Bitalarm/services/apikey.dart';
 import 'package:dio/dio.dart';
 import 'dart:async';
@@ -27,7 +28,7 @@ class CoinService {
     var options = buildCacheOptions(Duration(minutes: 15));
     options.headers['X-CMC_PRO_API_KEY'] = _APIKey;
 
-    Response response = await Dio().get(url, options: options);
+    Response response = await dio.get(url, options: options);
 
     List<dynamic> data = response.data['data'];
     List<Coin> coins = data.map((dynamic coin) => Coin.fromJSON(coin)).toList();
@@ -45,5 +46,16 @@ class CoinService {
     //     "https://min-api.cryptocompare.com/data/v2/histohour?fsym=$symbol&tsym=USD&limit=10";
 
     return "Not yet implemented";
+  }
+
+  Future<OrderBook> getOrderBook(String symbol) async {
+    var api = "https://api.cryptowat.ch/markets/binance/${symbol}usd/price";
+
+    var result = (await dio.get(api)).data['result'];
+
+    OrderBook orderbook = OrderBook(asks: result['asks'], bids: result['bids']);
+
+    return orderbook;
+    ;
   }
 }

@@ -1,6 +1,6 @@
 import 'package:Bitalarm/screens/favorites/favorites.screen.dart';
+import 'package:Bitalarm/screens/portfolio/portfolio.screen.dart';
 import 'package:Bitalarm/screens/toplist/toplist.screen.dart';
-import 'package:Bitalarm/screens/wallets/wallets.screen.dart';
 import 'package:flutter/material.dart';
 import 'package:nav_router/nav_router.dart';
 
@@ -26,10 +26,10 @@ class BitalarmBottomNavBar extends StatelessWidget {
               title: Text('Portfolio'),
               activeIcon: Icon(Icons.monetization_on)),
         ],
-        currentIndex: ['favorites', 'toplist', 'wallets']
+        currentIndex: ['favorites', 'toplist', 'portfolio']
             .indexWhere((element) => element == active),
         onTap: (int i) {
-          int currentIndex = ['favorites', 'toplist', 'wallets']
+          int currentIndex = ['favorites', 'toplist', 'portfolio']
               .indexWhere((element) => element == active);
 
           if (currentIndex == i) {
@@ -37,7 +37,7 @@ class BitalarmBottomNavBar extends StatelessWidget {
           }
 
           Widget screen =
-              [FavoritesScreen(), TopListScreen(), WalletsScreen()][i];
+              [FavoritesScreen(), TopListScreen(), PortfolioScreen()][i];
           routePush(screen, RouterType.material);
         });
   }

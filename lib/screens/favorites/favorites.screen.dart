@@ -14,7 +14,7 @@ class FavoritesScreen extends StatefulWidget {
 
 class FavoritesScreenState extends State<FavoritesScreen> {
   CoinService coinService = CoinService();
-  List<Coin> _favorites = [];
+  // List<Coin> _favorites = [];
 
   @override
   void initState() {
@@ -23,26 +23,24 @@ class FavoritesScreenState extends State<FavoritesScreen> {
 
   didChangeDependencies() async {
     super.didChangeDependencies();
-    final store = Provider.of<FavoritesModel>(context).list;
-    var favoriteSymbols = store.map((coin) => coin.symbol).toList();
-    var favs = await coinService.getPriceForSymbols(favoriteSymbols);
+    // final store = Provider.of<FavoritesModel>(context).list;
+    // var favoriteSymbols = store.map((coin) => coin.symbol).toList();
+    // var favs = await coinService.getPriceForSymbols(favoriteSymbols);
     setState(() {
-      _favorites = favs;
+      // _favorites = favs;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return ScreenScaffold(
-        activeNavBar: "favorites",
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              ScreenHeadline("FAVORITES"),
-              Container(
-                  height: MediaQuery.of(context).size.height - 200,
-                  child: CoinList(coins: _favorites)),
-            ]));
+      title: "favorites",
+      activeNavBar: "favorites",
+      children: [
+        SliverList(
+          delegate: SliverChildListDelegate([]),
+        )
+      ],
+    );
   }
 }
