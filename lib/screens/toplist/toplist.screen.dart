@@ -1,5 +1,5 @@
+import 'package:Bitalarm/components/coin-list-item.dart';
 import 'package:Bitalarm/components/coin-list.dart';
-import 'package:Bitalarm/components/screen-headline.dart';
 import 'package:Bitalarm/components/screen.dart';
 import 'package:Bitalarm/components/sort-button.dart';
 import 'package:Bitalarm/entities/coin.entity.dart';
@@ -31,33 +31,9 @@ class TopListState extends State<TopListScreen> {
 
   void _getCoins() async {
     var coins = await _coinService.getAllPrices();
-    _coins = coins;
-    _sortOnPrice();
-  }
-
-  void _sortOnPrice() {
     setState(() {
-      _coins.sort((a, b) => b.price.compareTo(a.price));
-      sortProperty = SortProperty.PRICE;
+      _coins = coins;
     });
-    listController.animateTo(0,
-        duration: Duration(milliseconds: 200), curve: Curves.easeInOut);
-  }
-
-  void _sortOnGain(bool ascending) {
-    if (ascending) {
-      setState(() {
-        _coins.sort((b, a) => a.change24h.compareTo(b.change24h));
-        sortProperty = SortProperty.GAIN;
-      });
-    } else {
-      setState(() {
-        _coins.sort((a, b) => a.change24h.compareTo(b.change24h));
-        sortProperty = SortProperty.LOSS;
-      });
-    }
-    listController.animateTo(0,
-        duration: Duration(milliseconds: 200), curve: Curves.easeInOut);
   }
 
   void toggleFavorite(Coin coin) {
@@ -68,47 +44,11 @@ class TopListState extends State<TopListScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var coinWidgets = _coins.map((coin) => CoinListItem(coin: coin)).toList();
+
     return ScreenScaffold(
-      title: "toplist",
-      activeNavBar: "toplist",
-      children: [
-        Padding(
-            padding: EdgeInsets.fromLTRB(20, 80, 40, 0),
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  ScreenHeadline("TOPLIST"),
-                  ButtonBar(
-                    alignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      SortButton(
-                        "Price",
-                        onPressed: _sortOnPrice,
-                        active: sortProperty == SortProperty.PRICE,
-                      ),
-                      SortButton(
-                        "Gain",
-                        onPressed: () {
-                          _sortOnGain(true);
-                        },
-                        active: sortProperty == SortProperty.GAIN,
-                      ),
-                      SortButton(
-                        "Loss",
-                        onPressed: () {
-                          _sortOnGain(false);
-                        },
-                        active: sortProperty == SortProperty.LOSS,
-                      )
-                    ],
-                  ),
-                  Container(
-                      height: MediaQuery.of(context).size.height - 200,
-                      child:
-                          CoinList(coins: _coins, controller: listController)),
-                ]))
-      ],
-    );
+        title: "toplist",
+        activeNavBar: "toplist",
+        children: [SliverList(delegate: SliverChildListDelegate(coinWidgets))]);
   }
 }

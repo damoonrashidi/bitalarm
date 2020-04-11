@@ -1,4 +1,3 @@
-import 'package:Bitalarm/shared/styles.dart';
 import 'package:flutter/material.dart';
 
 class ScreenHeadline extends StatelessWidget {
