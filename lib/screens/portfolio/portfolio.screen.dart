@@ -1,5 +1,4 @@
-import 'package:Bitalarm/components/screen-headline.dart';
-import 'package:Bitalarm/components/screen.dart';
+import 'package:Bitalarm/components/screen-scaffold.dart';
 import 'package:flutter/material.dart';
 
 class PortfolioScreen extends StatelessWidget {

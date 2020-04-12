@@ -1,3 +1,4 @@
+import 'package:Bitalarm/shared/styles.dart';
 import 'package:flutter/material.dart';
 
 class ScreenHeadline extends StatelessWidget {
@@ -10,11 +11,11 @@ class ScreenHeadline extends StatelessWidget {
   Widget build(BuildContext context) {
     TextStyle style = TextStyle(
         fontFamily: "Oswald",
-        fontSize: 80,
+        fontSize: 80 * opacity,
         height: 1,
         letterSpacing: 1.5,
         fontWeight: FontWeight.bold,
-        color: Colors.white.withOpacity(opacity));
+        color: COLOR_HEADLINE.withOpacity(opacity));
 
     return Positioned(
         left: -20,

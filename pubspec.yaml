@@ -19,13 +19,19 @@ dependencies:
 dev_dependencies:
   hive_generator:
   build_runner:
+  flutter_launcher_icons:
   flutter_test:
     sdk: flutter
+
+flutter_icons:
+  image_path: "assets/images/icon.png"
+  android: true
 
 flutter:
   uses-material-design: true
   assets:
     - assets/images/
+    - assets/images/icons/
   fonts:
     - family: Oswald
       fonts:

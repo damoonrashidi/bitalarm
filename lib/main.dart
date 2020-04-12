@@ -37,7 +37,9 @@ class BitAlarmState extends State<BitAlarm> {
           title: 'BitAlarm',
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
+            primaryColorDark: Colors.black87,
             primarySwatch: Colors.blue,
+            brightness: Brightness.dark,
           ),
           home: FavoritesScreen(),
           navigatorKey: navGK,

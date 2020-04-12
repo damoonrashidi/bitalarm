@@ -27,13 +27,12 @@ class ScreenScaffold extends StatelessWidget {
     );
 
     return Scaffold(
-        backgroundColor: Color(0xFFFFFF),
         body: Stack(children: [
           Image(
             fit: BoxFit.cover,
             width: MediaQuery.of(context).size.width + 100,
             height: MediaQuery.of(context).size.height,
-            image: AssetImage('assets/images/page-background.png'),
+            image: AssetImage('assets/images/dark-page-background.png'),
           ),
           CustomScrollView(slivers: children),
         ]),

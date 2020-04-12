@@ -1,5 +1,5 @@
 import 'package:Bitalarm/components/coin-list-item.dart';
-import 'package:Bitalarm/components/screen.dart';
+import 'package:Bitalarm/components/screen-scaffold.dart';
 import 'package:Bitalarm/entities/coin.entity.dart';
 import 'package:Bitalarm/providers/favorites.provider.dart';
 import 'package:Bitalarm/services/coin.service.dart';

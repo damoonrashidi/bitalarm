@@ -35,3 +35,29 @@ class SortButton extends StatelessWidget {
     );
   }
 }
+
+class SortButtonGroup extends StatelessWidget {
+  final Function onSort;
+  final SortProperty active;
+
+  SortButtonGroup({this.onSort, this.active});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        SortButton("Price", active: active == SortProperty.PRICE,
+            onPressed: () {
+          onSort(SortProperty.PRICE);
+        }),
+        SortButton("Gain", active: active == SortProperty.GAIN, onPressed: () {
+          onSort(SortProperty.GAIN);
+        }),
+        SortButton("Loss", active: active == SortProperty.LOSS, onPressed: () {
+          onSort(SortProperty.LOSS);
+        }),
+      ],
+    );
+  }
+}
