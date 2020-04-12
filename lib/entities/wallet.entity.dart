@@ -2,7 +2,7 @@ import 'package:hive/hive.dart';
 
 part 'wallet.entity.g.dart';
 
-@HiveType(typeId: 0)
+@HiveType(typeId: 1)
 class WalletEntity extends HiveObject {
   @HiveField(0)
   String symbol;

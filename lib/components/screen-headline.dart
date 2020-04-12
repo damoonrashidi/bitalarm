@@ -11,10 +11,10 @@ class ScreenHeadline extends StatelessWidget {
   Widget build(BuildContext context) {
     TextStyle style = TextStyle(
         fontFamily: "Oswald",
-        fontSize: 80 * opacity,
+        fontSize: 110 * opacity,
         height: 1,
         letterSpacing: 1.5,
-        fontWeight: FontWeight.bold,
+        fontWeight: FontWeight.w600,
         color: COLOR_HEADLINE.withOpacity(opacity));
 
     return Positioned(

@@ -1,3 +1,4 @@
+import 'package:Bitalarm/entities/asset.entity.dart';
 import 'package:Bitalarm/entities/wallet.entity.dart';
 import 'package:Bitalarm/providers/wallets.provider.dart';
 import 'package:Bitalarm/screens/favorites/favorites.screen.dart';
@@ -12,8 +13,11 @@ import 'package:nav_router/nav_router.dart';
 void main() async {
   await Hive.initFlutter();
   Hive.registerAdapter(FavoriteEntityAdapter());
+  Hive.registerAdapter(WalletEntityAdapter());
+  Hive.registerAdapter(AssetEntityAdapter());
   await Hive.openBox<FavoriteEntity>('favorites');
   await Hive.openBox<WalletEntity>('wallets');
+  await Hive.openBox<AssetEntity>('assets');
   runApp(BitAlarm());
 }
 

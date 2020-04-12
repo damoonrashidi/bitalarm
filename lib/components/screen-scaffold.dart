@@ -22,7 +22,8 @@ class ScreenScaffold extends StatelessWidget {
       SliverPersistentHeader(
         pinned: true,
         floating: false,
-        delegate: HeaderDelegate(title: title, minExtent: 0, maxExtent: 100),
+        delegate:
+            ScreenHeaderDelegate(title: title, minExtent: 0, maxExtent: 100),
       ),
     );
 
@@ -40,16 +41,16 @@ class ScreenScaffold extends StatelessWidget {
   }
 }
 
-class HeaderDelegate implements SliverPersistentHeaderDelegate {
-  HeaderDelegate({
+class ScreenHeaderDelegate implements SliverPersistentHeaderDelegate {
+  final double minExtent;
+  final double maxExtent;
+  final String title;
+
+  ScreenHeaderDelegate({
     this.minExtent,
     @required this.maxExtent,
     this.title,
   });
-
-  final double minExtent;
-  final double maxExtent;
-  final String title;
 
   @override
   bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) => true;

@@ -1,30 +1,30 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'wallet.entity.dart';
+part of 'asset.entity.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class WalletEntityAdapter extends TypeAdapter<WalletEntity> {
+class AssetEntityAdapter extends TypeAdapter<AssetEntity> {
   @override
-  final typeId = 1;
+  final typeId = 2;
 
   @override
-  WalletEntity read(BinaryReader reader) {
+  AssetEntity read(BinaryReader reader) {
     var numOfFields = reader.readByte();
     var fields = <int, dynamic>{
       for (var i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return WalletEntity(
+    return AssetEntity(
       symbol: fields[0] as String,
       name: fields[1] as String,
-      address: fields[2] as String,
+      amount: fields[2] as double,
     );
   }
 
   @override
-  void write(BinaryWriter writer, WalletEntity obj) {
+  void write(BinaryWriter writer, AssetEntity obj) {
     writer
       ..writeByte(3)
       ..writeByte(0)
@@ -32,6 +32,6 @@ class WalletEntityAdapter extends TypeAdapter<WalletEntity> {
       ..writeByte(1)
       ..write(obj.name)
       ..writeByte(2)
-      ..write(obj.address);
+      ..write(obj.amount);
   }
 }

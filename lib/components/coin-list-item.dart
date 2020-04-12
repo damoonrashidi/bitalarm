@@ -1,5 +1,7 @@
 import 'package:Bitalarm/entities/coin.entity.dart';
+import 'package:Bitalarm/screens/coin/coin.screen.dart';
 import 'package:flutter/material.dart';
+import 'package:nav_router/nav_router.dart';
 
 var nameStyle = TextStyle(
     color: Colors.white,
@@ -48,13 +50,19 @@ class CoinListItem extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text(
-              coin.name.toUpperCase(),
-              style: nameStyle,
-            ),
-            Text(coin.symbol)
-          ]),
+          GestureDetector(
+            onTap: () {
+              routePush(CoinScreen(coin: coin), RouterType.fade);
+            },
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Text(
+                coin.name.toUpperCase(),
+                style: nameStyle,
+              ),
+              Text(coin.symbol)
+            ]),
+          ),
           Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
             Text("\$" + coin.price.toStringAsFixed(2), style: priceStyle),
             Text(coin.change24h.toStringAsFixed(2) + "%",
