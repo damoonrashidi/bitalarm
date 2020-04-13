@@ -52,7 +52,10 @@ class CoinScreenState extends State<CoinScreen> {
         image: AssetImage('assets/images/dark-page-background.png'),
       ),
       CustomScrollView(slivers: [
-        CoinHeader(title: widget.coin.name, priceData: _historicalPriceData)
+        CoinHeader(
+            coin: widget.coin,
+            isFavorite: _isFavorite,
+            priceData: _historicalPriceData)
       ]),
     ]));
   }

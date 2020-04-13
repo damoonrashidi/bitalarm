@@ -46,6 +46,18 @@ class CoinChartPainter extends CustomPainter {
     return height - value / max * height;
   }
 
+  void _paintLabel(Canvas canvas, double value, double x, double y) {
+    var paint = Paint()..color = Colors.white;
+    var position = Offset(x, y);
+    canvas.drawCircle(position, 4, paint);
+    var span = new TextSpan(
+        style: new TextStyle(color: Colors.white, fontFamily: 'Oswald'),
+        text: "\$${value.toStringAsFixed(2)}");
+    var painter = TextPainter(text: span, textDirection: TextDirection.ltr);
+    painter.layout();
+    painter.paint(canvas, position);
+  }
+
   @override
   void paint(Canvas canvas, Size size) {
     var width = size.width;
@@ -58,6 +70,9 @@ class CoinChartPainter extends CustomPainter {
       double x = i / (data.length - 1) * width;
       double y = getYPosition(data[i], _max, height);
       path.lineTo(x, y);
+      if (data[i] == _max || data[i] == _min || i == data.length - 1) {
+        _paintLabel(canvas, data[i], x, y);
+      }
     }
 
     Paint paint = Paint()
