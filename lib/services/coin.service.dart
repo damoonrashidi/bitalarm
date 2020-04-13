@@ -53,7 +53,7 @@ class CoinService {
         .substring(0, 19);
 
     String url =
-        "https://rest.coinapi.io/v1/ohlcv/BITSTAMP_SPOT_${symbol}_USD/history?period_id=10DAY&time_start=${startDate}&time_end=$nowTimestamp";
+        "https://rest.coinapi.io/v1/ohlcv/BITSTAMP_SPOT_${symbol}_USD/history?period_id=1DAY&time_start=${startDate}&time_end=$nowTimestamp";
 
     print(url);
 

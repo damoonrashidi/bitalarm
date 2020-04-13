@@ -70,7 +70,7 @@ class CoinHeaderDelegate implements SliverPersistentHeaderDelegate {
     return Stack(fit: StackFit.expand, children: [
       ScreenHeadline(coin.name, opacity: opacity),
       Positioned(
-          top: 50,
+          top: 80,
           left: 0,
           right: 0,
           child: Container(
