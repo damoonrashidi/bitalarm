@@ -1,3 +1,4 @@
+import 'package:Bitalarm/components/order-book.dart';
 import 'package:Bitalarm/entities/coin.entity.dart';
 import 'package:Bitalarm/providers/favorites.provider.dart';
 import 'package:Bitalarm/screens/coin/coin-header.dart';
@@ -55,7 +56,10 @@ class CoinScreenState extends State<CoinScreen> {
         CoinHeader(
             coin: widget.coin,
             isFavorite: _isFavorite,
-            priceData: _historicalPriceData)
+            priceData: _historicalPriceData),
+        SliverList(
+          delegate: SliverChildListDelegate([OrderBook(coin: widget.coin)]),
+        )
       ]),
     ]));
   }

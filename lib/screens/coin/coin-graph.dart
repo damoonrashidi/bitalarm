@@ -42,24 +42,22 @@ class CoinChartPainter extends CustomPainter {
   @override
   bool shouldRepaint(CoinChartPainter old) => true;
 
-  double _y(double value, double max, double height) =>
-      height - value / max * height;
-
+  double _y(double value, double height) => height - value / _max * height;
   double _x(int index, double width) => index / data.length * width;
 
-  void _paintLabel(Canvas canvas, double value, double x, double y) {
+  void _paintLabel(Canvas canvas, double value, double x, double y, Size size) {
     var paint = Paint()..color = Colors.white;
     var position = Offset(x, y);
-    canvas.drawCircle(position, 4, paint);
+    canvas.drawCircle(position, 3, paint);
 
     var textPosition = Offset(x, y);
 
     if (value == _max) {
       textPosition = Offset(x + 10, y - 20);
     } else if (value == _min) {
-      textPosition = Offset(x + 10, y + 5);
+      textPosition = Offset(x + 20, y + 5);
     } else {
-      textPosition = Offset(x - 50, y + 10);
+      textPosition = Offset(size.width - 50, y + 10);
     }
 
     var span = new TextSpan(
@@ -72,25 +70,23 @@ class CoinChartPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
+    if (data.length == 0) {
+      return;
+    }
     var width = size.width;
     var height = size.height;
 
     Path path = Path();
 
-    path.moveTo(0, _y(data[0], _max, height));
+    path.moveTo(0, _y(data[0], height));
     for (var i = 1; i < data.length; i++) {
+      var value = data[i];
       double x = _x(i, width);
-      double y = _y(data[i], _max, height);
+      double y = _y(value, height);
 
-      // path.relativeCubicTo(x, y, xc, yc, xc, yc);
       path.lineTo(x, y);
-      if (data[i] == _max || data[i] == _min || i == data.length - 1) {
-        _paintLabel(
-          canvas,
-          data[i],
-          x,
-          y,
-        );
+      if (value == _max || value == _min || i == data.length - 1) {
+        _paintLabel(canvas, value, x, y, size);
       }
     }
 

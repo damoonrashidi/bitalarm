@@ -32,8 +32,11 @@ class FavoritesScreenState extends State<FavoritesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var coinWidgets =
-        _favorites.map((coin) => CoinListItem(coin: coin)).toList();
+    var coinWidgets = _favorites
+        .map((coin) => Padding(
+            padding: EdgeInsets.fromLTRB(32, 8, 32, 8),
+            child: CoinListItem(coin: coin)))
+        .toList();
 
     return ScreenScaffold(
       title: "favorites",

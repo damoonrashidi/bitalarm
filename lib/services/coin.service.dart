@@ -53,9 +53,7 @@ class CoinService {
         .substring(0, 19);
 
     String url =
-        "https://rest.coinapi.io/v1/ohlcv/BITSTAMP_SPOT_${symbol}_USD/history?period_id=1DAY&time_start=${startDate}&time_end=$nowTimestamp";
-
-    print(url);
+        "https://rest.coinapi.io/v1/ohlcv/BITSTAMP_SPOT_${symbol}_USD/history?period_id=1DAY&time_start=$startDate&time_end=$nowTimestamp";
 
     var options = buildCacheOptions(Duration(days: 1));
     options.headers['X-CoinAPI-Key'] = COIN_API_APIKEY;
@@ -69,10 +67,12 @@ class CoinService {
     }).toList();
   }
 
-  Future<OrderBook> getOrderBook(String symbol) async {
-    var api = "https://api.cryptowat.ch/markets/kraken/${symbol}usd/price";
-    var result = (await dio.get(api)).data['result'];
-    OrderBook orderbook = OrderBook(asks: result['asks'], bids: result['bids']);
-    return orderbook;
+  Future<OrderBookModel> getOrderBook(String symbol, {int limit = 50}) async {
+    var api =
+        "https://api.cryptowat.ch/markets/kraken/${symbol}usd/orderbook?limit=$limit";
+    var response = await dio.get(api);
+    Map<String, dynamic> result = response.data['result'];
+
+    return OrderBookModel(asks: result['asks'], bids: result['bids']);
   }
 }

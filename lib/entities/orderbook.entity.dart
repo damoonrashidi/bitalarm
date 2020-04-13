@@ -1,6 +1,6 @@
-class OrderBook {
-  List<List<double>> asks;
-  List<List<double>> bids;
+class OrderBookModel {
+  final List<dynamic> asks;
+  final List<dynamic> bids;
 
-  OrderBook({this.asks, this.bids});
+  OrderBookModel({this.asks = const [], this.bids = const []});
 }

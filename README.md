@@ -20,8 +20,8 @@ The code for the v1 can be found in the `legacy/v1` branch, whats currently avai
 - [ ] Add wallets (both via pasting address or scanning QR code)
 - [ ] Remove wallet
 - [ ] Get wallet value
-- [ ] Single coin view
-- [ ] Single coin graph
+- [x] Single coin view
+- [x] Single coin graph
 - [ ] wallet view
 - [ ] Cool but pointless animations
 
