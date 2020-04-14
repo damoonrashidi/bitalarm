@@ -35,7 +35,7 @@ class OrderBookState extends State<OrderBook> {
     return list
         .map((boa) => DataRow(cells: [
               DataCell(Text(
-                boa[0].toString(),
+                "\$${boa[0]}",
                 style: style,
               )),
               DataCell(Text(boa[1].toStringAsFixed(4), style: style)),
