@@ -11,7 +11,7 @@ class ScreenHeadline extends StatelessWidget {
   Widget build(BuildContext context) {
     TextStyle style = TextStyle(
         fontFamily: "Oswald",
-        fontSize: 110 * opacity,
+        fontSize: 110,
         height: 1,
         letterSpacing: 1.5,
         fontWeight: FontWeight.w600,

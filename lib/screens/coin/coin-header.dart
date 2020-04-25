@@ -75,10 +75,11 @@ class CoinHeaderDelegate implements SliverPersistentHeaderDelegate {
           right: 0,
           child: Container(
             height: 100,
+            margin: EdgeInsets.only(top: 32),
             child: CoinGraph(data: priceData),
           )),
       Padding(
-        padding: EdgeInsets.only(left: 16, right: 16, top: 32),
+        padding: EdgeInsets.only(left: 16, right: 16, top: 48),
         child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
