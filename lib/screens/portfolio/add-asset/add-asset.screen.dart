@@ -31,14 +31,14 @@ class AddAssetScreen extends StatelessWidget {
                   children: [
                     TextFormField(
                       onSaved: (String symbol) {
-                        _symbol = symbol.toLowerCase();
+                        _symbol = symbol.toUpperCase().trim();
                       },
                       decoration:
                           InputDecoration(labelText: "Symbol", hintText: 'BTC'),
                     ),
                     TextFormField(
                       onSaved: (String name) {
-                        _name = name;
+                        _name = name.trim();
                       },
                       decoration: InputDecoration(
                           labelText: "Name", hintText: 'Bitcoin'),

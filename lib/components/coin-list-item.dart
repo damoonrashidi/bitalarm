@@ -46,28 +46,26 @@ class CoinListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          GestureDetector(
-            onTap: () {
-              routePush(CoinScreen(coin: coin), RouterType.fade);
-            },
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text(
-                coin.name.toUpperCase(),
-                style: nameStyle,
-              ),
-              Text(coin.symbol)
-            ]),
-          ),
-          Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
-            Text("\$" + coin.price.toStringAsFixed(2), style: priceStyle),
-            Text(coin.change24h.toStringAsFixed(2) + "%",
-                style: percentStyle(coin.change24h))
-          ]),
-        ]);
+    return GestureDetector(
+        onTap: () {
+          routePush(CoinScreen(coin: coin), RouterType.fade);
+        },
+        child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Text(
+                  coin.name.toUpperCase(),
+                  style: nameStyle,
+                ),
+                Text(coin.symbol)
+              ]),
+              Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
+                Text("\$" + coin.price.toStringAsFixed(2), style: priceStyle),
+                Text(coin.change24h.toStringAsFixed(2) + "%",
+                    style: percentStyle(coin.change24h))
+              ]),
+            ]));
   }
 }

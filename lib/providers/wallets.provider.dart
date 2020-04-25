@@ -15,23 +15,29 @@ class WalletsModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  addWallet(WalletEntity wallet) {
-    wallets.add(wallet);
-    walletBox.add(wallet);
+  _updateWallets() {
+    wallets = walletBox.values.toList();
     notifyListeners();
+  }
+
+  addWallet(WalletEntity wallet) {
+    walletBox.add(wallet);
+    _updateWallets();
   }
 
   removeWallet(WalletEntity wallet) {
-    wallets.removeWhere((listWallet) => listWallet.name == wallet.name);
-    walletBox.delete(wallet);
-    notifyListeners();
+    wallet.delete();
+    _updateWallets();
   }
 
-  /// Asset related things
-  /// since assets and wallets have the same use (calculate holdings)
-  /// i put them in the same store. This means all the code is duplicated here, but it also means
-  /// that i only have to inject one provider in the components that care about wallet/asset
-  /// related things.
+  /*
+  Asset related things
+  ----------------------
+  Since assets and wallets have the same use (calculate holdings)
+  i put them in the same store. This means all the code is duplicated here, but it also means
+  that i only have to inject one provider in the components that care about wallet/asset
+  related things.
+  */
 
   addAsset(AssetEntity asset) {
     assets.add(asset);
@@ -40,8 +46,10 @@ class WalletsModel extends ChangeNotifier {
   }
 
   removeAsset(AssetEntity asset) {
-    assets.removeWhere((listAsset) => listAsset.name == asset.name);
+    assets.removeWhere((listAsset) =>
+        listAsset.name == asset.name && listAsset.amount == asset.amount);
     assetBox.delete(asset);
+    asset.delete();
     notifyListeners();
   }
 }

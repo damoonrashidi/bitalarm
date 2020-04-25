@@ -32,8 +32,12 @@ class AssetListState extends State<AssetList> {
     var assetsWidgets =
         assets.map((asset) => AssetListItem(asset: asset)).toList();
 
-    print(assets);
-
-    return Row(children: assetsWidgets);
+    return Wrap(
+      children: assetsWidgets,
+      alignment: WrapAlignment.start,
+      spacing: 30.0,
+      runSpacing: 30.0,
+      direction: Axis.horizontal,
+    );
   }
 }
