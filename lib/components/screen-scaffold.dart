@@ -9,9 +9,11 @@ class ScreenScaffold extends StatelessWidget {
   final List<Widget> children;
   final String activeNavBar;
   final String title;
+  final FloatingActionButton fab;
 
   ScreenScaffold(
       {this.children = const [],
+      this.fab,
       @required this.activeNavBar,
       @required this.title});
 
@@ -37,6 +39,7 @@ class ScreenScaffold extends StatelessWidget {
           ),
           CustomScrollView(slivers: children),
         ]),
+        floatingActionButton: fab,
         bottomNavigationBar: BitalarmBottomNavBar(active: this.activeNavBar));
   }
 }

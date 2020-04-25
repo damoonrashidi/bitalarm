@@ -11,7 +11,7 @@ class BitalarmBottomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new BottomNavigationBar(
+    return BottomNavigationBar(
         items: [
           BottomNavigationBarItem(
               icon: Icon(Icons.favorite_border),

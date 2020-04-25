@@ -1,30 +1,27 @@
 import 'package:Bitalarm/entities/asset.entity.dart';
+import 'package:Bitalarm/entities/wallet.entity.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
-class Wallet {
-  final String name;
-  final String address;
-  final String symbol;
-
-  Wallet({this.name, this.address, this.symbol});
-}
-
 class WalletsModel extends ChangeNotifier {
-  List<Wallet> wallets = [];
+  List<WalletEntity> wallets = [];
   List<AssetEntity> assets = [];
-  var assetBox = Hive.box('assets');
-  var walletBox = Hive.box('wallets');
+  var assetBox = Hive.box<AssetEntity>('assets');
+  var walletBox = Hive.box<WalletEntity>('wallets');
 
-  WalletsModel();
+  WalletsModel() {
+    wallets = walletBox.values.toList();
+    assets = assetBox.values.toList();
+    notifyListeners();
+  }
 
-  addWallet(Wallet wallet) {
+  addWallet(WalletEntity wallet) {
     wallets.add(wallet);
     walletBox.add(wallet);
     notifyListeners();
   }
 
-  removeWallet(Wallet wallet) {
+  removeWallet(WalletEntity wallet) {
     wallets.removeWhere((listWallet) => listWallet.name == wallet.name);
     walletBox.delete(wallet);
     notifyListeners();
