@@ -1,12 +1,53 @@
+import 'package:Bitalarm/components/donut-chart.dart';
 import 'package:Bitalarm/components/screen-scaffold.dart';
+import 'package:Bitalarm/entities/asset.entity.dart';
+import 'package:Bitalarm/providers/wallets.provider.dart';
 import 'package:Bitalarm/screens/portfolio/add-asset/add-asset.screen.dart';
 import 'package:Bitalarm/screens/portfolio/asset-list.dart';
+import 'package:Bitalarm/services/coin.service.dart';
 import 'package:flutter/material.dart';
 import 'package:nav_router/nav_router.dart';
+import 'package:provider/provider.dart';
 
-class PortfolioScreen extends StatelessWidget {
+class PortfolioScreen extends StatefulWidget {
+  PortfolioScreen();
+
+  @override
+  _PortfolioScreenState createState() => _PortfolioScreenState();
+}
+
+class _PortfolioScreenState extends State<PortfolioScreen> {
+  List<AssetEntity> assets = [];
+  Map<String, double> prices = Map();
+  Map<String, double> assetData = Map();
+
   _addAsset() {
     routePush(AddAssetScreen(), RouterType.material);
+  }
+
+  @override
+  initState() {
+    super.initState();
+    _setPrices();
+  }
+
+  _setPrices() async {
+    var service = CoinService();
+    var coins = await service.getAllPrices();
+    coins.forEach((coin) {
+      prices[coin.symbol] = coin.price;
+    });
+    setState(() {});
+  }
+
+  @override
+  void didChangeDependencies() {
+    assets = Provider.of<WalletsModel>(context).assets;
+    assetData = Map();
+    assets.forEach((asset) {
+      assetData[asset.symbol] = asset.amount;
+    });
+    super.didChangeDependencies();
   }
 
   @override
@@ -24,7 +65,10 @@ class PortfolioScreen extends StatelessWidget {
             Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
-                children: [AssetList()])
+                children: [
+                  DonutChart(data: assetData, prices: prices),
+                  AssetList(assets: assets)
+                ])
           ])),
         ]);
   }

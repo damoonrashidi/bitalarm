@@ -6,11 +6,12 @@ import 'package:provider/provider.dart';
 var _amountStyle = TextStyle(
     fontSize: 23, fontWeight: FontWeight.normal, fontFamily: 'Oswald');
 var _nameStyle = TextStyle(
-    fontSize: 16,
-    fontWeight: FontWeight.w100,
-    color: Colors.white.withOpacity(0.5),
-    fontFamily: 'Oswald',
-    letterSpacing: 1.5);
+  fontSize: 16,
+  fontWeight: FontWeight.w100,
+  color: Colors.white.withOpacity(0.5),
+  fontFamily: 'Oswald',
+  letterSpacing: 1.5,
+);
 
 class AssetListItem extends StatefulWidget {
   final AssetEntity asset;
@@ -47,7 +48,12 @@ class _AssetListItemState extends State<AssetListItem> {
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                   Text(widget.asset.amount.toStringAsFixed(3),
                       style: _amountStyle),
-                  Text(widget.asset.name.toUpperCase(), style: _nameStyle)
+                  Text(
+                    widget.asset.name.toUpperCase(),
+                    style: _nameStyle,
+                    softWrap: true,
+                    overflow: TextOverflow.fade,
+                  )
                 ]),
               ],
             )));
