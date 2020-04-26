@@ -1,3 +1,4 @@
+import 'package:Bitalarm/components/add-asset-button.dart';
 import 'package:Bitalarm/components/asset-list-item.dart';
 import 'package:Bitalarm/entities/asset.entity.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +9,9 @@ class AssetList extends StatelessWidget {
   AssetList({this.assets});
 
   Widget build(BuildContext context) {
-    var assetsWidgets =
+    Widget addAssetButton = AddAssetButton();
+
+    var assetsWidgets = [addAssetButton] +
         assets.map((asset) => AssetListItem(asset: asset)).toList();
 
     return Wrap(

@@ -2,11 +2,9 @@ import 'package:Bitalarm/components/donut-chart.dart';
 import 'package:Bitalarm/components/screen-scaffold.dart';
 import 'package:Bitalarm/entities/asset.entity.dart';
 import 'package:Bitalarm/providers/wallets.provider.dart';
-import 'package:Bitalarm/screens/portfolio/add-asset/add-asset.screen.dart';
 import 'package:Bitalarm/screens/portfolio/asset-list.dart';
 import 'package:Bitalarm/services/coin.service.dart';
 import 'package:flutter/material.dart';
-import 'package:nav_router/nav_router.dart';
 import 'package:provider/provider.dart';
 
 class PortfolioScreen extends StatefulWidget {
@@ -20,10 +18,6 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
   List<AssetEntity> assets = [];
   Map<String, double> prices = Map();
   Map<String, double> assetData = Map();
-
-  _addAsset() {
-    routePush(AddAssetScreen(), RouterType.material);
-  }
 
   @override
   initState() {
@@ -55,10 +49,6 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
     return ScreenScaffold(
         title: "portfolio",
         activeNavBar: "portfolio",
-        fab: FloatingActionButton(
-          child: Icon(Icons.add),
-          onPressed: _addAsset,
-        ),
         children: [
           SliverList(
               delegate: SliverChildListDelegate([

@@ -37,7 +37,7 @@ class _DonutChartState extends State<DonutChart> {
     });
 
     return Padding(
-        padding: EdgeInsets.only(top: 82, bottom: 82),
+        padding: EdgeInsets.only(top: 82, bottom: 108),
         child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
