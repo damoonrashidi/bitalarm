@@ -27,15 +27,10 @@ class CoinGraph extends StatelessWidget {
 class CoinChartPainter extends CustomPainter {
   final List<double> data;
   double _max;
-  double _min;
 
   CoinChartPainter({this.data}) {
-    if (data.length == 0) {
-      _min = 0;
-      _max = 0;
-    } else {
+    if (data.length > 0) {
       _max = data.reduce((peak, current) => max(peak, current));
-      _min = data.reduce((low, current) => min(low, current));
     }
   }
 
@@ -44,29 +39,6 @@ class CoinChartPainter extends CustomPainter {
 
   double _y(double value, double height) => height - value / _max * height;
   double _x(int index, double width) => index / data.length * width;
-
-  void _paintLabel(Canvas canvas, double value, double x, double y, Size size) {
-    var paint = Paint()..color = Colors.white;
-    var position = Offset(x, y);
-    canvas.drawCircle(position, 3, paint);
-
-    var textPosition = Offset(x, y);
-
-    if (value == _max) {
-      textPosition = Offset(x + 10, y - 20);
-    } else if (value == _min) {
-      textPosition = Offset(x + 20, y + 5);
-    } else {
-      textPosition = Offset(size.width - 50, y + 10);
-    }
-
-    var span = new TextSpan(
-        style: new TextStyle(color: Colors.white, fontFamily: 'Oswald'),
-        text: "\$${value.toStringAsFixed(2)}");
-    var painter = TextPainter(text: span, textDirection: TextDirection.ltr);
-    painter.layout();
-    painter.paint(canvas, textPosition);
-  }
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -85,9 +57,6 @@ class CoinChartPainter extends CustomPainter {
       double y = _y(value, height);
 
       path.lineTo(x, y);
-      if (value == _max || value == _min || i == data.length - 1) {
-        _paintLabel(canvas, value, x, y, size);
-      }
     }
 
     Paint paint = Paint()

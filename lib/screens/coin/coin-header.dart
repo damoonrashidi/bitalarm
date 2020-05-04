@@ -4,6 +4,7 @@ import 'package:Bitalarm/components/screen-headline.dart';
 import 'package:Bitalarm/entities/coin.entity.dart';
 import 'package:Bitalarm/entities/favorite.entity.dart';
 import 'package:Bitalarm/providers/favorites.provider.dart';
+import 'package:Bitalarm/screens/coin/coin-graph-labels.dart';
 import 'package:Bitalarm/screens/coin/coin-graph.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -77,6 +78,15 @@ class CoinHeaderDelegate implements SliverPersistentHeaderDelegate {
             height: 100,
             margin: EdgeInsets.only(top: 32),
             child: CoinGraph(data: priceData),
+          )),
+      Positioned(
+          top: 80,
+          left: 0,
+          right: 0,
+          child: Container(
+            height: 100,
+            margin: EdgeInsets.only(top: 32),
+            child: CoinGraphLabels(data: priceData),
           )),
       Padding(
         padding: EdgeInsets.only(left: 16, right: 16, top: 48),
