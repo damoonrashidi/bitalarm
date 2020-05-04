@@ -7,21 +7,19 @@ environment:
   sdk: ">=2.1.0 <3.0.0"
 
 dependencies:
-  nav_router:
-  dio:
-  hive:
-  hive_flutter:
-  provider:
-  dio_http_cache:
+  nav_router: 0.0.5
+  dio: 3.0.9
+  hive: 1.4.1+1
+  hive_flutter: 0.3.0+2
+  provider: 4.0.5+1
+  dio_http_cache: 0.2.6
   flutter:
     sdk: flutter
 
 dev_dependencies:
-  hive_generator:
-  build_runner:
-  flutter_launcher_icons:
-  flutter_test:
-    sdk: flutter
+  hive_generator: 0.7.0+2
+  build_runner: 1.9.0
+  flutter_launcher_icons: 0.7.5
 
 flutter_icons:
   image_path: "assets/images/icon.png"
