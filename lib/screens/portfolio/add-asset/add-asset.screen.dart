@@ -2,6 +2,7 @@ import 'package:Bitalarm/entities/asset.entity.dart';
 import 'package:Bitalarm/providers/wallets.provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:qrscan/qrscan.dart' as scanner;
 
 class AddAssetScreen extends StatelessWidget {
   var _formKey = GlobalKey<FormState>();
@@ -54,6 +55,13 @@ class AddAssetScreen extends StatelessWidget {
                       child: Text('Add asset'),
                       onPressed: () {
                         _addAsset(context);
+                      },
+                    ),
+                    RaisedButton(
+                      child: Text('Scan a QR code'),
+                      onPressed: () async {
+                        String code = await scanner.scan();
+                        print(code);
                       },
                     )
                   ],

@@ -31,7 +31,11 @@ class CoinChartLabelPainter extends CustomPainter {
   @override
   bool shouldRepaint(CoinChartLabelPainter old) => true;
 
-  double _y(double value, double height) => height - value / _max * height;
+  double _y(double value, double height) {
+    var weight = height / (_max - _min);
+    return height - (value - _min) * weight;
+  }
+
   double _x(int index, double width) => index / data.length * width;
 
   void _paintLabel(Canvas canvas, double value, double x, double y, Size size) {
@@ -44,9 +48,9 @@ class CoinChartLabelPainter extends CustomPainter {
     if (value == _max) {
       textPosition = Offset(x + 10, y - 20);
     } else if (value == _min) {
-      textPosition = Offset(x + 20, y + 5);
+      textPosition = Offset(x + 20, y - 10);
     } else {
-      textPosition = Offset(size.width - 50, y + 10);
+      textPosition = Offset(size.width - 50, y - 10);
     }
 
     var span = new TextSpan(

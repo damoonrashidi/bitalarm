@@ -12,8 +12,9 @@ class CoinGraph extends StatelessWidget {
     return ShaderMask(
       shaderCallback: (Rect bounds) {
         return LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomLeft,
+            stops: [0, 0.7],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
             colors: [
               Color.fromRGBO(86, 116, 228, 1),
               Color.fromRGBO(255, 104, 104, 1),
@@ -27,17 +28,23 @@ class CoinGraph extends StatelessWidget {
 class CoinChartPainter extends CustomPainter {
   final List<double> data;
   double _max;
+  double _min;
 
   CoinChartPainter({this.data}) {
     if (data.length > 0) {
       _max = data.reduce((peak, current) => max(peak, current));
+      _min = data.reduce((valley, current) => min(valley, current));
     }
   }
 
   @override
   bool shouldRepaint(CoinChartPainter old) => true;
 
-  double _y(double value, double height) => height - value / _max * height;
+  double _y(double value, double height) {
+    var weight = height / (_max - _min);
+    return height - (value - _min) * weight;
+  }
+
   double _x(int index, double width) => index / data.length * width;
 
   @override
@@ -55,7 +62,6 @@ class CoinChartPainter extends CustomPainter {
       var value = data[i];
       double x = _x(i, width);
       double y = _y(value, height);
-
       path.lineTo(x, y);
     }
 
