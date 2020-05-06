@@ -23,7 +23,7 @@ class CoinHeader extends StatelessWidget {
       delegate: CoinHeaderDelegate(
           coin: coin,
           isFavorite: isFavorite,
-          minExtent: 180,
+          minExtent: 50,
           maxExtent: 220,
           priceData: priceData),
     );
@@ -70,24 +70,15 @@ class CoinHeaderDelegate implements SliverPersistentHeaderDelegate {
     double opacity = _getOpacityForOffset(shrinkOffset);
     return Stack(fit: StackFit.expand, children: [
       ScreenHeadline(coin.name, opacity: opacity),
-      Positioned(
-          top: 80,
-          left: 0,
-          right: 0,
-          child: Container(
-            height: 100,
-            margin: EdgeInsets.only(top: 32),
-            child: CoinGraph(data: priceData),
-          )),
-      Positioned(
-          top: 80,
-          left: 0,
-          right: 0,
-          child: Container(
-            height: 100,
-            margin: EdgeInsets.only(top: 32),
-            child: CoinGraphLabels(data: priceData),
-          )),
+      Padding(
+          padding: EdgeInsets.only(
+            top: 80,
+            bottom: 40,
+          ),
+          child: Stack(fit: StackFit.expand, children: [
+            CoinGraph(data: priceData),
+            CoinGraphLabels(data: priceData),
+          ])),
       Padding(
         padding: EdgeInsets.only(left: 16, right: 16, top: 48),
         child: Row(
