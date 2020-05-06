@@ -1,4 +1,3 @@
-import 'package:Bitalarm/components/add-asset-button.dart';
 import 'package:Bitalarm/components/asset-list-item.dart';
 import 'package:Bitalarm/entities/asset.entity.dart';
 import 'package:Bitalarm/entities/coin.entity.dart';
@@ -12,17 +11,14 @@ class AssetList extends StatelessWidget {
   AssetList({this.assets});
 
   Widget build(BuildContext context) {
-    Widget addAssetButton = AddAssetButton();
-
-    var assetsWidgets = [addAssetButton] +
-        assets
-            .map((asset) => GestureDetector(
-                onTap: () {
-                  routePush(CoinScreen(
-                      coin: Coin(name: asset.name, symbol: asset.symbol)));
-                },
-                child: AssetListItem(asset: asset)))
-            .toList();
+    var assetsWidgets = assets
+        .map((asset) => GestureDetector(
+            onTap: () {
+              routePush(CoinScreen(
+                  coin: Coin(name: asset.name, symbol: asset.symbol)));
+            },
+            child: AssetListItem(asset: asset)))
+        .toList();
 
     return Wrap(
       children: assetsWidgets,

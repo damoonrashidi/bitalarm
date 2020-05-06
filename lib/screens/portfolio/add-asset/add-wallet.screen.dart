@@ -1,22 +1,22 @@
-import 'package:Bitalarm/entities/asset.entity.dart';
+import 'package:Bitalarm/entities/wallet.entity.dart';
 import 'package:Bitalarm/providers/wallets.provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qrscan/qrscan.dart' as scanner;
 
-class AddAssetScreen extends StatelessWidget {
+class AddWalletScreen extends StatelessWidget {
   var _formKey = GlobalKey<FormState>();
   String _symbol = '';
   String _name = '';
-  double _amount = 0.0;
+  String _address = '';
 
   _addAsset(BuildContext context) {
     _formKey.currentState.save();
 
-    var asset = AssetEntity(name: _name, symbol: _symbol, amount: _amount);
+    var wallet = WalletEntity(name: _name, symbol: _symbol, address: _address);
 
     var store = Provider.of<WalletsModel>(context, listen: false);
-    store.addAsset(asset);
+    store.addWallet(wallet);
     Navigator.pop(context);
   }
 
@@ -45,11 +45,12 @@ class AddAssetScreen extends StatelessWidget {
                           labelText: "Name", hintText: 'Bitcoin'),
                     ),
                     TextFormField(
-                      onSaved: (String amount) {
-                        _amount = double.parse(amount);
+                      onSaved: (String address) {
+                        _address = address;
                       },
                       decoration: InputDecoration(
-                          labelText: "Amount", hintText: '0.07'),
+                          labelText: "Address",
+                          hintText: '44acx3ax44af9f4dfaded...'),
                     ),
                     RaisedButton(
                       child: Text('Add asset'),
@@ -57,6 +58,14 @@ class AddAssetScreen extends StatelessWidget {
                         _addAsset(context);
                       },
                     ),
+                    RaisedButton(
+                      child: Text('Scan a QR code'),
+                      onPressed: () async {
+                        String code = await scanner.scan();
+                        print(code);
+                        _address = code;
+                      },
+                    )
                   ],
                 ))));
   }

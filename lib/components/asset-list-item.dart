@@ -32,6 +32,10 @@ class _AssetListItemState extends State<AssetListItem> {
 
   @override
   Widget build(BuildContext context) {
+    var assetName = widget.asset.name.length > 9
+        ? widget.asset.name.substring(0, 9)
+        : widget.asset.name;
+
     return Container(
         width: 120,
         child: GestureDetector(
@@ -49,7 +53,7 @@ class _AssetListItemState extends State<AssetListItem> {
                   Text(widget.asset.amount.toStringAsFixed(3),
                       style: _amountStyle),
                   Text(
-                    widget.asset.name.toUpperCase(),
+                    assetName.toUpperCase(),
                     style: _nameStyle,
                     softWrap: true,
                     overflow: TextOverflow.fade,

@@ -5,7 +5,7 @@ import 'package:palette_generator/palette_generator.dart';
 
 var _totalStyle = TextStyle(
     color: Colors.white,
-    fontSize: 42,
+    fontSize: 38,
     fontFamily: 'Oswald',
     fontWeight: FontWeight.w300);
 
@@ -33,7 +33,6 @@ class _DonutChartState extends State<DonutChart> {
     widget.data.keys.forEach((symbol) async {
       var image = AssetImage('assets/images/icons/${symbol.toUpperCase()}.png');
       var palette = await PaletteGenerator.fromImageProvider(image);
-      print(palette);
       _colors[symbol] = palette.dominantColor.color;
     });
   }
@@ -51,28 +50,27 @@ class _DonutChartState extends State<DonutChart> {
     });
 
     return Padding(
-        padding: EdgeInsets.only(top: 82, bottom: 108),
-        child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Stack(children: [
-                Text(
-                  '\$${_total.toStringAsFixed(2)}',
-                  style: _totalStyle,
-                  textAlign: TextAlign.center,
-                ),
-                Container(
-                    width: 200,
-                    height: 200,
-                    child: CustomPaint(
-                        painter: DonutChartPainter(
-                            data: widget.data,
-                            prices: widget.prices,
-                            colors: _colors,
-                            total: _total)))
-              ])
-            ]));
+        padding: EdgeInsets.symmetric(vertical: 32),
+        child: Center(
+            child: Stack(children: [
+          Container(
+              width: 200,
+              height: 200,
+              child: Center(
+                  child: Text(
+                '\$${_total.toStringAsFixed(2)}',
+                style: _totalStyle,
+              ))),
+          Container(
+              width: 200,
+              height: 200,
+              child: CustomPaint(
+                  painter: DonutChartPainter(
+                      data: widget.data,
+                      prices: widget.prices,
+                      colors: _colors,
+                      total: _total)))
+        ])));
   }
 }
 
@@ -95,7 +93,7 @@ class DonutChartPainter extends CustomPainter {
       var paint = Paint()
         ..color = colors[symbol] ?? Colors.white
         ..style = PaintingStyle.stroke
-        ..strokeWidth = 2
+        ..strokeWidth = 5
         ..strokeJoin = StrokeJoin.round;
       canvas.drawArc(
           Rect.fromLTWH(0, 0, size.width, size.height),
