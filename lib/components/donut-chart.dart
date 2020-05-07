@@ -49,28 +49,26 @@ class _DonutChartState extends State<DonutChart> {
       _total += usd * amount;
     });
 
-    return Padding(
-        padding: EdgeInsets.symmetric(vertical: 32),
-        child: Center(
-            child: Stack(children: [
-          Container(
-              width: 200,
-              height: 200,
-              child: Center(
-                  child: Text(
-                '\$${_total.toStringAsFixed(2)}',
-                style: _totalStyle,
-              ))),
-          Container(
-              width: 200,
-              height: 200,
-              child: CustomPaint(
-                  painter: DonutChartPainter(
-                      data: widget.data,
-                      prices: widget.prices,
-                      colors: _colors,
-                      total: _total)))
-        ])));
+    return Center(
+        child: Stack(children: [
+      Container(
+          width: 200,
+          height: 200,
+          child: Center(
+              child: Text(
+            '\$${_total.toStringAsFixed(2)}',
+            style: _totalStyle,
+          ))),
+      Container(
+          width: 200,
+          height: 200,
+          child: CustomPaint(
+              painter: DonutChartPainter(
+                  data: widget.data,
+                  prices: widget.prices,
+                  colors: _colors,
+                  total: _total)))
+    ]));
   }
 }
 
@@ -80,7 +78,7 @@ class DonutChartPainter extends CustomPainter {
   final Map<String, Color> colors;
   final double total;
 
-  DonutChartPainter({this.data, this.prices, this.total, this.colors});
+  DonutChartPainter({this.data, this.prices, this.total = 0, this.colors});
 
   @override
   bool shouldRepaint(DonutChartPainter old) => true;
@@ -88,13 +86,24 @@ class DonutChartPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     double runningTotal = 1;
+
+    if (data.entries.length == 0) {
+      var paint = Paint()
+        ..color = Colors.white
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 5
+        ..strokeJoin = StrokeJoin.bevel;
+      canvas.drawCircle(Offset(size.width / 2, size.height / 2), 2, paint);
+      return;
+    }
+
     data.forEach((symbol, amount) {
       var percent = prices[symbol] * amount / total;
       var paint = Paint()
         ..color = colors[symbol] ?? Colors.white
         ..style = PaintingStyle.stroke
         ..strokeWidth = 5
-        ..strokeJoin = StrokeJoin.round;
+        ..strokeJoin = StrokeJoin.bevel;
       canvas.drawArc(
           Rect.fromLTWH(0, 0, size.width, size.height),
           runningTotal / total * math.pi * 2 - math.pi * 2 / 4,

@@ -1,3 +1,4 @@
+import 'package:Bitalarm/components/add-wallet-button.dart';
 import 'package:Bitalarm/components/donut-chart.dart';
 import 'package:Bitalarm/components/screen-scaffold.dart';
 import 'package:Bitalarm/entities/asset.entity.dart';
@@ -57,6 +58,9 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   DonutChart(data: assetData, prices: prices),
+                  Padding(
+                      padding: EdgeInsets.only(bottom: 32),
+                      child: AddWalletButton()),
                   AssetList(assets: assets)
                 ])
           ])),

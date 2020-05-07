@@ -20,17 +20,20 @@ class BitalarmBottomNavBar extends StatelessWidget {
           BottomNavigationBarItem(
               icon: Icon(Icons.list),
               title: Text('All'),
-              activeIcon: Icon(Icons.filter_list)),
+              activeIcon: Icon(Icons.trending_up)),
           BottomNavigationBarItem(
-              icon: Icon(Icons.work),
+              icon: Icon(Icons.donut_large),
               title: Text('Portfolio'),
-              activeIcon: Icon(Icons.monetization_on)),
+              activeIcon: Icon(Icons.donut_small)),
         ],
         currentIndex: ['favorites', 'toplist', 'portfolio']
             .indexWhere((element) => element == active),
         onTap: (int i) {
-          int currentIndex = ['favorites', 'toplist', 'portfolio']
-              .indexWhere((element) => element == active);
+          int currentIndex = [
+            'favorites',
+            'toplist',
+            'portfolio',
+          ].indexWhere((element) => element == active);
 
           if (currentIndex == i) {
             return;

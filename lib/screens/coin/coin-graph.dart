@@ -17,7 +17,7 @@ class CoinGraph extends StatelessWidget {
             end: Alignment.bottomCenter,
             colors: [
               Color.fromRGBO(86, 116, 228, 1),
-              Color.fromRGBO(255, 104, 104, 1),
+              Color.fromRGBO(200, 104, 104, 1),
             ]).createShader(bounds);
       },
       child: CustomPaint(painter: CoinChartPainter(data: data)),

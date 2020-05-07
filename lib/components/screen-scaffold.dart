@@ -10,10 +10,12 @@ class ScreenScaffold extends StatelessWidget {
   final String activeNavBar;
   final String title;
   final FloatingActionButton fab;
+  final Drawer drawer;
 
   ScreenScaffold(
       {this.children = const [],
       this.fab,
+      this.drawer,
       @required this.activeNavBar,
       @required this.title});
 
@@ -29,13 +31,17 @@ class ScreenScaffold extends StatelessWidget {
       ),
     );
 
+    String lightness =
+        Theme.of(context).brightness == Brightness.dark ? 'dark' : 'light';
+
     return Scaffold(
+        drawer: drawer,
         body: Stack(children: [
           Image(
             fit: BoxFit.cover,
             width: MediaQuery.of(context).size.width + 100,
             height: MediaQuery.of(context).size.height,
-            image: AssetImage('assets/images/dark-page-background.png'),
+            image: AssetImage('assets/images/$lightness-page-background.png'),
           ),
           CustomScrollView(slivers: children),
         ]),

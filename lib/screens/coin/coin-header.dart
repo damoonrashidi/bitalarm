@@ -23,7 +23,7 @@ class CoinHeader extends StatelessWidget {
       delegate: CoinHeaderDelegate(
           coin: coin,
           isFavorite: isFavorite,
-          minExtent: 50,
+          minExtent: 100,
           maxExtent: 220,
           priceData: priceData),
     );

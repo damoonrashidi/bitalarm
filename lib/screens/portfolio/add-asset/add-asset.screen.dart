@@ -2,9 +2,13 @@ import 'package:Bitalarm/entities/asset.entity.dart';
 import 'package:Bitalarm/providers/wallets.provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:qrscan/qrscan.dart' as scanner;
 
-class AddAssetScreen extends StatelessWidget {
+class AddAssetScreen extends StatefulWidget {
+  @override
+  _AddAssetScreenState createState() => _AddAssetScreenState();
+}
+
+class _AddAssetScreenState extends State<AddAssetScreen> {
   var _formKey = GlobalKey<FormState>();
   String _symbol = '';
   String _name = '';
@@ -23,41 +27,42 @@ class AddAssetScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Container(
-            margin: EdgeInsets.all(32),
-            height: 400,
-            child: Form(
-                key: _formKey,
-                child: Column(
-                  children: [
-                    TextFormField(
-                      onSaved: (String symbol) {
-                        _symbol = symbol.toUpperCase().trim();
-                      },
-                      decoration:
-                          InputDecoration(labelText: "Symbol", hintText: 'BTC'),
-                    ),
-                    TextFormField(
-                      onSaved: (String name) {
-                        _name = name.trim();
-                      },
-                      decoration: InputDecoration(
-                          labelText: "Name", hintText: 'Bitcoin'),
-                    ),
-                    TextFormField(
-                      onSaved: (String amount) {
-                        _amount = double.parse(amount);
-                      },
-                      decoration: InputDecoration(
-                          labelText: "Amount", hintText: '0.07'),
-                    ),
-                    RaisedButton(
-                      child: Text('Add asset'),
-                      onPressed: () {
-                        _addAsset(context);
-                      },
-                    ),
-                  ],
-                ))));
+        body: Row(
+      children: [
+        Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                TextFormField(
+                  onSaved: (String symbol) {
+                    _symbol = symbol.toUpperCase().trim();
+                  },
+                  decoration:
+                      InputDecoration(labelText: "Symbol", hintText: 'BTC'),
+                ),
+                TextFormField(
+                  onSaved: (String name) {
+                    _name = name.trim();
+                  },
+                  decoration:
+                      InputDecoration(labelText: "Name", hintText: 'Bitcoin'),
+                ),
+                TextFormField(
+                  onSaved: (String amount) {
+                    _amount = double.parse(amount);
+                  },
+                  decoration:
+                      InputDecoration(labelText: "Amount", hintText: '0.07'),
+                ),
+                RaisedButton(
+                  child: Text('Add asset'),
+                  onPressed: () {
+                    _addAsset(context);
+                  },
+                ),
+              ],
+            )),
+      ],
+    ));
   }
 }
