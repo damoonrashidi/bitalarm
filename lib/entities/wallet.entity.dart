@@ -16,5 +16,5 @@ class WalletEntity extends HiveObject {
   WalletEntity({this.symbol, this.name, this.address});
 
   @override
-  String toString() => "$symbol: $name";
+  String toString() => "$symbol: $address";
 }

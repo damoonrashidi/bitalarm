@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:Bitalarm/components/add-wallet-button.dart';
 import 'package:Bitalarm/components/donut-chart.dart';
 import 'package:Bitalarm/components/screen-scaffold.dart';
@@ -5,8 +7,11 @@ import 'package:Bitalarm/entities/asset.entity.dart';
 import 'package:Bitalarm/providers/wallets.provider.dart';
 import 'package:Bitalarm/screens/portfolio/asset-list.dart';
 import 'package:Bitalarm/services/coin.service.dart';
+import 'package:Bitalarm/services/wallet.service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'package:palette_generator/palette_generator.dart';
 
 class PortfolioScreen extends StatefulWidget {
   PortfolioScreen();
@@ -19,6 +24,7 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
   List<AssetEntity> assets = [];
   Map<String, double> prices = Map();
   Map<String, double> assetData = Map();
+  Map<String, Color> colors = Map();
 
   @override
   initState() {
@@ -38,11 +44,46 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
   @override
   void didChangeDependencies() {
     assets = Provider.of<WalletsModel>(context).assets;
-    assetData = Map();
+    assetData.clear();
     assets.forEach((asset) {
       assetData[asset.symbol] = asset.amount;
+      setState(() {});
     });
+    _getWalletData();
+    _setColors();
     super.didChangeDependencies();
+  }
+
+  _setColors() async {
+    assets.forEach((asset) async {
+      var nameSum = asset.name
+              .split('')
+              .map((char) => char.codeUnitAt(0))
+              .reduce((value, element) => value + element) *
+          100000;
+      nameSum.toRadixString(16);
+      Color color = Color(nameSum);
+      colors[asset.symbol] = color.withOpacity(1);
+    });
+    setState(() {});
+  }
+
+  _getWalletData() async {
+    var wallets = Provider.of<WalletsModel>(context, listen: false).wallets;
+    var walletService = WalletService();
+    await for (var asset in walletService.getWalletValues(wallets)) {
+      int index = assets.indexWhere((needle) => needle.symbol == asset.symbol);
+      if (index > -1) {
+        assets[index].amount += asset.amount;
+      } else {
+        assets.add(asset);
+      }
+
+      assetData.update(asset.symbol, (value) => value + asset.amount,
+          ifAbsent: () => asset.amount);
+
+      setState(() {});
+    }
   }
 
   @override
@@ -57,11 +98,15 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  DonutChart(data: assetData, prices: prices),
+                  DonutChart(
+                    data: assetData,
+                    prices: prices,
+                    colors: colors,
+                  ),
                   Padding(
                       padding: EdgeInsets.only(bottom: 32),
                       child: AddWalletButton()),
-                  AssetList(assets: assets)
+                  AssetList(assets: assets),
                 ])
           ])),
         ]);

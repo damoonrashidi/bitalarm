@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
-import 'package:palette_generator/palette_generator.dart';
-
 var _totalStyle = TextStyle(
     color: Colors.white,
     fontSize: 38,
@@ -12,8 +10,10 @@ var _totalStyle = TextStyle(
 class DonutChart extends StatefulWidget {
   final Map<String, double> data;
   final Map<String, double> prices;
+  final Map<String, Color> colors;
 
-  DonutChart({this.data, this.prices});
+  DonutChart(
+      {@required this.data, @required this.prices, @required this.colors});
 
   @override
   _DonutChartState createState() => _DonutChartState();
@@ -21,31 +21,22 @@ class DonutChart extends StatefulWidget {
 
 class _DonutChartState extends State<DonutChart> {
   double _total = 0;
-  Map<String, Color> _colors = Map();
 
   @override
   void initState() {
     super.initState();
-    _setColors();
-  }
-
-  _setColors() async {
-    widget.data.keys.forEach((symbol) async {
-      var image = AssetImage('assets/images/icons/${symbol.toUpperCase()}.png');
-      var palette = await PaletteGenerator.fromImageProvider(image);
-      _colors[symbol] = palette.dominantColor.color;
-    });
   }
 
   @override
   Widget build(BuildContext context) {
     _total = 0;
-    widget.data.forEach((symbol, amount) {
-      double usd = 0;
-      if (widget.prices.containsKey(symbol)) {
-        usd = widget.prices[symbol];
-      }
 
+    if (widget.data == null || widget.prices == null) {
+      return CircularProgressIndicator();
+    }
+
+    widget.data.forEach((symbol, amount) {
+      double usd = widget.prices[symbol] ?? 0;
       _total += usd * amount;
     });
 
@@ -66,7 +57,7 @@ class _DonutChartState extends State<DonutChart> {
               painter: DonutChartPainter(
                   data: widget.data,
                   prices: widget.prices,
-                  colors: _colors,
+                  colors: widget.colors,
                   total: _total)))
     ]));
   }
@@ -78,14 +69,14 @@ class DonutChartPainter extends CustomPainter {
   final Map<String, Color> colors;
   final double total;
 
-  DonutChartPainter({this.data, this.prices, this.total = 0, this.colors});
+  DonutChartPainter({this.data, this.prices, this.total = 1, this.colors});
 
   @override
   bool shouldRepaint(DonutChartPainter old) => true;
 
   @override
   void paint(Canvas canvas, Size size) {
-    double runningTotal = 1;
+    double runningTotal = 0;
 
     if (data.entries.length == 0) {
       var paint = Paint()
@@ -98,7 +89,8 @@ class DonutChartPainter extends CustomPainter {
     }
 
     data.forEach((symbol, amount) {
-      var percent = prices[symbol] * amount / total;
+      double price = prices[symbol] ?? 0;
+      double percent = price * amount / total;
       var paint = Paint()
         ..color = colors[symbol] ?? Colors.white
         ..style = PaintingStyle.stroke
@@ -110,7 +102,7 @@ class DonutChartPainter extends CustomPainter {
           percent * math.pi * 2,
           false,
           paint);
-      runningTotal += prices[symbol] * amount;
+      runningTotal += price * amount;
     });
   }
 }

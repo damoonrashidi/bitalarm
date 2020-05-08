@@ -36,6 +36,14 @@ class _AssetListItemState extends State<AssetListItem> {
         ? widget.asset.name.substring(0, 9)
         : widget.asset.name;
 
+    var nameSum = widget.asset.name
+            .split('')
+            .map((char) => char.codeUnitAt(0))
+            .reduce((value, element) => value + element) *
+        100000;
+    nameSum.toRadixString(16);
+    Color color = Color(nameSum);
+
     return Container(
         width: 120,
         child: GestureDetector(
@@ -45,9 +53,12 @@ class _AssetListItemState extends State<AssetListItem> {
               children: [
                 Padding(
                     padding: EdgeInsets.only(right: 16),
-                    child: Image.asset(
-                      'assets/images/icons/${widget.asset.symbol.toUpperCase()}.png',
+                    child: Container(
                       width: 24,
+                      height: 24,
+                      decoration: BoxDecoration(
+                          color: color.withOpacity(1),
+                          borderRadius: BorderRadius.circular(50)),
                     )),
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                   Text(widget.asset.amount.toStringAsFixed(3),
