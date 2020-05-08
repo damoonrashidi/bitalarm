@@ -63,14 +63,14 @@ class AddWalletButton extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   button(
-                      label: 'add a wallet',
+                      label: 'Manage wallets',
                       text:
                           'Wallets will find all coins and tokens that belong to them and automatically keep your portfolio up to date.',
                       onTap: _navigateToManageWallet,
                       icon: Icon(Icons.account_balance_wallet,
                           size: 18, color: Colors.white.withOpacity(0.5))),
                   button(
-                      label: 'add an asset',
+                      label: 'Manage assets',
                       text:
                           'Added assets will be converted to USD and displayed in your portfolio overview.',
                       onTap: _navigateToManageAssets,
