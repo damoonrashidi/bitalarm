@@ -16,7 +16,8 @@ class WalletService {
           }
           break;
         default:
-          yield AssetEntity(name: '', amount: 0, symbol: wallet.symbol);
+          yield AssetEntity(
+              name: wallet.name, amount: 0, symbol: wallet.symbol);
       }
     }
   }

@@ -45,9 +45,17 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
       assetData[asset.symbol] = asset.amount;
       setState(() {});
     });
+    setState(() {});
     _getWalletData();
     _setColors();
     super.didChangeDependencies();
+  }
+
+  @override
+  dispose() {
+    assets = [];
+    assetData.clear();
+    super.dispose();
   }
 
   _setColors() async {
@@ -60,7 +68,6 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
       nameSum.toRadixString(16);
       Color color = Color(nameSum).withOpacity(1);
       colors[asset.symbol] = color;
-      setState(() {});
     });
     setState(() {});
   }
@@ -78,6 +85,8 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
 
       assetData.update(asset.symbol, (value) => value + asset.amount,
           ifAbsent: () => asset.amount);
+
+      _setColors();
 
       setState(() {});
     }

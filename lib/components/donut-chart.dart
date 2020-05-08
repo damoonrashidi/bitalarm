@@ -31,7 +31,7 @@ class _DonutChartState extends State<DonutChart> {
   Widget build(BuildContext context) {
     _total = 0;
 
-    if (widget.data == null || widget.prices == null) {
+    if (widget.data.isEmpty) {
       return CircularProgressIndicator();
     }
 
