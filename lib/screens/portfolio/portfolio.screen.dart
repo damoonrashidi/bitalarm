@@ -39,7 +39,10 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
 
   @override
   void didChangeDependencies() {
-    assets = Provider.of<WalletsModel>(context).assets;
+    assets = Provider.of<WalletsModel>(context)
+        .assets
+        .map((asset) => asset)
+        .toList();
     assetData.clear();
     assets.forEach((asset) {
       assetData[asset.symbol] = asset.amount;
@@ -77,7 +80,7 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
     var walletService = WalletService();
     await for (var asset in walletService.getWalletValues(wallets)) {
       int index = assets.indexWhere((needle) => needle.symbol == asset.symbol);
-      if (index > -1) {
+      if (index != -1) {
         assets[index].amount += asset.amount;
       } else {
         assets.add(asset);
