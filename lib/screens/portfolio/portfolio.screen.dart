@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:Bitalarm/components/add-wallet-button.dart';
 import 'package:Bitalarm/components/donut-chart.dart';
 import 'package:Bitalarm/components/screen-scaffold.dart';
@@ -10,8 +8,6 @@ import 'package:Bitalarm/services/coin.service.dart';
 import 'package:Bitalarm/services/wallet.service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import 'package:palette_generator/palette_generator.dart';
 
 class PortfolioScreen extends StatefulWidget {
   PortfolioScreen();
@@ -62,8 +58,9 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
               .reduce((value, element) => value + element) *
           100000;
       nameSum.toRadixString(16);
-      Color color = Color(nameSum);
-      colors[asset.symbol] = color.withOpacity(1);
+      Color color = Color(nameSum).withOpacity(1);
+      colors[asset.symbol] = color;
+      setState(() {});
     });
     setState(() {});
   }

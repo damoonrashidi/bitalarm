@@ -27,42 +27,39 @@ class _AddAssetScreenState extends State<AddAssetScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Row(
-      children: [
-        Form(
-            key: _formKey,
-            child: Column(
-              children: [
-                TextFormField(
-                  onSaved: (String symbol) {
-                    _symbol = symbol.toUpperCase().trim();
-                  },
-                  decoration:
-                      InputDecoration(labelText: "Symbol", hintText: 'BTC'),
-                ),
-                TextFormField(
-                  onSaved: (String name) {
-                    _name = name.trim();
-                  },
-                  decoration:
-                      InputDecoration(labelText: "Name", hintText: 'Bitcoin'),
-                ),
-                TextFormField(
-                  onSaved: (String amount) {
-                    _amount = double.parse(amount);
-                  },
-                  decoration:
-                      InputDecoration(labelText: "Amount", hintText: '0.07'),
-                ),
-                RaisedButton(
-                  child: Text('Add asset'),
-                  onPressed: () {
-                    _addAsset(context);
-                  },
-                ),
-              ],
-            )),
-      ],
-    ));
+      body: Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              TextFormField(
+                onSaved: (String symbol) {
+                  _symbol = symbol.toUpperCase().trim();
+                },
+                decoration:
+                    InputDecoration(labelText: "Symbol", hintText: 'BTC'),
+              ),
+              TextFormField(
+                onSaved: (String name) {
+                  _name = name.trim();
+                },
+                decoration:
+                    InputDecoration(labelText: "Name", hintText: 'Bitcoin'),
+              ),
+              TextFormField(
+                onSaved: (String amount) {
+                  _amount = double.parse(amount);
+                },
+                decoration:
+                    InputDecoration(labelText: "Amount", hintText: '0.07'),
+              ),
+              RaisedButton(
+                child: Text('Add asset'),
+                onPressed: () {
+                  _addAsset(context);
+                },
+              ),
+            ],
+          )),
+    );
   }
 }

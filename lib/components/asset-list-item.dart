@@ -1,7 +1,5 @@
 import 'package:Bitalarm/entities/asset.entity.dart';
-import 'package:Bitalarm/providers/wallets.provider.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 var _amountStyle = TextStyle(
     fontSize: 23, fontWeight: FontWeight.normal, fontFamily: 'Oswald');
@@ -23,13 +21,6 @@ class AssetListItem extends StatefulWidget {
 }
 
 class _AssetListItemState extends State<AssetListItem> {
-  _removeSelf() {
-    var store = Provider.of<WalletsModel>(context, listen: false);
-    store.removeAsset(
-      widget.asset,
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     var assetName = widget.asset.name.length > 9
@@ -46,31 +37,35 @@ class _AssetListItemState extends State<AssetListItem> {
 
     return Container(
         width: 120,
-        child: GestureDetector(
-            onLongPress: _removeSelf,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Padding(
-                    padding: EdgeInsets.only(right: 16),
-                    child: Container(
-                      width: 24,
-                      height: 24,
-                      decoration: BoxDecoration(
-                          color: color.withOpacity(1),
-                          borderRadius: BorderRadius.circular(50)),
-                    )),
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  Text(widget.asset.amount.toStringAsFixed(3),
-                      style: _amountStyle),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Padding(
+                padding: EdgeInsets.only(right: 16),
+                child: Container(
+                  width: 24,
+                  height: 24,
+                  decoration: BoxDecoration(
+                      color: color.withOpacity(1),
+                      borderRadius: BorderRadius.circular(50)),
+                )),
+            Flexible(
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                  Text(
+                    widget.asset.amount.toStringAsFixed(3),
+                    style: _amountStyle,
+                    overflow: TextOverflow.clip,
+                  ),
                   Text(
                     assetName.toUpperCase(),
                     style: _nameStyle,
                     softWrap: true,
                     overflow: TextOverflow.fade,
                   )
-                ]),
-              ],
-            )));
+                ])),
+          ],
+        ));
   }
 }

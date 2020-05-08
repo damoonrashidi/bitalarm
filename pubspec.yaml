@@ -14,7 +14,6 @@ dependencies:
   provider: 4.0.5+1
   qrscan: 0.2.17
   dio_http_cache: 0.2.6
-  palette_generator: 0.2.2
   flutter:
     sdk: flutter
 
@@ -31,7 +30,6 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
-    - assets/images/icons/
   fonts:
     - family: Oswald
       fonts:
