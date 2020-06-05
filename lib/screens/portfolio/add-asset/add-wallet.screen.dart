@@ -26,7 +26,6 @@ class _AddWalletScreenState extends State<AddWalletScreen> {
     _formKey.currentState.save();
 
     if ([_name, _symbol, _address].contains('')) {
-      print('something is not set, bailing out');
       return;
     }
 

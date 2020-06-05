@@ -8,18 +8,43 @@ class WalletService {
   Stream<AssetEntity> getWalletValues(List<WalletEntity> wallets) async* {
     for (var i = 0; i < wallets.length; i++) {
       var wallet = wallets[i];
-      switch (wallet.symbol.toLowerCase()) {
-        case 'eth':
+      switch (wallet.symbol.toUpperCase()) {
+        case 'ETH':
           var tokens = await _getETH(wallet.address);
           for (var j = 0; j < tokens.length; j++) {
             yield tokens[j];
           }
+          break;
+        case 'LTC':
+          var ltc = await _getLTC(wallet.address);
+          yield ltc;
+          break;
+        case 'BTC':
+          yield await _getBTC(wallet.address);
           break;
         default:
           yield AssetEntity(
               name: wallet.name, amount: 0, symbol: wallet.symbol);
       }
     }
+  }
+
+  Future<AssetEntity> _getLTC(String address) async {
+    String url =
+        "https://sochain.com/api/v2/get_address_balance/LTC/$address/500";
+    Response response = await Dio().get(url);
+    var balance = response.data['data']['confirmed_balance'];
+    return AssetEntity(
+        name: 'Litecoin', symbol: 'LTC', amount: double.parse(balance));
+  }
+
+  Future<AssetEntity> _getBTC(String address) async {
+    String url =
+        "https://sochain.com/api/v2/get_address_balance/BTC/$address/500";
+    Response response = await Dio().get(url);
+    var balance = response.data['data']['confirmed_balance'];
+    return AssetEntity(
+        name: 'Bitcoin', symbol: 'BTC', amount: double.parse(balance));
   }
 
   Future<List<AssetEntity>> _getETH(String address) async {
