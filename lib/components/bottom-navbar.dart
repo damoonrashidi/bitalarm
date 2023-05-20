@@ -15,15 +15,15 @@ class BitalarmBottomNavBar extends StatelessWidget {
         items: [
           BottomNavigationBarItem(
               icon: Icon(Icons.favorite_border),
-              title: Text('Favorites'),
+              label: 'Favorites',
               activeIcon: Icon(Icons.favorite)),
           BottomNavigationBarItem(
               icon: Icon(Icons.list),
-              title: Text('All'),
+              label: 'All',
               activeIcon: Icon(Icons.trending_up)),
           BottomNavigationBarItem(
               icon: Icon(Icons.donut_large),
-              title: Text('Portfolio'),
+              label: 'Portfolio',
               activeIcon: Icon(Icons.donut_small)),
         ],
         currentIndex: ['favorites', 'toplist', 'portfolio']

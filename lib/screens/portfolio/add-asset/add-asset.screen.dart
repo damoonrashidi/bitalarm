@@ -52,7 +52,7 @@ class _AddAssetScreenState extends State<AddAssetScreen> {
                 decoration:
                     InputDecoration(labelText: "Amount", hintText: '0.07'),
               ),
-              RaisedButton(
+              ElevatedButton(
                 child: Text('Add asset'),
                 onPressed: () {
                   _addAsset(context);
