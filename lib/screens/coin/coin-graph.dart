@@ -62,7 +62,7 @@ class CoinChartPainter extends CustomPainter {
       var value = data[i];
       double x = _x(i, width);
       double y = _y(value, height);
-      path.lineTo(x, y);
+      path.relativeLineTo(x, y);
     }
 
     Paint paint = Paint()

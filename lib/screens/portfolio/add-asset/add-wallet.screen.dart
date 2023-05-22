@@ -88,7 +88,7 @@ class _AddWalletScreenState extends State<AddWalletScreen> {
                   },
                   decoration: InputDecoration(labelText: 'Symbol'),
                 ),
-                RaisedButton.icon(
+                ElevatedButton.icon(
                     onPressed: () {
                       _addWallet(context);
                     },
